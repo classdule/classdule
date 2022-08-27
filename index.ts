@@ -1,8 +1,11 @@
 import express from 'express'
+import { mainRoutes } from './src/routes/main.routes'
 
 const App = express()
 
 App.use(express.json())
+
+App.use(mainRoutes)
 
 const PORT = process.env.PORT || 3000
 

@@ -45,3 +45,12 @@ export async function changeUsername(id: string, name: string){
     })
     return user
 }
+
+export async function deleteUser(id:string){
+    const deletedUser = await prismaClient.user.delete({
+        where: {
+            id:id
+        }
+    })
+    return deletedUser
+}

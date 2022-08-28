@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { changeUsername, createUser } from "../services/user";
+import { changeUsername, createUser, deleteUser } from "../services/user";
 
 export async function handleCreateUser(req:Request, res:Response, next:NextFunction){
     const {name, password} = req.body
@@ -19,4 +19,10 @@ export async function handleChangeUsername(req:Request, res:Response){
     }
     const newUser = await changeUsername(user.id, name)
     return res.status(201).json(newUser)
+}
+
+export async function handleDeleteUser(req:Request, res:Response){
+    const {user} = req.body
+    const deletedUser = await deleteUser(user.id)
+    return res.json({deletedUser})
 }

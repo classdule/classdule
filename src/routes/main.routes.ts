@@ -4,14 +4,15 @@ import { getUsers, createUser, createGraduation } from "../services/user";
 
 const mainRoutes = Router()
 
-mainRoutes.get('/', async (req:Request, res:Response, next:NextFunction) => {
+mainRoutes.get('/users', async (req:Request, res:Response, next:NextFunction) => {
     const users = await getUsers()
     res.json(users)
 })
 
-mainRoutes.get('/create', async (req:Request, res:Response, next:NextFunction) => {
-    await createUser('Gabs', new Date(), 1)
-    res.json({hello:'world'})
+mainRoutes.post('/user/create', async (req:Request, res:Response, next:NextFunction) => {
+    const {name, password} = req.body
+    const createdUser = await createUser(name, new Date(), 1, password)
+    res.json({hello:'world', createdUser})
 })
 mainRoutes.post('/belt/create', async (req:Request, res:Response, next:NextFunction) => {
     const {name} = req.body

@@ -15,6 +15,7 @@ export function verifyToken(req:Request, res:Response, next:NextFunction){
                 message:'Acesso não autorizado'
             })
         }
+        req.body.user = decoded
         next()
     })
 }

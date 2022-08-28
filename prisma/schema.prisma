@@ -1,19 +1,51 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
+model Belt {
+  id   Int    @id @default(autoincrement())
+  belt String @db.VarChar(255)
+  User User[]
+}
+
 model User {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name String @db.VarChar(255)
-  birthDay DateTime
-  currentGraduation String @db.VarChar(255)
+  id                  Int         @id @default(autoincrement())
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  name                String      @db.VarChar(255)
+  birthDay            DateTime
+  currentGraduation   Belt        @relation(fields: [beltId], references: [id])
+  beltId              Int
+  currentGrade        Int         @default(0)
+  educatorOnAcademies Academy[]
+  classrooms          classroom[]
+  password            String      @db.VarChar(255)
+}
+
+model Academy {
+  id                    Int    @id @default(autoincrement())
+  name                  String @db.VarChar(255)
+  location              String @db.VarChar(255)
+  responsibleEducatorId Int
+  educators             User[]
+}
+
+model classroomSchedule {
+  id      Int      @id @default(autoincrement())
+  weekDay Int
+  horary  DateTime @db.Time()
+}
+
+model classroom {
+  id         Int    @id @default(autoincrement())
+  type       String @db.VarChar(255)
+  educator   User   @relation(fields: [educatorId], references: [id])
+  educatorId Int
 }

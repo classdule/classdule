@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { verifyToken } from "../middlewares/verifyToken";
 import { getUsers, createUser } from "../services/user";
 
 const mainRoutes = Router()
@@ -13,5 +14,13 @@ mainRoutes.post('/user/create', async (req:Request, res:Response, next:NextFunct
     const createdUser = await createUser(name, new Date(), 1, password)
     res.json({hello:'world', createdUser})
 })
+
+mainRoutes.post(
+    '/user/confidencial', 
+    [verifyToken],
+    async (req:Request, res:Response, next:NextFunction) => {
+        return res.status(201).json({message:'Acesso autorizado'})
+    }
+)
 
 export {mainRoutes}

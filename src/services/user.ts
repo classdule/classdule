@@ -11,9 +11,11 @@ export async function createUser(name: string, birthDay: Date, graduationId: num
     await prismaClient.user.create({data: {
         birthDay: birthDay,
         name:name,
-        currentGraduation: {connect: {
-            id: graduationId
-        }},
+        currentGraduation: { 
+            create: {
+                belt:'Branca'
+            }
+        },
         password: encryptedPassword
     }})
 }

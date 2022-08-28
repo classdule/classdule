@@ -3,7 +3,17 @@ import { prismaClient } from "../database/prisma";
 import { hash } from "bcrypt"
 
 export async function getUsers(){
-    const users = await prismaClient.user.findMany()
+    const users = await prismaClient.user.findMany({
+        select: {
+            name:true,
+            currentGrade:true,
+            currentGraduation: {
+                select: {
+                    belt:true
+                }
+            }
+        }
+    })
     return users
 }
 export async function createUser(name: string, birthDay: Date, password:string){
@@ -15,7 +25,7 @@ export async function createUser(name: string, birthDay: Date, password:string){
     const createdUser = await prismaClient.user.create({data: {
         birthDay: birthDay,
         name:name,
-        currentGraduation: { 
+        currentGraduation: {
             create: {
                 belt:'Branca'
             }

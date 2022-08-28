@@ -7,8 +7,7 @@ export async function getUsers(){
     return users
 }
 export async function createUser(name: string, birthDay: Date, graduationId: number, password:string){
-    const salt = await genSalt(10)
-    const encryptedPassword = await hash(password, salt)
+    const encryptedPassword = await hash(password, 10)
     await prismaClient.user.create({data: {
         birthDay: birthDay,
         name:name,
@@ -26,12 +25,4 @@ export async function getUserByName(name:string){
         }
     })
     return user
-}
-
-export async function createGraduation(belt:string){
-    await prismaClient.belt.create({
-        data: {
-            belt: belt
-        }
-    })
 }

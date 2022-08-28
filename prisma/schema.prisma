@@ -11,7 +11,7 @@ datasource db {
 
 model Belt {
   id   String    @id @default(uuid())
-  belt String @db.VarChar(255)
+  belt String @db.VarChar(255) @unique
   User User[]
 }
 

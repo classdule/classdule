@@ -4,7 +4,7 @@ import { changeUsername, createUser, deleteUser } from "../services/user";
 export async function handleCreateUser(req:Request, res:Response, next:NextFunction){
     const {name, password} = req.body
     const createdUser = await createUser(name, new Date(), password)
-    res.json({hello:'world', createdUser})
+    res.json({createdUser})
 }
 
 export async function handleChangeUsername(req:Request, res:Response){

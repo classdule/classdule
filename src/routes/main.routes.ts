@@ -11,7 +11,7 @@ mainRoutes.get('/users', async (req:Request, res:Response, next:NextFunction) =>
 
 mainRoutes.post('/user/create', async (req:Request, res:Response, next:NextFunction) => {
     const {name, password} = req.body
-    const createdUser = await createUser(name, new Date(), 1, password)
+    const createdUser = await createUser(name, new Date(), password)
     res.json({hello:'world', createdUser})
 })
 

@@ -6,7 +6,7 @@ export async function getUsers(){
     const users = await prismaClient.user.findMany()
     return users
 }
-export async function createUser(name: string, birthDay: Date, graduationId: number, password:string){
+export async function createUser(name: string, birthDay: Date, password:string){
     const encryptedPassword = await hash(password, 10)
     await prismaClient.user.create({data: {
         birthDay: birthDay,

@@ -1,6 +1,6 @@
-import { prismaClient } from "../database/prisma";
-
 import { hash } from "bcrypt"
+
+import { prismaClient } from "../database/prisma";
 
 export async function getUsers(){
     const users = await prismaClient.user.findMany({
@@ -16,6 +16,7 @@ export async function getUsers(){
     })
     return users
 }
+
 export async function createUser(name: string, birthDay: Date, password:string){
     const encryptedPassword = await hash(password, 10)
     const usernameAlreadyUsed = await getUserByName(name)
@@ -26,9 +27,14 @@ export async function createUser(name: string, birthDay: Date, password:string){
         birthDay: birthDay,
         name:name,
         currentGraduation: {
-            create: {
-                name: 'Branca',
-                value: 0
+            connectOrCreate: {
+                create: {
+                    name: 'branca',
+                    value: 0
+                },
+                where: {
+                    name: 'branca'
+                }
             }
         },
         password: encryptedPassword

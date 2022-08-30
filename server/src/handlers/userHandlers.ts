@@ -3,7 +3,7 @@ import { changeUsername, createUser, deleteUser, getUsers } from "../services/us
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
     const queryResult = await getUsers()
-    return res.status(201).json(queryResult)
+    return res.status(200).json(queryResult)
 }
 
 export async function handleCreateUser(req:Request, res:Response, next:NextFunction){

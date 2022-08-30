@@ -7,7 +7,7 @@ export async function getUsers(){
     return users
 }
 
-export async function createUser(name: string, birthDay: Date, password:string){
+export async function createUser(name: string, birthDay: Date, password:string, beltName:string){
     const encryptedPassword = await hash(password, 10)
     const usernameAlreadyUsed = await getUserByName(name)
     if(!!usernameAlreadyUsed){
@@ -20,14 +20,8 @@ export async function createUser(name: string, birthDay: Date, password:string){
         birthDay: birthDay,
         name:name,
         currentGraduation: {
-            connectOrCreate: {
-                create: {
-                    name: 'branca',
-                    value: 0
-                },
-                where: {
-                    name: 'branca'
-                }
+            connect: {
+                name: beltName
             }
         },
         password: encryptedPassword

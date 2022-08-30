@@ -3,17 +3,7 @@ import { hash } from "bcrypt"
 import { prismaClient } from "../database/prisma";
 
 export async function getUsers(){
-    const users = await prismaClient.user.findMany({
-        select: {
-            name:true,
-            currentGrade:true,
-            currentGraduation: {
-                select: {
-                    name:true
-                }
-            }
-        }
-    })
+    const users = await prismaClient.user.findMany()
     return users
 }
 
@@ -21,7 +11,10 @@ export async function createUser(name: string, birthDay: Date, password:string){
     const encryptedPassword = await hash(password, 10)
     const usernameAlreadyUsed = await getUserByName(name)
     if(!!usernameAlreadyUsed){
-        return
+        return {
+            message: 'Username already in use',
+            createdUser: null
+        }
     }
     const createdUser = await prismaClient.user.create({data: {
         birthDay: birthDay,
@@ -39,7 +32,10 @@ export async function createUser(name: string, birthDay: Date, password:string){
         },
         password: encryptedPassword
     }})
-    return createdUser
+    return {
+        message:'User created successfully',
+        createdUser
+    }
 }
 
 export async function getUserByName(name:string){

@@ -24,8 +24,8 @@ export const createUserSchema = z.object({
 })
 export async function handleCreateUser(req:Request, res:Response, next:NextFunction){
     const {name, password} = req.body
-    const createdUser = await createUser(name, new Date(), password)
-    res.json({createdUser})
+    const operationResult = await createUser(name, new Date(), password)
+    res.json(operationResult)
 }
 
 export async function handleChangeUsername(req:Request, res:Response){

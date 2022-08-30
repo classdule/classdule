@@ -9,9 +9,10 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model Belt {
+model Graduation {
   id   String    @id @default(uuid())
-  belt String @db.VarChar(255) @unique
+  name String @db.VarChar(255) @unique
+  value Int @unique @db.UnsignedInt
   User User[]
 }
 
@@ -21,11 +22,11 @@ model User {
   updatedAt           DateTime    @updatedAt
   name                String      @db.VarChar(255)
   birthDay            DateTime
-  currentGraduation   Belt        @relation(fields: [beltId], references: [id])
+  currentGraduation   Graduation        @relation(fields: [beltId], references: [id])
   beltId              String
   currentGrade        Int         @default(0)
   educatorOnAcademies Academy[]
-  classrooms          classroom[]
+  classrooms          Classroom[]
   password            String      @db.VarChar(255)
 }
 
@@ -37,13 +38,13 @@ model Academy {
   educators             User[]
 }
 
-model classroomSchedule {
+model ClassroomSchedule {
   id      String      @id @default(uuid())
   weekDay Int
   horary  DateTime @db.Time()
 }
 
-model classroom {
+model Classroom {
   id         String @db.VarChar(255) @id @default(uuid())
   type       String @db.VarChar(255)
   educator   User   @relation(fields: [educatorId], references: [id])

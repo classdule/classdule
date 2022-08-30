@@ -9,7 +9,7 @@ export async function getUsers(){
             currentGrade:true,
             currentGraduation: {
                 select: {
-                    belt:true
+                    name:true
                 }
             }
         }
@@ -27,7 +27,8 @@ export async function createUser(name: string, birthDay: Date, password:string){
         name:name,
         currentGraduation: {
             create: {
-                belt:'Branca'
+                name: 'Branca',
+                value: 0
             }
         },
         password: encryptedPassword

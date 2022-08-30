@@ -5,7 +5,7 @@ import cors from 'cors'
 import { mainRoutes } from './routes/main.routes'
 import { authRoutes } from './routes/auth.routes'
 import { userRoutes } from './routes/user.routes'
-import { beltRoutes } from './routes/belt.routes'
+import { beltRoutes } from './routes/graduation.routes'
 
 export function createServer(){
     const App = express()

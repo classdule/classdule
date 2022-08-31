@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
+import { password, username } from "../schemas";
 import { changeUsername, createUser, deleteUser, getUsers } from "../services/user";
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
@@ -9,16 +10,8 @@ export async function handleGetUsers(req:Request, res:Response, next:NextFunctio
 
 export const createUserSchema = z.object({
     body: z.object({
-        name: z.string({
-            required_error: 'Username is required'
-        })
-            .min(4, 'Username must be at least 4 characters')
-            .max(255, 'Username must be smaller than 256 characters'),
-        password: z.string({
-            required_error: 'Password is required'
-        })
-            .min(8, 'Password must be at least 8 characters')
-            .max(255, 'Password must be smaller than 256 characters'),
+        name: username,
+        password: password,
         graduation: z.string({
             required_error: 'Belt name is required',
         }).max(255, 'There is not belt with such an big name')

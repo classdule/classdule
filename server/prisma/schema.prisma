@@ -10,42 +10,44 @@ datasource db {
 }
 
 model Graduation {
-  id   String    @id @default(uuid())
-  name String @db.VarChar(255) @unique
-  value Int @unique @db.UnsignedInt
-  User User[]
+  id    String @id @default(uuid())
+  name  String @unique @db.VarChar(255)
+  value Int    @unique @db.UnsignedInt
+  User  User[]
 }
 
 model User {
-  id                  String         @id @default(uuid())
+  id                  String      @id @default(uuid())
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
   name                String      @db.VarChar(255)
   birthDay            DateTime
-  currentGraduation   Graduation        @relation(fields: [beltId], references: [id])
-  beltId              String
+  currentGraduation   Graduation  @relation(fields: [graduationId], references: [id])
+  graduationId        String
   currentGrade        Int         @default(0)
-  educatorOnAcademies Academy[]
+  educatorOnAcademies Academy[]   @relation("educators")
   classrooms          Classroom[]
   password            String      @db.VarChar(255)
+  Academy             Academy[]
 }
 
 model Academy {
-  id                    String    @id @default(uuid())
+  id                    String @id @default(uuid())
   name                  String @db.VarChar(255)
   location              String @db.VarChar(255)
-  responsibleEducatorId Int
-  educators             User[]
+  responsibleEducator   User   @relation(fields: [responsibleEducatorId], references: [id])
+  responsibleEducatorId String
+  educators             User[] @relation("educators")
 }
 
 model ClassroomSchedule {
-  id      String      @id @default(uuid())
+  id      String   @id @default(uuid())
   weekDay Int
   horary  DateTime @db.Time()
 }
 
 model Classroom {
-  id         String @db.VarChar(255) @id @default(uuid())
+  id         String @id @default(uuid()) @db.VarChar(255)
   type       String @db.VarChar(255)
   educator   User   @relation(fields: [educatorId], references: [id])
   educatorId String

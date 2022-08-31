@@ -8,7 +8,7 @@ import { getUserByName } from "../services/user";
 
 const authRoutes = Router()
 
-authRoutes.post('/user/signin', async (req:Request, res:Response, next:NextFunction) => {
+authRoutes.post('/signin', async (req:Request, res:Response, next:NextFunction) => {
     const {name, password} = req.body
     const user = await getUserByName(name)
     if(!user){

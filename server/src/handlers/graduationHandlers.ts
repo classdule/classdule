@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getGraduations, createGraduation } from "../services/graduation";
+import { getGraduations, createGraduation, deleteGraduation } from "../services/graduation";
 import {z} from 'zod'
 
 export async function handleGetGraduations(req:Request, res:Response){
@@ -23,8 +23,18 @@ export async function handleCreateGraduation(req:Request<{}, {}, handleCreateGra
     const operationResult = await createGraduation(name, value)
     return res.status(201).json(operationResult)
 }
-export async function handleDeleteGraduation(req:Request, res:Response){
+
+export const deleteGraduationSchema = z.object({
+    body: z.object({
+        id: z.string({
+            required_error: 'Graduation id is required'
+        })
+    })
+})
+
+type handleDeleteGraduationRequestBody = z.TypeOf<typeof deleteGraduationSchema>['body']
+export async function handleDeleteGraduation(req:Request<{}, {}, handleDeleteGraduationRequestBody>, res:Response){
     const {id} = req.body
-    const operationResult = await createGraduation('name', 0)
-    return res.status(201).json(operationResult)
+    const operationResult = await deleteGraduation(id)
+    return res.status(200).json(operationResult)
 }

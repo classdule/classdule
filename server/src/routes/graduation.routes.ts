@@ -5,7 +5,9 @@ import {validateInput} from '../middlewares/validateInput'
 import { 
     handleGetGraduations, 
     handleCreateGraduation,
-    createGraduationSchema
+    createGraduationSchema,
+    handleDeleteGraduation,
+    deleteGraduationSchema
 } from "../handlers/graduationHandlers";
 
 const beltRoutes = Router()
@@ -15,6 +17,11 @@ beltRoutes.post(
     '/graduation/create', 
     [validateInput(createGraduationSchema)],
     handleCreateGraduation
+)
+beltRoutes.delete(
+    '/graduation/delete',
+    [validateInput(deleteGraduationSchema)],
+    handleDeleteGraduation
 )
 
 export {beltRoutes}

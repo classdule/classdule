@@ -40,10 +40,20 @@ export async function createGraduation(name:string, value: number){
 }
 
 export async function deleteGraduation(id:string){
+    const isGraduationExistent = await getGraduationBy({id})
+    if(!isGraduationExistent){
+        return {
+            message: 'Graduation does not exist',
+            deletedGraduation: null
+        }
+    }
     const deletedGraduation = await prismaClient.graduation.delete({
         where: {
             id: id
         }
     })
-    return deletedGraduation
+    return {
+        message:'Graduation deleted successfully',
+        deletedGraduation
+    }
 }

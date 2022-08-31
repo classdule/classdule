@@ -19,15 +19,15 @@ export const createUserSchema = z.object({
         })
             .min(8, 'Password must be at least 8 characters')
             .max(255, 'Password must be smaller than 256 characters'),
-        belt: z.string({
+        graduation: z.string({
             required_error: 'Belt name is required',
         }).max(255, 'There is not belt with such an big name')
     })
 })
 type handleCreateUserRequestBody = z.TypeOf<typeof createUserSchema>['body']
 export async function handleCreateUser(req:Request<{}, {}, handleCreateUserRequestBody>, res:Response, next:NextFunction){
-    const {name, password, belt} = req.body
-    const operationResult = await createUser(name, new Date(), password, belt)
+    const {name, password, graduation} = req.body
+    const operationResult = await createUser(name, new Date(), password, graduation)
     res.json(operationResult)
 }
 

@@ -33,7 +33,7 @@ model User {
 
 model Academy {
   id                    String @id @default(uuid())
-  name                  String @db.VarChar(255)
+  name                  String @db.VarChar(255) @unique
   location              String @db.VarChar(255)
   responsibleEducator   User   @relation(fields: [responsibleEducatorId], references: [id])
   responsibleEducatorId String

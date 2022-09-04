@@ -14,6 +14,7 @@ export function createServer(){
 
     App.use(
         express.json(),
+        express.raw(),
         cors(),
         mainRoutes,
         authRoutes,

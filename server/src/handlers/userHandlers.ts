@@ -14,13 +14,17 @@ export const createUserSchema = z.object({
         password: password,
         graduation: z.string({
             required_error: 'Belt name is required',
-        }).max(255, 'There is not belt with such an big name')
+        }).max(255, 'There is not belt with such an big name'),
+        birthday: z.string({
+            required_error: 'Birthday is required'
+        })
     })
 })
 type handleCreateUserRequestBody = z.TypeOf<typeof createUserSchema>['body']
 export async function handleCreateUser(req:Request<{}, {}, handleCreateUserRequestBody>, res:Response, next:NextFunction){
-    const {name, password, graduation} = req.body
-    const operationResult = await createUser(name, new Date(), password, graduation)
+    const {name, password, graduation, birthday} = req.body
+    const parsedBirthday = new Date(birthday)
+    const operationResult = await createUser(name, parsedBirthday, password, graduation)
     res.json(operationResult)
 }
 

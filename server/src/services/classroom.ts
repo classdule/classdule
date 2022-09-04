@@ -6,6 +6,9 @@ export async function getClassroomsByAcademy(name:string){
             academy: {
                 name: name
             }
+        },
+        include: {
+            schedule: true
         }
     })
     return queryResult
@@ -30,17 +33,15 @@ export async function createClassroom(type:string, academyName:string, educatorI
     return createdClassroom
 }
 
-export async function createClassroomSchedules(horary: Date, weekDay: number, classroomId:string){
-    const createdSchedule = await prismaClient.classroomSchedule.create({
-        data: {
-            horary,
-            weekDay,
-            Classroom: {
-                connect: {
-                    id: classroomId
-                }
+export async function createClassroomSchedules(horary: Date, weekDays: number[], classroomId:string){
+    const createdSchedules = await prismaClient.classroomSchedule.createMany({
+        data: weekDays.map(weekDay => {
+            return {
+                horary,
+                weekDay,
+                classroomId
             }
-        },
+        })
     })
-    return createdSchedule
+    return createdSchedules
 }

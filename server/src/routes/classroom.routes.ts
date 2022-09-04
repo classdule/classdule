@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { 
+    createClassroomScheduleSchema,
     createClassroomSchema, 
     getClassroomsByAcademySchema, 
     handleCreateClassroom, 
-    handleGetClassroomByAcademy 
+    handleCreateClassroomSchedules,
+    handleGetClassroomsByAcademy 
 } from "../handlers/classroomHandlers";
 import { validateInput } from "../middlewares/validateInput";
 
@@ -12,12 +14,18 @@ const classroomRoutes = Router()
 classroomRoutes.get(
     '/classroom',
     validateInput(getClassroomsByAcademySchema),
-    handleGetClassroomByAcademy
+    handleGetClassroomsByAcademy
 )
 classroomRoutes.post(
     '/classroom/create',
     validateInput(createClassroomSchema),
     handleCreateClassroom
+)
+
+classroomRoutes.post(
+    '/classroom/schedule/create',
+    validateInput(createClassroomScheduleSchema),
+    handleCreateClassroomSchedules
 )
 
 export {classroomRoutes}

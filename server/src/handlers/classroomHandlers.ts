@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {z} from 'zod'
-import { createClassroom, getClassroomsByAcademy } from '../services/classroom';
+import { createClassroom, createClassroomSchedules, getClassroomsByAcademy } from '../services/classroom';
 
 export const getClassroomsByAcademySchema = z.object({
     query: z.object({
@@ -8,7 +8,7 @@ export const getClassroomsByAcademySchema = z.object({
     })
 })
 type getClassroomsRequest = z.TypeOf<typeof getClassroomsByAcademySchema>['query']
-export async function handleGetClassroomByAcademy(req:Request<{}, {}, {}, getClassroomsRequest>, res:Response){
+export async function handleGetClassroomsByAcademy(req:Request<{}, {}, {}, getClassroomsRequest>, res:Response){
     const {name} = req.query
     const queryResult = await getClassroomsByAcademy(name)
     return res.json(queryResult)
@@ -30,12 +30,15 @@ export async function handleCreateClassroom(req:Request<{}, {}, createClassroomR
 
 export const createClassroomScheduleSchema = z.object({
     body: z.object({
-        weekDay: z.number(),
-
+        weekDays: z.array(z.number()),
+        horary: z.string(),
+        classroomId: z.string()
     })
 })
-
 type createClassroomRequestBody = z.TypeOf<typeof createClassroomScheduleSchema>['body']
-export async function handleCreateClassroomSchedule(req:Request<{}, {}, createClassroomRequestBody>, res:Response){
-    const {weekDay} = req.body
+export async function handleCreateClassroomSchedules(req:Request<{}, {}, createClassroomRequestBody>, res:Response){
+    const {weekDays, horary, classroomId} = req.body
+    const parsedHorary = new Date(horary)
+    const queryResult = await createClassroomSchedules(parsedHorary, weekDays, classroomId)
+    return res.json(queryResult)
 }

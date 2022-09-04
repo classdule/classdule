@@ -29,6 +29,7 @@ model User {
   classrooms          Classroom[]
   password            String      @db.VarChar(255)
   Academy             Academy[]
+  Checkin             Checkin[]
 }
 
 model Academy {
@@ -47,6 +48,7 @@ model ClassroomSchedule {
   horary      DateTime   @db.Time()
   Classroom   Classroom? @relation(fields: [classroomId], references: [id])
   classroomId String?    @db.VarChar(255)
+  Checkin Checkin[]
 }
 
 model Classroom {
@@ -57,4 +59,15 @@ model Classroom {
   academy    Academy             @relation(fields: [academyId], references: [id])
   academyId  String
   schedule   ClassroomSchedule[]
+}
+
+model Checkin {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  verified  Boolean  @default(false)
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.VarChar(255)
+  ClassroomSchedule ClassroomSchedule @relation(fields:[classroomScheduleId], references: [id])
+  classroomScheduleId String @db.VarChar(255)
 }

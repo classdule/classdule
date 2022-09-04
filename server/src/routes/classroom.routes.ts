@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createCheckinSchema, handleCreateCheckin } from "../handlers/checkinHandlers";
 import { 
     createClassroomScheduleSchema,
     createClassroomSchema, 
@@ -8,6 +9,7 @@ import {
     handleGetClassroomsByAcademy 
 } from "../handlers/classroomHandlers";
 import { validateInput } from "../middlewares/validateInput";
+import { verifyToken } from "../middlewares/verifyToken";
 
 const classroomRoutes = Router()
 
@@ -26,6 +28,15 @@ classroomRoutes.post(
     '/classroom/schedule/create',
     validateInput(createClassroomScheduleSchema),
     handleCreateClassroomSchedules
+)
+
+classroomRoutes.post(
+    '/classroom/checkin/create',
+    [
+        verifyToken,
+        validateInput(createCheckinSchema)
+    ],
+    handleCreateCheckin
 )
 
 export {classroomRoutes}

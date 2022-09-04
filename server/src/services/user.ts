@@ -3,7 +3,16 @@ import { hash } from "bcrypt"
 import { prismaClient } from "../database/prisma";
 
 export async function getUsers(){
-    const users = await prismaClient.user.findMany()
+    const users = await prismaClient.user.findMany({
+        include: {
+            _count: {
+                select: {
+                    Checkin: true,
+                },
+            }
+        },
+
+    })
     return users
 }
 

@@ -36,7 +36,6 @@ export async function handleSignin(req:Request<{}, {}, handleSigninRequestBody>,
     )
     res.cookie('access_token', token)
     return res.status(200).json({
-        message:'Sucessfully authenticated',
-        token
+        message:'Sucessfully authenticated'
     })
 }

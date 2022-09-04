@@ -5,15 +5,20 @@ import { prismaClient } from "../database/prisma";
 export async function getUsers(){
     const users = await prismaClient.user.findMany({
         include: {
-            _count: {
-                select: {
-                    Checkin: true,
-                },
+            Checkin: {
+                where: {
+                    verified: true
+                }
             }
         },
 
     })
-    return users
+    return users.map(user => {
+        return {
+            ...user,
+            classrooms: user.Checkin.filter(checkin => checkin.verified).length
+        }
+    })
 }
 
 export async function createUser(name: string, birthDay: Date, password:string, beltName:string){

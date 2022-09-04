@@ -1,5 +1,6 @@
 import express from 'express'
 
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
 import { mainRoutes } from './routes/main.routes'
@@ -15,6 +16,7 @@ export function createServer(){
     App.use(
         express.json(),
         express.raw(),
+        cookieParser(),
         cors(),
         mainRoutes,
         authRoutes,

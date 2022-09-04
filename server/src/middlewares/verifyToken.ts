@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 
 export function verifyToken(req:Request, res:Response, next:NextFunction){
-    let token = req.headers['x-access-token']
+    const token = req.cookies['access_token']
     if(!token){
         res.status(401).json({})
     }

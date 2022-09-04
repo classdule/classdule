@@ -34,6 +34,7 @@ export async function handleSignin(req:Request<{}, {}, handleSigninRequestBody>,
         process.env.JWT_TOKEN_SECRET as Secret, 
         {expiresIn: '1h'}
     )
+    res.cookie('access_token', token)
     return res.status(200).json({
         message:'Sucessfully authenticated',
         token

@@ -27,3 +27,15 @@ export async function handleCreateClassroom(req:Request<{}, {}, createClassroomR
     const queryResult = await  createClassroom(type, academyName, educatorId)
     return res.json(queryResult)
 }
+
+export const createClassroomScheduleSchema = z.object({
+    body: z.object({
+        weekDay: z.number(),
+
+    })
+})
+
+type createClassroomRequestBody = z.TypeOf<typeof createClassroomScheduleSchema>['body']
+export async function handleCreateClassroomSchedule(req:Request<{}, {}, createClassroomRequestBody>, res:Response){
+    const {weekDay} = req.body
+}

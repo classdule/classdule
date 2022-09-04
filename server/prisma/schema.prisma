@@ -32,23 +32,29 @@ model User {
 }
 
 model Academy {
-  id                    String @id @default(uuid())
-  name                  String @db.VarChar(255) @unique
-  location              String @db.VarChar(255)
-  responsibleEducator   User   @relation(fields: [responsibleEducatorId], references: [id])
+  id                    String      @id @default(uuid())
+  name                  String      @unique @db.VarChar(255)
+  location              String      @db.VarChar(255)
+  responsibleEducator   User        @relation(fields: [responsibleEducatorId], references: [id])
   responsibleEducatorId String
-  educators             User[] @relation("educators")
+  educators             User[]      @relation("educators")
+  Classroom             Classroom[]
 }
 
 model ClassroomSchedule {
-  id      String   @id @default(uuid())
-  weekDay Int
-  horary  DateTime @db.Time()
+  id          String     @id @default(uuid())
+  weekDay     Int
+  horary      DateTime   @db.Time()
+  Classroom   Classroom? @relation(fields: [classroomId], references: [id])
+  classroomId String?    @db.VarChar(255)
 }
 
 model Classroom {
-  id         String @id @default(uuid()) @db.VarChar(255)
-  type       String @db.VarChar(255)
-  educator   User   @relation(fields: [educatorId], references: [id])
+  id         String              @id @default(uuid()) @db.VarChar(255)
+  type       String              @db.VarChar(255)
+  educator   User                @relation(fields: [educatorId], references: [id])
   educatorId String
+  academy    Academy             @relation(fields: [academyId], references: [id])
+  academyId  String
+  schedule   ClassroomSchedule[]
 }

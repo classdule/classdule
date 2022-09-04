@@ -1,7 +1,12 @@
 import { prismaClient } from "../database/prisma";
 
 export async function getAcademies(){
-    const academies = await prismaClient.academy.findMany()
+    const academies = await prismaClient.academy.findMany({
+        include: {
+            responsibleEducator: true,
+            educators: true
+        }
+    })
     return academies
 }
 

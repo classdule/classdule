@@ -32,13 +32,14 @@ export const createClassroomScheduleSchema = z.object({
     body: z.object({
         weekDays: z.array(z.number()),
         horary: z.string(),
+        duration: z.number(),
         classroomId: z.string()
     })
 })
 type createClassroomRequestBody = z.TypeOf<typeof createClassroomScheduleSchema>['body']
 export async function handleCreateClassroomSchedules(req:Request<{}, {}, createClassroomRequestBody>, res:Response){
-    const {weekDays, horary, classroomId} = req.body
+    const {weekDays, horary, classroomId, duration} = req.body
     const parsedHorary = new Date(horary)
-    const queryResult = await createClassroomSchedules(parsedHorary, weekDays, classroomId)
+    const queryResult = await createClassroomSchedules(parsedHorary, weekDays, classroomId, duration)
     return res.json(queryResult)
 }

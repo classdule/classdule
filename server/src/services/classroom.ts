@@ -33,13 +33,14 @@ export async function createClassroom(type:string, academyName:string, educatorI
     return createdClassroom
 }
 
-export async function createClassroomSchedules(horary: Date, weekDays: number[], classroomId:string){
+export async function createClassroomSchedules(horary: Date, weekDays: number[], classroomId:string, duration: number){
     const createdSchedules = await prismaClient.classroomSchedule.createMany({
         data: weekDays.map(weekDay => {
             return {
                 horary,
                 weekDay,
-                classroomId
+                classroomId,
+                duration
             }
         })
     })

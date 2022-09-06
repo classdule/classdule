@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCheckinSchema, handleCreateCheckin } from "../handlers/checkinHandlers";
+import { createCheckinSchema, handleCreateCheckin, handleGetCheckins, handleVerifyCheckin, verifyCheckinSchema } from "../handlers/checkinHandlers";
 import { 
     createClassroomScheduleSchema,
     createClassroomSchema, 
@@ -30,6 +30,11 @@ classroomRoutes.post(
     handleCreateClassroomSchedules
 )
 
+
+classroomRoutes.get(
+    '/classroom/checkins',
+    handleGetCheckins
+)
 classroomRoutes.post(
     '/classroom/checkin/create',
     [
@@ -37,6 +42,11 @@ classroomRoutes.post(
         validateInput(createCheckinSchema)
     ],
     handleCreateCheckin
+)
+classroomRoutes.post(
+    '/classroom/checkin/status',
+    [validateInput(verifyCheckinSchema)],
+    handleVerifyCheckin
 )
 
 export {classroomRoutes}

@@ -3,9 +3,11 @@ import { createCheckinSchema, handleCreateCheckin, handleGetCheckins, handleVeri
 import { 
     createClassroomScheduleSchema,
     createClassroomSchema, 
+    deleteClassroomSchema, 
     getClassroomsByAcademySchema, 
     handleCreateClassroom, 
     handleCreateClassroomSchedules,
+    handleDeleteClassroom,
     handleGetClassroomsByAcademy 
 } from "../handlers/classroomHandlers";
 import { validateInput } from "../middlewares/validateInput";
@@ -23,13 +25,17 @@ classroomRoutes.post(
     validateInput(createClassroomSchema),
     handleCreateClassroom
 )
+classroomRoutes.delete(
+    '/classroom/delete',
+    [validateInput(deleteClassroomSchema)],
+    handleDeleteClassroom
+)
 
 classroomRoutes.post(
     '/classroom/schedule/create',
     validateInput(createClassroomScheduleSchema),
     handleCreateClassroomSchedules
 )
-
 
 classroomRoutes.get(
     '/classroom/checkins',

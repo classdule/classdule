@@ -1,4 +1,5 @@
 import { prismaClient } from "../database/prisma";
+import { isClassroomOpenById } from "./classroom";
 
 export async function getCheckins(){
     const checkins = await prismaClient.checkin.findMany()
@@ -6,21 +7,31 @@ export async function getCheckins(){
 }
 
 export async function createCheckin(classroomScheduleId:string, userId:string){
-    const createdCheckin = await prismaClient.checkin.create({
-        data: {
-            ClassroomSchedule: {
-                connect: {
-                    id: classroomScheduleId
-                }
-            },
-            User: {
-                connect: {
-                    id: userId
-                }
-            },
+    const isClassroomOpen = await isClassroomOpenById(classroomScheduleId)
+    if(isClassroomOpen){
+        const createdCheckin = await prismaClient.checkin.create({
+            data: {
+                ClassroomSchedule: {
+                    connect: {
+                        id: classroomScheduleId
+                    }
+                },
+                User: {
+                    connect: {
+                        id: userId
+                    }
+                },
+            }
+        })
+        return {
+            message:'Check-in created successfully',
+            createdCheckin
         }
-    })
-    return createdCheckin
+    }
+    return {
+        message:'Classroom is closed',
+        createdCheckin: null
+    }
 }
 
 export async function verifyCheckin(checkinId: string, verify: boolean){

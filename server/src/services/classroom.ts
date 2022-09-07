@@ -64,3 +64,16 @@ export function isClassroomOpen(
     const currentWeekday = currentDate.getDay()
     return currentWeekday === classroom.weekDay
 }
+
+export async function isClassroomOpenById(classroomScheduleId: string){
+    const currentClassroom = await prismaClient.classroomSchedule.findUnique({
+        where: {
+            id: classroomScheduleId
+        }
+    })
+    if(!currentClassroom){
+        return false
+    }
+    const isOpen = isClassroomOpen(currentClassroom)
+    return isOpen
+}

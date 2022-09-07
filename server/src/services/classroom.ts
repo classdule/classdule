@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prismaClient } from "../database/prisma";
 
 export async function getClassroomsByAcademy(name:string){
@@ -54,4 +55,12 @@ export async function createClassroomSchedules(horary: Date, weekDays: number[],
         })
     })
     return createdSchedules
+}
+
+export function isClassroomOpen(
+    classroom: Prisma.ClassroomScheduleGetPayload<{}>,
+    currentDate = new Date()
+) {
+    const currentWeekday = currentDate.getDay()
+    return currentWeekday === classroom.weekDay
 }

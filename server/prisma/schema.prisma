@@ -45,7 +45,7 @@ model Academy {
 model ClassroomSchedule {
   id          String     @id @default(uuid())
   weekDay     Int
-  duration    Decimal    @default(0)
+  duration    Float    @default(0)
   horary      DateTime   @db.Time()
   Classroom   Classroom? @relation(fields: [classroomId], references: [id])
   classroomId String?    @db.VarChar(255)

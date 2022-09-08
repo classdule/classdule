@@ -1,4 +1,4 @@
-import { addDays } from 'date-fns'
+import { startOfDay, endOfDay } from 'date-fns'
 import { prismaClient } from "../database/prisma";
 import { isClassroomOpenById } from "./classroom";
 
@@ -62,7 +62,8 @@ export async function isCheckinAlreadyMade(
     const checkin = await prismaClient.checkin.findFirst({
         where: {
             createdAt: {
-                lt: addDays(currentDate, 1)
+                gte: startOfDay(currentDate),
+                lte: endOfDay(currentDate)
             },
             userId: userId,
             classroomScheduleId

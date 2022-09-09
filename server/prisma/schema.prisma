@@ -47,8 +47,8 @@ model ClassroomSchedule {
   weekDay     Int
   startsAt    DateTime   @db.Time()
   endsAt      DateTime   @db.Time()
-  Classroom   Classroom? @relation(fields: [classroomId], references: [id])
-  classroomId String?    @db.VarChar(255)
+  Classroom   Classroom @relation(fields: [classroomId], references: [id])
+  classroomId String    @db.VarChar(255)
   Checkin     Checkin[]
 }
 

@@ -45,8 +45,8 @@ model Academy {
 model ClassroomSchedule {
   id          String     @id @default(uuid())
   weekDay     Int
-  duration    Float    @default(0)
-  horary      DateTime   @db.Time()
+  startsAt    DateTime   @db.Time()
+  endsAt      DateTime   @db.Time()
   Classroom   Classroom? @relation(fields: [classroomId], references: [id])
   classroomId String?    @db.VarChar(255)
   Checkin     Checkin[]

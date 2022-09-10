@@ -20,9 +20,27 @@ export class InMemoryUserRepository implements UserRepositoryBase {
         return deleteUser
         
     }
-    async findUsersByName (username: string){
-        const users = this.users.filter(user => user.name === username)
-        return users
+
+    async changeUserName (userId: string, username: string) {
+        const userIndex = this.users.findIndex(user => user.id === userId)
+        const targetUser = this.users[userIndex]
+        this.users[userIndex] = new User({
+            name: username,
+            birthDay: targetUser.birthDay,
+            currentGrade: targetUser.currentGrade,
+            currentGraduation: targetUser.currentGraduation,
+            id: targetUser.id,
+            password: targetUser.password
+        })
+        return this.users[userIndex]
+    }
+
+    async findUserByName (username: string){
+        const user = this.users.find(user => user.name === username)
+        if(!!user){
+            return user
+        }
+        return null
     }
 
 }

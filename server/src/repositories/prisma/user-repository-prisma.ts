@@ -47,8 +47,8 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             password: deletedUser.password
         })
     }
-    async findUsersByName(username: string){
-        const users = await prismaClient.user.findMany({
+    async findUserByName(username: string){
+        const user = await prismaClient.user.findUnique({
             where: {
                 name: username
             },
@@ -58,16 +58,40 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                         name: true
                     }
                 }
+            },
+        })
+        if(!!user){
+            return new User({
+                birthDay: user.birthDay,
+                currentGrade: user.currentGrade,
+                currentGraduation: user.currentGraduation.name,
+                name: user.name,
+                password: user.password,
+                id: user.id
+            })
+        }
+        return null
+    }
+    async changeUserName (userId: string, username: string){
+        const updatedUser = await prismaClient.user.update({
+            data: {
+                name: username
+            },
+            where: {
+                id: userId
+            },
+            include: {
+                currentGraduation: true
             }
         })
-        return users.map(user => new User({
-            birthDay: user.birthDay,
-            currentGrade: user.currentGrade,
-            currentGraduation: user.currentGraduation.name,
-            name: user.name,
-            password: user.password,
-            id: user.id
-        }))
+        return new User({
+            birthDay: updatedUser.birthDay,
+            currentGrade: updatedUser.currentGrade,
+            currentGraduation: updatedUser.currentGraduation.name,
+            id: updatedUser.id,
+            name: updatedUser.name,
+            password: updatedUser.password
+        })
     }
 
 }

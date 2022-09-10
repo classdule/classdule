@@ -8,7 +8,7 @@ import { UserRepositoryBase } from "../user-repository";
 export class UserRepositoryPrisma implements UserRepositoryBase {
     async create(user:User){
         const encryptedPassword = await hash(user.password, 10)
-        await prismaClient.user.create({
+        const createdUser = await prismaClient.user.create({
             data: {
                 name: user.name,
                 birthDay: user.birthDay,
@@ -18,14 +18,36 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                     }
                 },
                 password:encryptedPassword
+            },
+            include: {
+                currentGraduation: true
             }
+        })
+        return new User({
+            birthDay: createdUser.birthDay,
+            currentGrade: createdUser.currentGrade,
+            currentGraduation: createdUser.currentGraduation.name,
+            id: createdUser.id,
+            name: createdUser.name,
+            password: createdUser.password
         })
     }
     async delete(userId: string){
-        await prismaClient.user.delete({
+        const deletedUser = await prismaClient.user.delete({
             where: {
                 id: userId
+            },
+            include: {
+                currentGraduation: true
             }
+        })
+        return new User({
+            birthDay: deletedUser.birthDay,
+            currentGraduation: deletedUser.currentGraduation.name,
+            currentGrade: deletedUser.currentGrade,
+            id: deletedUser.id,
+            name: deletedUser.name,
+            password: deletedUser.password
         })
     }
     async findUsersByName(username: string){

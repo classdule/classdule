@@ -4,8 +4,8 @@ import { isClassroomOpen } from "../src/services/classroom";
 describe('Some classroom tests', () => {
     const classroomMock: Prisma.ClassroomScheduleGetPayload<{}> = {
         classroomId: '1111',
-        duration: 1.5, // 1 Hour and a half
-        horary: new Date(),
+        endsAt: new Date(),
+        startsAt: new Date(),
         weekDay: 3, // Wednesday
         id: '2222'
     }

@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
+import { User } from "../entities/user";
+import { UserRepositoryPrisma } from "../repositories/prisma/user-repository-prisma";
 import { password, username } from "../schemas";
-import { changeUsername, createUser, deleteUser, getUsers } from "../services/user";
+import { changeUsername, deleteUser, getUsers } from "../services/user";
+import { CreateUser } from "../services/user/create-user";
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
     const queryResult = await getUsers()
@@ -24,7 +27,15 @@ type handleCreateUserRequestBody = z.TypeOf<typeof createUserSchema>['body']
 export async function handleCreateUser(req:Request<{}, {}, handleCreateUserRequestBody>, res:Response, next:NextFunction){
     const {name, password, graduation, birthday} = req.body
     const parsedBirthday = new Date(birthday)
-    const operationResult = await createUser(name, parsedBirthday, password, graduation)
+    const createUser = new CreateUser(new UserRepositoryPrisma())
+    const operationResult = await createUser.execute(new User({
+        birthDay: parsedBirthday,
+        currentGrade: 0,
+        currentGraduation: graduation,
+        name: name,
+        password: password,
+        id: 'any-aaaa'
+    }))
     res.json(operationResult)
 }
 

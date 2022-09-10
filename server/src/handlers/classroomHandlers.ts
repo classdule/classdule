@@ -43,15 +43,16 @@ export async function handleDeleteClassroom(req:Request<{}, {}, DeleteClassroomS
 export const createClassroomScheduleSchema = z.object({
     body: z.object({
         weekDays: z.array(z.number()),
-        horary: z.string(),
-        duration: z.number(),
+        startsAt: z.string(),
+        endsAt: z.string(),
         classroomId: z.string()
     })
 })
 type CreateClassroomSchedulesSchema = z.TypeOf<typeof createClassroomScheduleSchema>
 export async function handleCreateClassroomSchedules(req:Request<{}, {}, CreateClassroomSchedulesSchema['body']>, res:Response){
-    const {weekDays, horary, classroomId, duration} = req.body
-    const parsedHorary = new Date(horary)
-    const queryResult = await createClassroomSchedules(parsedHorary, weekDays, classroomId, duration)
+    const {weekDays, endsAt, classroomId, startsAt} = req.body
+    const parsedStartsAt = new Date(startsAt)
+    const parsedEndsAt = new Date(endsAt)
+    const queryResult = await createClassroomSchedules(parsedStartsAt, weekDays, classroomId, parsedEndsAt)
     return res.json(queryResult)
 }

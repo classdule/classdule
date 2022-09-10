@@ -43,14 +43,14 @@ export async function deleteClassroom(classroomId:string){
     return deletedClassroom
 }
 
-export async function createClassroomSchedules(horary: Date, weekDays: number[], classroomId:string, duration: number){
+export async function createClassroomSchedules(startsAt: Date, weekDays: number[], classroomId:string, endsAt: Date){
     const createdSchedules = await prismaClient.classroomSchedule.createMany({
         data: weekDays.map(weekDay => {
             return {
-                horary,
+                startsAt,
                 weekDay,
                 classroomId,
-                duration
+                endsAt
             }
         })
     })

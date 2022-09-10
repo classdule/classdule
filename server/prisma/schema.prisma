@@ -20,7 +20,7 @@ model User {
   id                  String      @id @default(uuid())
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
-  name                String      @db.VarChar(255)
+  name                String      @db.VarChar(255) @unique
   birthDay            DateTime
   currentGraduation   Graduation  @relation(fields: [graduationId], references: [id])
   graduationId        String

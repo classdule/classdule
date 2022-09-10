@@ -28,15 +28,20 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
     const {name, password, graduation, birthday} = req.body
     const parsedBirthday = new Date(birthday)
     const createUser = new CreateUser(new UserRepositoryPrisma())
-    const operationResult = await createUser.execute(new User({
-        birthDay: parsedBirthday,
-        currentGrade: 0,
-        currentGraduation: graduation,
-        name: name,
-        password: password,
-        id: 'any-aaaa'
-    }))
-    res.json(operationResult)
+
+    try {
+        const operationResult = await createUser.execute(new User({
+            birthDay: parsedBirthday,
+            currentGrade: 0,
+            currentGraduation: graduation,
+            name: name,
+            password: password,
+            id: ''
+        }))
+        return res.json(operationResult)
+    } catch(err) {
+        return res.json({error: err})
+    }
 }
 
 export async function handleChangeUsername(req:Request, res:Response){

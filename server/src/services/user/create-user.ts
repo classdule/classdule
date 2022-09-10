@@ -12,7 +12,7 @@ export class CreateUser {
     async execute(user:User){
         const alreadyTakenUsername = (await this.repository.findUsersByName(user.name)).length>0
         if(alreadyTakenUsername){
-            throw new Error('Username already in use')
+            throw 'Username already in use'
         }
         const encryptedPassword = await hash(user.password, 10)
         const createUser = new User({

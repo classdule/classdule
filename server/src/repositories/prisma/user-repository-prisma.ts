@@ -1,13 +1,10 @@
 import { prismaClient } from "../../database/prisma"; 
 
-import {hash} from 'bcrypt'
-
 import { User } from "../../entities/user";
 import { UserRepositoryBase } from "../user-repository";
 
 export class UserRepositoryPrisma implements UserRepositoryBase {
     async create(user:User){
-        const encryptedPassword = await hash(user.password, 10)
         const createdUser = await prismaClient.user.create({
             data: {
                 name: user.name,
@@ -17,7 +14,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                         name: user.currentGraduation
                     }
                 },
-                password:encryptedPassword
+                password:user.password
             },
             include: {
                 currentGraduation: true

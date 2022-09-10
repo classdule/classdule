@@ -8,7 +8,7 @@ interface Props {
 }
 
 export class User {
-    props:Props;
+    private props:Props;
 
     constructor(props:Props){
         this.props = props

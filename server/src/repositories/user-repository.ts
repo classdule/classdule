@@ -1,7 +1,7 @@
 import { User } from "../entities/user";
 
 export interface UserRepositoryBase {
-    create: (user: User) => Promise<void>;
-    delete: (userId: string) => Promise<void>;
+    create: (user: User) => Promise<User | null>;
+    delete: (userId: string) => Promise<User | null>;
     findUsersByName: (username: string) => Promise<User[]>;
 }

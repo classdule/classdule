@@ -16,7 +16,7 @@ export class InMemoryUserRepository implements UserRepositoryBase {
     }
     async delete (userId: string){
         const deleteUser = this.users.find(user => user.id === userId) || null
-        this.users = this.users.filter(user => user.id === userId)
+        this.users = this.users.filter(user => user.id !== userId)
         return deleteUser
         
     }

@@ -6,39 +6,50 @@ import { User } from "../../entities/user";
 
 export class PrismaAcademyRepository implements AcademyRepositoryBase {
     async create (academy: CreateAcademyArgs) {
-        const createdAcademy = await prismaClient.academy.create({
-            data: {
-                location: academy.location,
-                name: academy.name,
-                responsibleEducator: {
-                    connect: {
-                        id: academy.responsibleEducatorId
-                    }
+        try {
+            const createdAcademy = await prismaClient.academy.create({
+                data: {
+                    location: academy.location,
+                    name: academy.name,
+                    responsibleEducator: {
+                        connect: {
+                            id: academy.responsibleEducatorId
+                        }
+                    },
                 },
-            },
-            include: {
-                responsibleEducator: {
-                    include: {
-                        currentGraduation: true
+                include: {
+                    responsibleEducator: {
+                        include: {
+                            currentGraduation: true
+                        }
                     }
                 }
-            }
-            
-        })
-        return new Academy({
-            educators: [],
-            id: createdAcademy.id,
-            location: createdAcademy.location,
-            name: createdAcademy.name,
-            responsibleEducator: new User({
-                birthDay: createdAcademy.responsibleEducator.birthDay,
-                currentGrade: createdAcademy.responsibleEducator.currentGrade,
-                currentGraduation: createdAcademy.responsibleEducator.currentGraduation.name,
-                id: createdAcademy.responsibleEducator.id,
-                name: createdAcademy.responsibleEducator.name,
-                password: createdAcademy.responsibleEducator.password,
+                
             })
-        })
+            return new Academy({
+                educators: [],
+                id: createdAcademy.id,
+                location: createdAcademy.location,
+                name: createdAcademy.name,
+                responsibleEducator: new User({
+                    birthDay: createdAcademy.responsibleEducator.birthDay,
+                    currentGrade: createdAcademy.responsibleEducator.currentGrade,
+                    currentGraduation: createdAcademy.responsibleEducator.currentGraduation.name,
+                    id: createdAcademy.responsibleEducator.id,
+                    name: createdAcademy.responsibleEducator.name,
+                    password: createdAcademy.responsibleEducator.password,
+                })
+            })
+        } catch(err:unknown){
+            if(err instanceof Error){
+                return {
+                    message: 'Could not create a new user',
+                    error: err.name
+                }
+            }  
+            return null     
+            
+        }
     }
     async delete (academyId: string) {
         const deletedAcademy = await prismaClient.academy.delete({

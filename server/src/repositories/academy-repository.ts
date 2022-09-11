@@ -5,8 +5,12 @@ export interface CreateAcademyArgs {
     location: Academy['location'];
     responsibleEducatorId: Academy['responsibleEducator']['id']
 }
+export interface OperationError {
+    message: string;
+    error: string;
+}
 export interface AcademyRepositoryBase {
-    create: (academy: CreateAcademyArgs) => Promise<Academy | null>;
+    create: (academy: CreateAcademyArgs) => Promise<Academy | OperationError | null>;
     delete: (academyId: string) => Promise<Academy | null>;
     findAcademyByName: (academyName: string) => Promise<Academy | null>;
     queryAcademiesByName: (subName: string) => Promise<Academy[]>;

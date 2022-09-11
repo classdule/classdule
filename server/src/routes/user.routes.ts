@@ -4,7 +4,9 @@ import {
     handleCreateUser, 
     handleDeleteUser, 
     handleGetUsers,
-    createUserSchema
+    createUserSchema,
+    changeUsernameSchema,
+    deleteUserSchema
 } from "../handlers/userHandlers";
 import { validateInput } from "../middlewares/validateInput";
 import { verifyToken } from "../middlewares/verifyToken";
@@ -19,12 +21,12 @@ userRoutes.post(
 )
 userRoutes.post(
     '/user/changeUserName',
-    [verifyToken],
+    [verifyToken, validateInput(changeUsernameSchema)],
     handleChangeUsername
 )
 userRoutes.delete(
     '/user/delete',
-    [verifyToken],
+    [verifyToken, validateInput(deleteUserSchema)],
     handleDeleteUser
 )
 

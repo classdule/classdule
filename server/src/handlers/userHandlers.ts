@@ -3,8 +3,10 @@ import { z } from "zod";
 import { User } from "../entities/user";
 import { UserRepositoryPrisma } from "../repositories/prisma/user-repository-prisma";
 import { password, username } from "../schemas";
-import { changeUsername, deleteUser, getUsers } from "../services/user";
+import { getUsers } from "../services/user";
+import { ChangeUserName } from "../services/user/change-username";
 import { CreateUser } from "../services/user/create-user";
+import { DeleteUser } from "../services/user/delete-user";
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
     const queryResult = await getUsers()
@@ -43,23 +45,38 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
         return res.json({error: err})
     }
 }
-
-export async function handleChangeUsername(req:Request, res:Response){
-    const {name, user} = req.body
-    if(!name || !user){
-        return res.status(404).json({
-            message: 'Operation failed'
+export const changeUsernameSchema = z.object({
+    body: z.object({
+        name: z.string(),
+        user: z.object({
+            name: z.string(),
+            id: z.string()
         })
-    }
+    })
+})
+type ChangeUsernameRequest = z.TypeOf<typeof changeUsernameSchema>
+export async function handleChangeUsername(req:Request<{}, {}, ChangeUsernameRequest['body']>, res:Response){
+    const {name, user} = req.body;
+    const changeUsername = new ChangeUserName(new UserRepositoryPrisma())
+
     if(name === user.name){
         return res.status(201).json(user)
     }
-    const newUser = await changeUsername(user.id, name)
+    const newUser = await changeUsername.execute(user.id, name)
     return res.status(201).json(newUser)
 }
-
-export async function handleDeleteUser(req:Request, res:Response){
+export const deleteUserSchema = z.object({
+    body: z.object({
+        user: z.object({
+            id: z.string(),
+            name: z.string()
+        })
+    })
+})
+type DeleteUserRequest = z.TypeOf<typeof deleteUserSchema>
+export async function handleDeleteUser(req:Request<{}, {}, DeleteUserRequest['body']>, res:Response){
     const {user} = req.body
-    const deletedUser = await deleteUser(user.id)
-    return res.json({deletedUser})
+    const deleteUser = new DeleteUser(new UserRepositoryPrisma())
+    const deletedUser = await deleteUser.execute(user.id)
+    return res.json(deletedUser)
 }

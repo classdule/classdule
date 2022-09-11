@@ -1,18 +1,16 @@
-import { hash } from "bcrypt";
 import { User } from "../../entities/user";
 import { UserRepositoryBase } from "../user-repository";
 
 export class InMemoryUserRepository implements UserRepositoryBase {
     users: User[] = []
     async create (user: User){
-        const encryptedPassword = await hash(user.password, 10)
         this.users.push(new User({
             birthDay: user.birthDay,
             currentGrade: user.currentGrade,
             currentGraduation: user.currentGraduation,
             id: user.id,
             name: user.name,
-            password: encryptedPassword
+            password: user.password
         }))
         return new User({
             birthDay: user.birthDay,

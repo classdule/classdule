@@ -2,7 +2,6 @@ import { compare } from 'bcrypt';
 import { User } from '../../entities/user';
 import {UserRepositoryBase} from '../../repositories/user-repository'
 
-
 interface Response {
     validPassword: boolean;
     user: User;

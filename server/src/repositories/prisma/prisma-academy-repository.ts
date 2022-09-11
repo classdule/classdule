@@ -1,23 +1,27 @@
 import { Academy } from "../../entities/academy";
-import { AcademyRepositoryBase } from "../academy-repository";
+import { AcademyRepositoryBase, CreateAcademyArgs } from "../academy-repository";
 
 import { prismaClient } from "../../database/prisma";
 import { User } from "../../entities/user";
 
 export class PrismaAcademyRepository implements AcademyRepositoryBase {
-    async create (academy: Academy) {
+    async create (academy: CreateAcademyArgs) {
         const createdAcademy = await prismaClient.academy.create({
             data: {
                 location: academy.location,
                 name: academy.name,
                 responsibleEducator: {
                     connect: {
-                        name: academy.responsibleEducator
+                        id: academy.responsibleEducatorId
                     }
                 },
             },
             include: {
-                responsibleEducator: true
+                responsibleEducator: {
+                    include: {
+                        currentGraduation: true
+                    }
+                }
             }
             
         })
@@ -26,7 +30,14 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             id: createdAcademy.id,
             location: createdAcademy.location,
             name: createdAcademy.name,
-            responsibleEducator: createdAcademy.responsibleEducator.name
+            responsibleEducator: new User({
+                birthDay: createdAcademy.responsibleEducator.birthDay,
+                currentGrade: createdAcademy.responsibleEducator.currentGrade,
+                currentGraduation: createdAcademy.responsibleEducator.currentGraduation.name,
+                id: createdAcademy.responsibleEducator.id,
+                name: createdAcademy.responsibleEducator.name,
+                password: createdAcademy.responsibleEducator.password,
+            })
         })
     }
     async delete (academyId: string) {
@@ -40,7 +51,11 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                         currentGraduation: true
                     }
                 },
-                responsibleEducator: true
+                responsibleEducator: {
+                    include: {
+                        currentGraduation: true
+                    }
+                }
             }
         })
         return new Academy({
@@ -55,7 +70,14 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             id: deletedAcademy.id,
             location: deletedAcademy.location,
             name: deletedAcademy.name,
-            responsibleEducator: deletedAcademy.responsibleEducator.name
+            responsibleEducator: new User({
+                birthDay: deletedAcademy.responsibleEducator.birthDay,
+                currentGrade: deletedAcademy.responsibleEducator.currentGrade,
+                currentGraduation: deletedAcademy.responsibleEducator.currentGraduation.name,
+                id: deletedAcademy.responsibleEducator.id,
+                name: deletedAcademy.responsibleEducator.name,
+                password: deletedAcademy.responsibleEducator.password
+            })
         })
     }
     async findAcademyByName (academyName: string) {
@@ -69,7 +91,11 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                         currentGraduation: true
                     }
                 },
-                responsibleEducator: true
+                responsibleEducator: {
+                    include: {
+                        currentGraduation: true
+                    }
+                }
             }
         }) || null
         if(!queryResult){
@@ -87,7 +113,14 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             id: queryResult.id,
             location: queryResult.location,
             name: queryResult.name,
-            responsibleEducator: queryResult.responsibleEducator.name
+            responsibleEducator: new User({
+                birthDay: queryResult.responsibleEducator.birthDay,
+                currentGrade: queryResult.responsibleEducator.currentGrade,
+                currentGraduation: queryResult.responsibleEducator.currentGraduation.name,
+                id: queryResult.responsibleEducator.id,
+                name: queryResult.responsibleEducator.name,
+                password: queryResult.responsibleEducator.password
+            })
         })
     }
     async queryAcademiesByName (subName: string) {
@@ -101,11 +134,15 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                         currentGraduation: true
                     }
                 },
-                responsibleEducator: true
+                responsibleEducator: {
+                    include: {
+                        currentGraduation: true
+                    }
+                }
             }
         }) || null
-        return academiesFound.map(academie => new Academy({
-            educators: academie.educators.map(educator => new User({
+        return academiesFound.map(academy => new Academy({
+            educators: academy.educators.map(educator => new User({
                 birthDay: educator.birthDay,
                 currentGrade: educator.currentGrade,
                 currentGraduation: educator.currentGraduation.name,
@@ -113,10 +150,17 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 name: educator.name,
                 password: educator.password
             })),
-            id: academie.id,
-            location: academie.location,
-            name: academie.name,
-            responsibleEducator: academie.responsibleEducator.name
+            id: academy.id,
+            location: academy.location,
+            name: academy.name,
+            responsibleEducator: new User({
+                birthDay: academy.responsibleEducator.birthDay,
+                currentGrade: academy.responsibleEducator.currentGrade,
+                currentGraduation: academy.responsibleEducator.currentGraduation.name,
+                id: academy.responsibleEducator.id,
+                name: academy.responsibleEducator.name,
+                password: academy.responsibleEducator.password
+            })
         }))
     }
 

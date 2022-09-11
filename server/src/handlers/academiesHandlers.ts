@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
-import { createAcademy, getAcademies } from "../services/academy";
+import { getAcademies } from "../services/academy";
 
 import {z} from 'zod'
+import { CreateAcademy } from "../services/academy/create-academy";
+import { PrismaAcademyRepository } from "../repositories/prisma/prisma-academy-repository";
+import { Academy } from "../entities/academy";
 
 export async function handleGetAcademies(req:Request, res:Response){
     const queryResult = await getAcademies()
@@ -19,6 +22,13 @@ type createAcademyRequestBody = z.TypeOf<typeof createAcademySchema>['body']
 export async function handleCreateAcademy(req:Request<{}, {}, createAcademyRequestBody>, res:Response){
     const {location, name, responsibleEducatorId} = req.body
 
-    const queryResult = await createAcademy(name, responsibleEducatorId, location)
+    const repository = new PrismaAcademyRepository()
+    const createAcademy = new CreateAcademy(repository)
+
+    const queryResult = await createAcademy.execute({
+        location: location,
+        name: name,
+        responsibleEducatorId: responsibleEducatorId
+    })
     res.status(201).json(queryResult)
 }

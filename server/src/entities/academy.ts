@@ -4,7 +4,7 @@ interface Props {
     id: string;
     name: string;
     location: string;
-    responsibleEducator: string;
+    responsibleEducator: User;
     educators: User[];
 }
 

@@ -14,7 +14,8 @@ describe('Create user tests', ()=> {
             name: 'John Doe',
             password: 'Password#123'
         })
-        repository.create(user)
+        await repository.create(user)
+
         const updatedUser = await changeUsername.execute(user.id, 'John Doe2')
         
         expect(updatedUser?.name).toBe('John Doe2')

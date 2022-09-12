@@ -10,7 +10,6 @@ describe('Create user tests', ()=> {
             birthDay: new Date(),
             currentGrade: 0,
             currentGraduation: 'branca',
-            id: 'aaaa-bbbb',
             name: 'John Doe',
             password: 'Password#123'
         })
@@ -24,7 +23,6 @@ describe('Create user tests', ()=> {
             birthDay: new Date(),
             currentGrade: 0,
             currentGraduation: 'branca',
-            id: 'aaaa-bbbb',
             name: 'John Doe#1',
             password: 'Password#123'
         })
@@ -32,7 +30,6 @@ describe('Create user tests', ()=> {
             birthDay: new Date(),
             currentGrade: 0,
             currentGraduation: 'branca',
-            id: 'aaaa-bbbb',
             name: 'John Doe#1',
             password: 'Password#123'
         })

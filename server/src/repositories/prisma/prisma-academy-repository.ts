@@ -35,10 +35,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                     birthDay: createdAcademy.responsibleEducator.birthDay,
                     currentGrade: createdAcademy.responsibleEducator.currentGrade,
                     currentGraduation: createdAcademy.responsibleEducator.currentGraduation.name,
-                    id: createdAcademy.responsibleEducator.id,
                     name: createdAcademy.responsibleEducator.name,
                     password: createdAcademy.responsibleEducator.password,
-                })
+                }, createdAcademy.responsibleEducatorId)
             })
         } catch(err:unknown){
             if(err instanceof Error){
@@ -74,10 +73,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 birthDay: educator.birthDay,
                 currentGrade: educator.currentGrade,
                 currentGraduation: educator.currentGraduation.name,
-                id: educator.id,
                 name: educator.name,
                 password: educator.password
-            })),
+            }, educator.id)),
             id: deletedAcademy.id,
             location: deletedAcademy.location,
             name: deletedAcademy.name,
@@ -85,10 +83,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 birthDay: deletedAcademy.responsibleEducator.birthDay,
                 currentGrade: deletedAcademy.responsibleEducator.currentGrade,
                 currentGraduation: deletedAcademy.responsibleEducator.currentGraduation.name,
-                id: deletedAcademy.responsibleEducator.id,
                 name: deletedAcademy.responsibleEducator.name,
                 password: deletedAcademy.responsibleEducator.password
-            })
+            }, deletedAcademy.responsibleEducatorId)
         })
     }
     async findAcademyByName (academyName: string) {
@@ -117,10 +114,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 birthDay: educator.birthDay,
                 currentGrade: educator.currentGrade,
                 currentGraduation: educator.currentGraduation.name,
-                id: educator.id,
                 name: educator.name,
                 password: educator.password
-            })),
+            }, educator.id)),
             id: queryResult.id,
             location: queryResult.location,
             name: queryResult.name,
@@ -128,10 +124,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 birthDay: queryResult.responsibleEducator.birthDay,
                 currentGrade: queryResult.responsibleEducator.currentGrade,
                 currentGraduation: queryResult.responsibleEducator.currentGraduation.name,
-                id: queryResult.responsibleEducator.id,
                 name: queryResult.responsibleEducator.name,
                 password: queryResult.responsibleEducator.password
-            })
+            }, queryResult.responsibleEducator.id)
         })
     }
     async queryAcademiesByName (subName: string) {
@@ -157,10 +152,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 birthDay: educator.birthDay,
                 currentGrade: educator.currentGrade,
                 currentGraduation: educator.currentGraduation.name,
-                id: educator.id,
                 name: educator.name,
                 password: educator.password
-            })),
+            }, educator.id)),
             id: academy.id,
             location: academy.location,
             name: academy.name,
@@ -168,10 +162,9 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 birthDay: academy.responsibleEducator.birthDay,
                 currentGrade: academy.responsibleEducator.currentGrade,
                 currentGraduation: academy.responsibleEducator.currentGraduation.name,
-                id: academy.responsibleEducator.id,
                 name: academy.responsibleEducator.name,
                 password: academy.responsibleEducator.password
-            })
+            }, academy.responsibleEducator.id)
         }))
     }
 

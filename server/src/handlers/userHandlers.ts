@@ -38,7 +38,6 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
             currentGraduation: graduation,
             name: name,
             password: password,
-            id: ''
         }))
         return res.json(operationResult)
     } catch(err) {

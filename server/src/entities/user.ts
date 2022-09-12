@@ -1,5 +1,6 @@
+import { Entity } from "./entity";
+
 interface Props {
-    id: string;
     name: string;
     birthDay:Date;
     currentGraduation: string;
@@ -7,15 +8,13 @@ interface Props {
     password:string;
 }
 
-export class User {
-    private props:Props;
-
-    constructor(props:Props){
-        this.props = props
+export class User extends Entity<Props> {
+    constructor(props:Props, id?: string){
+        super(props, id)
     }
 
     get id(){
-        return this.props.id
+        return this._id
     }
 
     get name(){

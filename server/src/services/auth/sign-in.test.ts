@@ -10,7 +10,6 @@ describe('Sign-in tests', () => {
             birthDay: new Date(),
             currentGrade: 0,
             currentGraduation: 'branca',
-            id: 'aaaa',
             name: 'John Doe',
             password: 'password#123'
         })

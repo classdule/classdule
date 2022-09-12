@@ -20,7 +20,6 @@ export class CreateUser {
             birthDay: user.birthDay,
             currentGrade: user.currentGrade,
             currentGraduation: user.currentGraduation,
-            id: user.id,
             name: user.name
         })
 

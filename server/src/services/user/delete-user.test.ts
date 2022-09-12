@@ -10,13 +10,12 @@ describe('Delete user test', () => {
             birthDay: new Date(),
             currentGrade: 0,
             currentGraduation: 'branca',
-            id: 'aaaa',
             name: 'John Doe',
             password: 'password123'
         })
 
-        await repository.create(user)
-        await deleteUser.execute('aaaa')
+        const createdUser = await repository.create(user)
+        await deleteUser.execute(createdUser.id)
         expect(repository.users.length).toBe(0)
     })
 })

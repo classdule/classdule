@@ -24,10 +24,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             birthDay: createdUser.birthDay,
             currentGrade: createdUser.currentGrade,
             currentGraduation: createdUser.currentGraduation.name,
-            id: createdUser.id,
             name: createdUser.name,
             password: createdUser.password
-        })
+        }, createdUser.id)
     }
     async delete(userId: string){
         const deletedUser = await prismaClient.user.delete({
@@ -42,10 +41,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             birthDay: deletedUser.birthDay,
             currentGraduation: deletedUser.currentGraduation.name,
             currentGrade: deletedUser.currentGrade,
-            id: deletedUser.id,
             name: deletedUser.name,
             password: deletedUser.password
-        })
+        }, deletedUser.id)
     }
     async findUserByName(username: string){
         const user = await prismaClient.user.findUnique({
@@ -67,8 +65,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 currentGraduation: user.currentGraduation.name,
                 name: user.name,
                 password: user.password,
-                id: user.id
-            })
+            }, user.id)
         }
         return null
     }
@@ -88,10 +85,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             birthDay: updatedUser.birthDay,
             currentGrade: updatedUser.currentGrade,
             currentGraduation: updatedUser.currentGraduation.name,
-            id: updatedUser.id,
             name: updatedUser.name,
             password: updatedUser.password
-        })
+        }, updatedUser.id)
     }
 
 }

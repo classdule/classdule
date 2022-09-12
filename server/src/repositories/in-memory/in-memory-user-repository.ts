@@ -4,22 +4,21 @@ import { UserRepositoryBase } from "../user-repository";
 export class InMemoryUserRepository implements UserRepositoryBase {
     users: User[] = []
     async create (user: User){
-        this.users.push(new User({
+        const createUser = new User({
             birthDay: user.birthDay,
             currentGrade: user.currentGrade,
             currentGraduation: user.currentGraduation,
-            id: user.id,
             name: user.name,
             password: user.password
-        }))
+        })
+        this.users.push(createUser)
         return new User({
             birthDay: user.birthDay,
             currentGrade: user.currentGrade,
             currentGraduation: user.currentGraduation,
-            id: user.id,
             name: user.name,
             password: user.password
-        })
+        }, createUser.id)
     }
     async delete (userId: string){
         const deleteUser = this.users.find(user => user.id === userId) || null
@@ -36,9 +35,8 @@ export class InMemoryUserRepository implements UserRepositoryBase {
             birthDay: targetUser.birthDay,
             currentGrade: targetUser.currentGrade,
             currentGraduation: targetUser.currentGraduation,
-            id: targetUser.id,
             password: targetUser.password
-        })
+        }, targetUser.id)
         return this.users[userIndex]
     }
 

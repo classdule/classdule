@@ -10,13 +10,12 @@ describe('Create user tests', ()=> {
             birthDay: new Date(),
             currentGrade: 0,
             currentGraduation: 'branca',
-            id: 'aaaa-bbbb',
             name: 'John Doe',
             password: 'Password#123'
         })
-        await repository.create(user)
+        const createdUser = await repository.create(user)
 
-        const updatedUser = await changeUsername.execute(user.id, 'John Doe2')
+        const updatedUser = await changeUsername.execute(createdUser.id, 'John Doe2')
         
         expect(updatedUser?.name).toBe('John Doe2')
     })

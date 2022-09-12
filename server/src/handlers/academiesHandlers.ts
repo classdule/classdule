@@ -4,7 +4,6 @@ import { getAcademies } from "../services/academy";
 import {z} from 'zod'
 import { CreateAcademy } from "../services/academy/create-academy";
 import { PrismaAcademyRepository } from "../repositories/prisma/prisma-academy-repository";
-import { Academy } from "../entities/academy";
 
 export async function handleGetAcademies(req:Request, res:Response){
     const queryResult = await getAcademies()

@@ -1,3 +1,5 @@
+import {v4 as uuid} from 'uuid'
+
 import { Academy } from "../../entities/academy";
 import { User } from "../../entities/user";
 import { getRandomUser } from "../../tests/utils/get-random-user";
@@ -7,10 +9,10 @@ export class InMemoryAcademyRepository implements AcademyRepositoryBase {
     academies: Academy[] = [];
     async create (academy: CreateAcademyArgs) {
         const createAcademy = new Academy({
-            educators: [],
+            educatorsIds: [],
             location: academy.location,
             name: academy.name,
-            responsibleEducator: getRandomUser()
+            responsibleEducatorId: uuid()
         })
         this.academies.push(createAcademy)
         

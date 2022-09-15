@@ -4,8 +4,8 @@ import { User } from "./user";
 interface Props {
     name: string;
     location: string;
-    responsibleEducator: User;
-    educators: User[];
+    responsibleEducatorId: string;
+    educatorsIds:string[];
 }
 
 export class Academy extends Entity<Props> {
@@ -22,10 +22,10 @@ export class Academy extends Entity<Props> {
     get location(){
         return this.props.location
     }
-    get responsibleEducator(){
-        return this.props.responsibleEducator
+    get responsibleEducatorId(){
+        return this.props.responsibleEducatorId
     }
-    get educators(){
-        return this.props.educators
+    get educatorsIds(){
+        return this.props.educatorsIds
     }
 }

@@ -1,7 +1,8 @@
 import {describe, it, expect} from 'vitest'
 
+import { v4 as uuid } from 'uuid'
+
 import { Academy } from "../../entities/academy"
-import { User } from "../../entities/user"
 import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memory-academy-repository"
 import { CreateAcademy } from "./create-academy"
 
@@ -11,22 +12,15 @@ describe('Create academy tests', ()=> {
         const createAcademy = new CreateAcademy(repository)
 
         const exampleAcademy = new Academy({
-            educators: [],
-            id: 'aaaa',
+            educatorsIds: [],
             location: 'Nowhere',
             name: 'Academy 1',
-            responsibleEducator: new User({
-                birthDay: new Date(),
-                currentGrade: 0,
-                currentGraduation: 'branca',
-                name: 'John Doe',
-                password: 'password#123'
-            })
+            responsibleEducatorId: uuid()
         })
         await createAcademy.execute({
             location: exampleAcademy.location,
             name: exampleAcademy.name,
-            responsibleEducatorId: exampleAcademy.responsibleEducator.id
+            responsibleEducatorId: exampleAcademy.responsibleEducatorId
         })
         expect(repository.academies.length).toBeGreaterThan(0)
 

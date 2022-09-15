@@ -1,3 +1,5 @@
+import {describe, it, expect} from 'vitest'
+
 import { Academy } from "../../entities/academy"
 import { User } from "../../entities/user"
 import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memory-academy-repository"

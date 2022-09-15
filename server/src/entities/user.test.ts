@@ -1,3 +1,5 @@
+import { test, expect } from "vitest"
+
 import { User } from "./user"
 
 test('Entity user test', ()=> {

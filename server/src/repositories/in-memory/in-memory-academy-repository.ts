@@ -8,7 +8,6 @@ export class InMemoryAcademyRepository implements AcademyRepositoryBase {
     async create (academy: CreateAcademyArgs) {
         const createAcademy = new Academy({
             educators: [],
-            id: `${Math.random()}`,
             location: academy.location,
             name: academy.name,
             responsibleEducator: getRandomUser()

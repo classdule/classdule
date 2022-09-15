@@ -1,22 +1,20 @@
+import { Entity } from "./entity";
 import { User } from "./user";
 
 interface Props {
-    id: string;
     name: string;
     location: string;
     responsibleEducator: User;
     educators: User[];
 }
 
-export class Academy {
-    private props: Props;
-
-    constructor(props:Props){
-        this.props = props
+export class Academy extends Entity<Props> {
+    constructor(props:Props, id?: string){
+        super(props, id);
     }
 
     get id(){
-        return this.props.id
+        return this._id
     }
     get name(){
         return this.props.name

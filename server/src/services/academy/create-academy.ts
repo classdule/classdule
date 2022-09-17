@@ -1,3 +1,4 @@
+import { Academy } from "../../entities/academy";
 import { AcademyRepositoryBase } from "../../repositories/academy-repository";
 
 interface Request {
@@ -12,11 +13,12 @@ export class CreateAcademy {
         this.repository = repository
     }
     async execute(request: Request){
-        const createdAcademy = await this.repository.create({
+        const createdAcademy = await this.repository.create(new Academy({
             location: request.location,
             name: request.name,
-            responsibleEducatorId: request.responsibleEducatorId
-        })
+            responsibleEducatorId: request.responsibleEducatorId,
+            educatorsIds: []
+        }))
         return createdAcademy
     }
 }

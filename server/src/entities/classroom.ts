@@ -1,13 +1,10 @@
+import { ClassroomSchedule } from "./classroomSchedule";
 import { Entity } from "./entity";
 
 interface Props {
     type: string;
     educatorId: string;
-    schedules: {
-        weekDays: number[];
-        startsAt: Date;
-        endsAt: Date;
-    }[]
+    schedules: ClassroomSchedule[];
 }
 
 export class Classroom extends Entity<Props> {

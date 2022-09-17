@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ClassroomSchedule } from "./classroomSchedule";
+import { ClassroomSchedule } from "./classroom-schedule";
 
 import {addHours} from 'date-fns'
 

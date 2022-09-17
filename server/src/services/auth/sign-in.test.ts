@@ -2,19 +2,14 @@ import { describe, it, expect } from "vitest";
 
 import { User } from "../../entities/user";
 import { InMemoryUserRepository } from "../../repositories/in-memory/in-memory-user-repository";
+import { getRandomUser } from "../../tests/utils/get-random-user";
 import { CreateUser } from "../user/create-user";
 import { Signin } from "./sign-in";
 
 describe('Sign-in tests', () => {
     const repository = new InMemoryUserRepository()
     it('Should successfully sign-in', async () => {
-        const exampleUser = new User({
-            birthDay: new Date(),
-            currentGrade: 0,
-            currentGraduation: 'branca',
-            name: 'John Doe',
-            password: 'password#123'
-        })
+        const exampleUser = getRandomUser()
         const createUser = new CreateUser(repository)
         await createUser.execute(exampleUser)
         const signIn = new Signin(repository)

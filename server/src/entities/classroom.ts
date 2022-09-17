@@ -1,4 +1,4 @@
-import { ClassroomSchedule } from "./classroomSchedule";
+import { ClassroomSchedule } from "./classroom-schedule";
 import { Entity } from "./entity";
 
 interface Props {

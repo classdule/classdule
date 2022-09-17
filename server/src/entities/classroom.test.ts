@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { addHours } from 'date-fns';
 
 import { Classroom } from './classroom';
-import { ClassroomSchedule } from './classroomSchedule';
+import { ClassroomSchedule } from './classroom-schedule';
 
 describe('Classroom tests', ()=> {
     it('Should be able to instantiate a classroom', async ()=> {

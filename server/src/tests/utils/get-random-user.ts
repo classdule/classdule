@@ -1,8 +1,9 @@
 import { User } from "../../entities/user";
+import { getPastDate } from "./get-past-date";
 
 export function getRandomUser(): User{
     return new User({
-        birthDay: new Date(),
+        birthDay: getPastDate(),
         currentGrade: 0,
         currentGraduation: 'branca',
         name: 'John Doe',

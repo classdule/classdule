@@ -1,3 +1,5 @@
+import {differenceInYears} from 'date-fns'
+
 import { Entity } from "./entity";
 
 interface Props {
@@ -10,6 +12,10 @@ interface Props {
 
 export class User extends Entity<Props> {
     constructor(props:Props, id?: string){
+        const age = Math.abs(differenceInYears(new Date(), props.birthDay))
+        if(age < 4){
+            throw new Error('Cannot create a user that is younger than 4 years')
+        }
         super(props, id)
     }
 

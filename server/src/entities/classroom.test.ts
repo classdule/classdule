@@ -13,11 +13,12 @@ describe('Classroom tests', ()=> {
             type: 'Basic',
             schedules: [
                 new ClassroomSchedule({
-                    weekDays: [1, 3, 5],
+                    weekDay: 1,
                     startsAt: new Date(),
                     endsAt: addHours(new Date(), 2),
-                })
-            ]
+                }),
+            ],
+            academyId: uuid()
         })
         expect(classroom).toBeInstanceOf(Classroom)
     })

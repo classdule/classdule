@@ -5,6 +5,7 @@ interface Props {
     type: string;
     educatorId: string;
     schedules: ClassroomSchedule[];
+    academyId: string;
 }
 
 export class Classroom extends Entity<Props> {
@@ -21,4 +22,8 @@ export class Classroom extends Entity<Props> {
     get schedules(){
         return this.props.schedules
     }
+    get academyId(){
+        return this.props.academyId
+    }
+
 }

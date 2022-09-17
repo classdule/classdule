@@ -3,21 +3,20 @@ import { ClassroomSchedule } from "./classroom-schedule";
 
 import {addHours} from 'date-fns'
 
-describe('Classroom tests', ()=> {
+describe('Classroom schedule tests', ()=> {
     it('Should be able to create a classroom schedule', ()=> {
-        const schedule = new ClassroomSchedule({
+        expect(() => new ClassroomSchedule({
             startsAt: new Date(),
             endsAt: addHours(new Date(), 2),
-            weekDays: [1, 3, 5]
-        })
-        expect(schedule.weekDays).toHaveLength(3)
+            weekDay: 1,
+        })).toBeDefined()
     })
 
     it('Should fail to create a schedule since the dates entry is invalid', ()=> {
         expect(() => new ClassroomSchedule({
             startsAt: new Date(),
             endsAt: new Date(),
-            weekDays: [2, 4]
+            weekDay: 2,
         })).toThrow()
     })
 
@@ -25,7 +24,7 @@ describe('Classroom tests', ()=> {
         expect(() => new ClassroomSchedule({
             startsAt: new Date(),
             endsAt: addHours(new Date(), 24),
-            weekDays: [2, 4]
+            weekDay: 4,
         })).toThrow()
     })
 })

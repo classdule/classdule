@@ -4,7 +4,7 @@ import { Entity } from "./entity";
 
 
 interface Props {
-    weekDays: Day[];
+    weekDay: Day;
     startsAt: Date;
     endsAt: Date;
 }
@@ -22,7 +22,7 @@ export class ClassroomSchedule extends Entity<Props> {
     }
 
     get weekDays(){
-        return this.props.weekDays
+        return this.props.weekDay
     }
 
     get startsAt(){

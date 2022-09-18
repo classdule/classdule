@@ -1,4 +1,7 @@
 import { describe, expect, it } from "vitest";
+
+import { addHours } from "date-fns";
+
 import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
 import { CreateClassroom } from "./create-classroom";
@@ -11,8 +14,10 @@ describe('Create classroom tests', ()=> {
         const classroomToCreate = new Classroom({
             academyId: 'aaaa',
             educatorId: 'aaaa',
-            schedules: [],
-            type: 'basic'
+            weekdays: [2, 4],
+            type: 'basic',
+            endsAt: addHours(new Date(), 2),
+            startsAt: new Date()
         })
 
         expect(createClassroom.do(classroomToCreate)).resolves

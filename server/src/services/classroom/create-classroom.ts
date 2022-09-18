@@ -1,14 +1,18 @@
+import {Day} from 'date-fns'
+
 import { Classroom } from "../../entities/classroom";
-import { ClassroomSchedule } from "../../entities/classroom-schedule";
-import { AcademyRepositoryBase } from "../../repositories/academy-repository";
 import { ClassroomRepository } from "../../repositories/classroom-repository";
 
-interface Request {
-    educatorId: string;
-    type: string;
-    academyId: string;
-    schedules: ClassroomSchedule[];
-}
+// interface Request extends Classroom {
+//     educatorId: string;
+//     type: string;
+//     academyId: string;
+//     endsAt: Date;
+//     startsAt: Date;
+//     weekdays: Day[];
+// }
+
+type Request = Classroom;
 
 export class CreateClassroom {
     constructor(
@@ -19,8 +23,10 @@ export class CreateClassroom {
         const createdClassroom = await this.classroomRepository.create(new Classroom({
             educatorId: request.educatorId,
             academyId: request.academyId,
-            schedules: request.schedules,
-            type: request.type
+            type: request.type,
+            endsAt: request.endsAt,
+            startsAt: request.startsAt,
+            weekdays: request.weekdays
         }))
         return createdClassroom
     }

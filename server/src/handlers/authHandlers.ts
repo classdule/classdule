@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 
 import { z } from 'zod'
-import { UserRepositoryPrisma } from "../repositories/prisma/user-repository-prisma";
+import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
 import { Signin } from "../services/auth/sign-in";
 

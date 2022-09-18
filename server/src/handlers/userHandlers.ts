@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 import { User } from "../entities/user";
-import { UserRepositoryPrisma } from "../repositories/prisma/user-repository-prisma";
+import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
 import { getUsers } from "../services/user";
 import { ChangeUserName } from "../services/user/change-username";

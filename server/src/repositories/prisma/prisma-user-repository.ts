@@ -90,4 +90,21 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         }, updatedUser.id)
     }
 
+    async findAll(){
+        const queryUsers = await prismaClient.user.findMany({
+            include: {
+                currentGraduation: true
+            }
+        })
+        return queryUsers.map(user => {
+            return new User({
+                birthDay: user.birthDay,
+                currentGrade: user.currentGrade,
+                currentGraduation: user.currentGraduation.name,
+                name: user.name,
+                password: user.password
+            })
+        })
+    }
+
 }

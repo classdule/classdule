@@ -1,11 +1,10 @@
 import { Academy } from "../../entities/academy";
-import { AcademyRepositoryBase, CreateAcademyArgs } from "../academy-repository";
+import { AcademyRepositoryBase } from "../academy-repository";
 
 import { prismaClient } from "../../database/prisma";
-import { User } from "../../entities/user";
 
 export class PrismaAcademyRepository implements AcademyRepositoryBase {
-    async create (academy: CreateAcademyArgs) {
+    async create (academy: Academy) {
         try {
             const createdAcademy = await prismaClient.academy.create({
                 data: {
@@ -27,18 +26,11 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
                 
             })
             return new Academy({
-                educators: [],
-                id: createdAcademy.id,
+                educatorsIds: [],
                 location: createdAcademy.location,
                 name: createdAcademy.name,
-                responsibleEducator: new User({
-                    birthDay: createdAcademy.responsibleEducator.birthDay,
-                    currentGrade: createdAcademy.responsibleEducator.currentGrade,
-                    currentGraduation: createdAcademy.responsibleEducator.currentGraduation.name,
-                    name: createdAcademy.responsibleEducator.name,
-                    password: createdAcademy.responsibleEducator.password,
-                }, createdAcademy.responsibleEducatorId)
-            })
+                responsibleEducatorId: createdAcademy.responsibleEducatorId
+            }, createdAcademy.id)
         } catch(err:unknown){
             if(err instanceof Error){
                 return {
@@ -69,24 +61,11 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             }
         })
         return new Academy({
-            educators: deletedAcademy.educators.map(educator => new User({
-                birthDay: educator.birthDay,
-                currentGrade: educator.currentGrade,
-                currentGraduation: educator.currentGraduation.name,
-                name: educator.name,
-                password: educator.password
-            }, educator.id)),
-            id: deletedAcademy.id,
+            educatorsIds: deletedAcademy.educators.map(educator =>educator.id ),
             location: deletedAcademy.location,
             name: deletedAcademy.name,
-            responsibleEducator: new User({
-                birthDay: deletedAcademy.responsibleEducator.birthDay,
-                currentGrade: deletedAcademy.responsibleEducator.currentGrade,
-                currentGraduation: deletedAcademy.responsibleEducator.currentGraduation.name,
-                name: deletedAcademy.responsibleEducator.name,
-                password: deletedAcademy.responsibleEducator.password
-            }, deletedAcademy.responsibleEducatorId)
-        })
+            responsibleEducatorId: deletedAcademy.responsibleEducatorId
+        }, deletedAcademy.id)
     }
     async findAcademyByName (academyName: string) {
         const queryResult = await prismaClient.academy.findUnique({
@@ -110,24 +89,11 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             return queryResult
         }
         return new Academy({
-            educators: queryResult.educators.map(educator => new User({
-                birthDay: educator.birthDay,
-                currentGrade: educator.currentGrade,
-                currentGraduation: educator.currentGraduation.name,
-                name: educator.name,
-                password: educator.password
-            }, educator.id)),
-            id: queryResult.id,
+            educatorsIds: queryResult.educators.map(educator => educator.id),
             location: queryResult.location,
             name: queryResult.name,
-            responsibleEducator: new User({
-                birthDay: queryResult.responsibleEducator.birthDay,
-                currentGrade: queryResult.responsibleEducator.currentGrade,
-                currentGraduation: queryResult.responsibleEducator.currentGraduation.name,
-                name: queryResult.responsibleEducator.name,
-                password: queryResult.responsibleEducator.password
-            }, queryResult.responsibleEducator.id)
-        })
+            responsibleEducatorId: queryResult.responsibleEducatorId
+        }, queryResult.id)
     }
     async queryAcademiesByName (subName: string) {
         const academiesFound = await prismaClient.academy.findMany({
@@ -148,24 +114,11 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             }
         }) || null
         return academiesFound.map(academy => new Academy({
-            educators: academy.educators.map(educator => new User({
-                birthDay: educator.birthDay,
-                currentGrade: educator.currentGrade,
-                currentGraduation: educator.currentGraduation.name,
-                name: educator.name,
-                password: educator.password
-            }, educator.id)),
-            id: academy.id,
+            educatorsIds: academy.educators.map(educator => educator.id),
             location: academy.location,
             name: academy.name,
-            responsibleEducator: new User({
-                birthDay: academy.responsibleEducator.birthDay,
-                currentGrade: academy.responsibleEducator.currentGrade,
-                currentGraduation: academy.responsibleEducator.currentGraduation.name,
-                name: academy.responsibleEducator.name,
-                password: academy.responsibleEducator.password
-            }, academy.responsibleEducator.id)
-        }))
+            responsibleEducatorId: academy.responsibleEducatorId
+        }, academy.id))
     }
 
 }

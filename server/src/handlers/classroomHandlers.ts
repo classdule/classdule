@@ -3,18 +3,26 @@ import { Request, Response } from 'express';
 import {z} from 'zod'
 import { Classroom } from '../entities/classroom';
 import { PrismaClassroomRepository } from '../repositories/prisma/prisma-classroom-repository';
-import { deleteClassroom, getClassroomsByAcademy } from '../services/classroom';
 import { CreateClassroom } from '../services/classroom/create-classroom';
+import { DeleteClassroom } from '../services/classroom/delete-classroom';
+import { GetClassroomsByAcademy } from '../services/classroom/get-classrooms-by-academy';
 
 export const getClassroomsByAcademySchema = z.object({
     query: z.object({
-        name: z.string()
+        academyId: z.string()
     })
 })
 type GetClassroomsSchema = z.TypeOf<typeof getClassroomsByAcademySchema>
 export async function handleGetClassroomsByAcademy(req:Request<{}, {}, {}, GetClassroomsSchema['query']>, res:Response){
-    const {name} = req.query
-    const queryResult = await getClassroomsByAcademy(name)
+    const {academyId} = req.query
+
+    const classroomsRepository = new PrismaClassroomRepository()
+    const getClassroomsByAcademy = new GetClassroomsByAcademy(classroomsRepository)
+
+    const queryResult = await getClassroomsByAcademy.do({
+        academyId,
+    })
+
     return res.json(queryResult)
 }
 
@@ -55,6 +63,11 @@ type DeleteClassroomSchema = z.TypeOf<typeof deleteClassroomSchema>
 export async function handleDeleteClassroom(req:Request<{}, {}, DeleteClassroomSchema['body']>, res:Response){
     const {classroomId} = req.body;
 
-    const queryResult = await deleteClassroom(classroomId)
+    const classroomsRepository = new PrismaClassroomRepository()
+    const deleteClassroom = new DeleteClassroom(classroomsRepository)
+
+    const queryResult = await deleteClassroom.do({
+        classroomId
+    })
     return res.json(queryResult)
 }

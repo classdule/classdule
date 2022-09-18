@@ -47,5 +47,8 @@ export class InMemoryUserRepository implements UserRepositoryBase {
         }
         return null
     }
+    async findAll(){
+        return this.users
+    }
 
 }

@@ -3,13 +3,15 @@ import { z } from "zod";
 import { User } from "../entities/user";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
-import { getUsers } from "../services/user";
 import { ChangeUserName } from "../services/user/change-username";
 import { CreateUser } from "../services/user/create-user";
 import { DeleteUser } from "../services/user/delete-user";
+import { GetAllUsers } from "../services/user/get-all-users";
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
-    const queryResult = await getUsers()
+    const usersRepository = new UserRepositoryPrisma()
+    const findUsers = new GetAllUsers(usersRepository)
+    const queryResult = await findUsers.do()
     return res.status(200).json(queryResult)
 }
 

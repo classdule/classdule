@@ -9,4 +9,5 @@ export interface AcademyRepositoryBase {
     delete: (academyId: string) => Promise<Academy | null>;
     findAcademyByName: (academyName: string) => Promise<Academy | null>;
     queryAcademiesByName: (subName: string) => Promise<Academy[]>;
+    findAll: () => Promise<Academy[]>;
 }

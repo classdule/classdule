@@ -121,4 +121,19 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
         }, academy.id))
     }
 
+    async findAll () {
+        const queryResult = await prismaClient.academy.findMany({
+            include: {
+                educators: true,
+                responsibleEducator: true
+            }
+        })
+        return queryResult.map(academy => new Academy({
+            educatorsIds: academy.educators.map(educator => educator.id),
+            location: academy.location,
+            name: academy.name,
+            responsibleEducatorId: academy.responsibleEducator.id
+        }, academy.id))
+    }
+
 }

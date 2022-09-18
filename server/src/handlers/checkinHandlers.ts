@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
 import {z} from 'zod'
-import { createCheckin, getCheckins, verifyCheckin } from '../services/checkin';
-
-export async function handleGetCheckins(req:Request, res:Response){
-    const queryResult = await getCheckins()
-    return res.json(queryResult)
-}
+import { Classroom } from '../entities/classroom';
+import { Checkin } from '../entities/checkin';
+import { PrismaCheckinRepository } from '../repositories/prisma/prisma-checkin-repository';
+import { PrismaClassroomRepository } from '../repositories/prisma/prisma-classroom-repository';
+import { CreateCheckin } from '../services/checkin/create-checkin';
 
 export const createCheckinSchema = z.object({
     body: z.object({
-        classroomScheduleId: z.string(),
+        classroomId: z.string(),
         user: z.object({
             name: z.string(),
             id: z.string()
@@ -18,9 +17,18 @@ export const createCheckinSchema = z.object({
 })
 type CreateCheckinSchema = z.TypeOf<typeof createCheckinSchema>
 export async function handleCreateCheckin(req:Request<{}, {}, CreateCheckinSchema['body']>, res:Response){
-    const {classroomScheduleId, user} = req.body
+    const {user, classroomId} = req.body;
 
-    const queryResult = await createCheckin(classroomScheduleId, user.id)
+    const checkinsRepository = new PrismaCheckinRepository();
+    const classroomRepository = new PrismaClassroomRepository();
+    const createCheckin = new CreateCheckin(classroomRepository, checkinsRepository);
+
+    const queryResult = await createCheckin.do({
+        checkin: new Checkin({
+            classroomId,
+            userId: user.id
+        })
+    })
     return res.json(queryResult)
 }
 export const verifyCheckinSchema = z.object({

@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
-import { getAcademies } from "../services/academy";
 
 import {z} from 'zod'
 import { CreateAcademy } from "../services/academy/create-academy";
 import { PrismaAcademyRepository } from "../repositories/prisma/prisma-academy-repository";
+import { GetAllAcademies } from "../services/academy/get-all-academies";
 
 export async function handleGetAcademies(req:Request, res:Response){
-    const queryResult = await getAcademies()
+    const academiesRepository = new PrismaAcademyRepository();
+    const getAllAcademies = new GetAllAcademies(academiesRepository)
+    const queryResult = await getAllAcademies.do()
     return res.json(queryResult)
 }
 

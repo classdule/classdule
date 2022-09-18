@@ -1,4 +1,3 @@
-import { compare } from "bcrypt";
 import { Request, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 

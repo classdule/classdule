@@ -1,13 +1,11 @@
 import {v4 as uuid} from 'uuid'
 
 import { Academy } from "../../entities/academy";
-import { User } from "../../entities/user";
-import { getRandomUser } from "../../tests/utils/get-random-user";
-import { AcademyRepositoryBase, CreateAcademyArgs } from "../academy-repository";
+import { AcademyRepositoryBase } from "../academy-repository";
 
 export class InMemoryAcademyRepository implements AcademyRepositoryBase {
     academies: Academy[] = [];
-    async create (academy: CreateAcademyArgs) {
+    async create (academy: Academy) {
         const createAcademy = new Academy({
             educatorsIds: [],
             location: academy.location,
@@ -30,5 +28,9 @@ export class InMemoryAcademyRepository implements AcademyRepositoryBase {
     async queryAcademiesByName (subName: string) {
         const matchingAcademies = this.academies.filter(academy => academy.name.includes(subName))
         return matchingAcademies
+    }
+
+    async findAll () {
+        return this.academies
     }
 }

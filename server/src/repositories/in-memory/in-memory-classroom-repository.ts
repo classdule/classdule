@@ -32,4 +32,8 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
         })
         return overlappingClassroom ?? null
     }
+    async findById (classroomId: string){
+        const foundClassroom = this.classrooms.find(classroom => classroom.id === classroomId)
+        return foundClassroom ?? null
+    }
 }

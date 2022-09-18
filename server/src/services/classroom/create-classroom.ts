@@ -1,16 +1,5 @@
-import {Day} from 'date-fns'
-
 import { Classroom } from "../../entities/classroom";
 import { ClassroomRepository } from "../../repositories/classroom-repository";
-
-// interface Request extends Classroom {
-//     educatorId: string;
-//     type: string;
-//     academyId: string;
-//     endsAt: Date;
-//     startsAt: Date;
-//     weekdays: Day[];
-// }
 
 type Request = Classroom;
 
@@ -20,6 +9,15 @@ export class CreateClassroom {
     ){}
 
     async do(request: Request){
+        const overlappingDateClassroom = await this.classroomRepository.findOverlappingDateClassroom(
+            request.startsAt,
+            request.endsAt,
+            request.weekdays,
+            request.academyId
+        )
+        if(!!overlappingDateClassroom){
+            throw new Error('Cannot create a classroom that overlaps another classroom')
+        }
         const createdClassroom = await this.classroomRepository.create(new Classroom({
             educatorId: request.educatorId,
             academyId: request.academyId,

@@ -1,3 +1,6 @@
+import {config} from 'dotenv'
+config()
+
 import { describe, it, expect } from "vitest";
 
 import { User } from "../../entities/user";

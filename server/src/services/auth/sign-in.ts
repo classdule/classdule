@@ -1,10 +1,13 @@
 import { compare } from 'bcrypt';
+import jwt, {Secret} from 'jsonwebtoken'
+
 import { User } from '../../entities/user';
 import {UserRepositoryBase} from '../../repositories/user-repository'
 
 interface Response {
     validPassword: boolean;
     user: User;
+    token: string
 }
 export class Signin {
     repository: UserRepositoryBase;
@@ -21,9 +24,15 @@ export class Signin {
         if(!isPasswordValid){
             throw new Error('Invalid password')
         }
+        const token = jwt.sign(
+            {name: user.name, id: user.id}, 
+            process.env.JWT_TOKEN_SECRET as Secret, 
+            {expiresIn: '1h'}
+        )
         return {
             validPassword: isPasswordValid,
-            user: user
+            user: user,
+            token
         }
     }
 }

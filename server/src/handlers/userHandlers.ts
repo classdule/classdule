@@ -3,6 +3,7 @@ import { z } from "zod";
 import { User } from "../entities/user";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
+import { Signin } from "../services/auth/sign-in";
 import { ChangeUserName } from "../services/user/change-username";
 import { CreateUser } from "../services/user/create-user";
 import { DeleteUser } from "../services/user/delete-user";
@@ -58,12 +59,21 @@ export const changeUsernameSchema = z.object({
 type ChangeUsernameRequest = z.TypeOf<typeof changeUsernameSchema>
 export async function handleChangeUsername(req:Request<{}, {}, ChangeUsernameRequest['body']>, res:Response){
     const {name, user} = req.body;
-    const changeUsername = new ChangeUserName(new UserRepositoryPrisma())
+    const userRepository = new UserRepositoryPrisma()
+    const changeUsername = new ChangeUserName(userRepository)
+    const signin = new Signin(userRepository)
 
     if(name === user.name){
         return res.status(201).json(user)
     }
     const newUser = await changeUsername.execute(user.id, name)
+    if(!newUser){
+        return res.status(404).json({
+            message:'User not found'
+        })
+    }
+    const {token} = await signin.execute(newUser.name, newUser.password)
+    res.cookie('access_token', token)
     return res.status(201).json(newUser)
 }
 export const deleteUserSchema = z.object({

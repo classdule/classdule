@@ -18,12 +18,8 @@ export async function handleSignin(req:Request<{}, {}, handleSigninRequest['body
     const {name, password} = req.body
     const signin = new Signin(new UserRepositoryPrisma())
     try {
-        const { user } = await signin.execute(name, password)
-        const token = jwt.sign(
-            {name: user.name, id: user.id}, 
-            process.env.JWT_TOKEN_SECRET as Secret, 
-            {expiresIn: '1h'}
-        )
+        const { token } = await signin.execute(name, password)
+        
         res.cookie('access_token', token)
     } catch(err){
         console.log(err)

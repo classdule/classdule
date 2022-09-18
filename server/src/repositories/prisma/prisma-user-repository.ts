@@ -103,7 +103,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 currentGraduation: user.currentGraduation.name,
                 name: user.name,
                 password: user.password
-            })
+            }, user.id)
         })
     }
 

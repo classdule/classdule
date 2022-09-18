@@ -1,12 +1,10 @@
 import { Router } from "express";
 import { createCheckinSchema, handleCreateCheckin, handleGetCheckins, handleVerifyCheckin, verifyCheckinSchema } from "../handlers/checkinHandlers";
 import { 
-    createClassroomScheduleSchema,
     createClassroomSchema, 
     deleteClassroomSchema, 
     getClassroomsByAcademySchema, 
     handleCreateClassroom, 
-    handleCreateClassroomSchedules,
     handleDeleteClassroom,
     handleGetClassroomsByAcademy 
 } from "../handlers/classroomHandlers";
@@ -29,12 +27,6 @@ classroomRoutes.delete(
     '/classroom/delete',
     [validateInput(deleteClassroomSchema)],
     handleDeleteClassroom
-)
-
-classroomRoutes.post(
-    '/classroom/schedule/create',
-    validateInput(createClassroomScheduleSchema),
-    handleCreateClassroomSchedules
 )
 
 classroomRoutes.get(

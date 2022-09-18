@@ -123,5 +123,25 @@ export class PrismaClassroomRepository implements ClassroomRepository {
             weekdays: foundClassroom.weekdays.map(weekday => weekday.weekday as Day)
         })
     }
+    async findByAcademy (academyId: string) {
+        const academyClassrooms = await prismaClient.classroom.findMany({
+            where: {
+                academyId: academyId
+            },
+            include: {
+                weekdays: true
+            }
+        })
+        return academyClassrooms.map(classroom => {
+            return new Classroom({
+                academyId: classroom.academyId,
+                educatorId: classroom.educatorId,
+                endsAt: classroom.endsAt,
+                startsAt: classroom.startsAt,
+                type: classroom.type,
+                weekdays: classroom.weekdays.map(weekday => weekday.weekday as Day)
+            }, classroom.id)
+        })
+    }
 
 }

@@ -1,6 +1,10 @@
-import { query, Request, Response } from 'express';
+import { parseISO } from 'date-fns';
+import { Request, Response } from 'express';
 import {z} from 'zod'
-import { createClassroom, createClassroomSchedules, deleteClassroom, getClassroomsByAcademy } from '../services/classroom';
+import { Classroom } from '../entities/classroom';
+import { PrismaClassroomRepository } from '../repositories/prisma/prisma-classroom-repository';
+import { deleteClassroom, getClassroomsByAcademy } from '../services/classroom';
+import { CreateClassroom } from '../services/classroom/create-classroom';
 
 export const getClassroomsByAcademySchema = z.object({
     query: z.object({
@@ -18,14 +22,28 @@ export const createClassroomSchema = z.object({
     body: z.object({
         type: z.string(),
         educatorId: z.string(),
-        academyName:z.string()
+        academyId:z.string(),
+        endsAt: z.string(),
+        startsAt: z.string(),
+        weekdays: z.array(z.number())
     })
 })
 type CreateClassroomSchema = z.TypeOf<typeof createClassroomSchema>
 export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomSchema['body']>, res:Response){
-    const {type, academyName, educatorId} = req.body
-    const queryResult = await  createClassroom(type, academyName, educatorId)
-    return res.json(queryResult)
+    const {type, academyId, educatorId, endsAt, startsAt, weekdays} = req.body
+    const classroomRepository = new PrismaClassroomRepository();
+    const createClassroom = new CreateClassroom(classroomRepository);
+
+    const queryResult = await createClassroom.do(new Classroom({
+        academyId,
+        type,
+        educatorId,
+        endsAt: parseISO(endsAt),
+        startsAt: parseISO(startsAt),
+        weekdays: weekdays as Day[]
+    }))
+
+    return res.json(queryResult);
 }
 
 export const deleteClassroomSchema = z.object({
@@ -35,24 +53,8 @@ export const deleteClassroomSchema = z.object({
 })
 type DeleteClassroomSchema = z.TypeOf<typeof deleteClassroomSchema>
 export async function handleDeleteClassroom(req:Request<{}, {}, DeleteClassroomSchema['body']>, res:Response){
-    const {classroomId} = req.body
-    const queryResult = await deleteClassroom(classroomId)
-    return res.json(queryResult)
-}
+    const {classroomId} = req.body;
 
-export const createClassroomScheduleSchema = z.object({
-    body: z.object({
-        weekDays: z.array(z.number()),
-        startsAt: z.string(),
-        endsAt: z.string(),
-        classroomId: z.string()
-    })
-})
-type CreateClassroomSchedulesSchema = z.TypeOf<typeof createClassroomScheduleSchema>
-export async function handleCreateClassroomSchedules(req:Request<{}, {}, CreateClassroomSchedulesSchema['body']>, res:Response){
-    const {weekDays, endsAt, classroomId, startsAt} = req.body
-    const parsedStartsAt = new Date(startsAt)
-    const parsedEndsAt = new Date(endsAt)
-    const queryResult = await createClassroomSchedules(parsedStartsAt, weekDays, classroomId, parsedEndsAt)
+    const queryResult = await deleteClassroom(classroomId)
     return res.json(queryResult)
 }

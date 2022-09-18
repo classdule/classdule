@@ -36,4 +36,7 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
         const foundClassroom = this.classrooms.find(classroom => classroom.id === classroomId)
         return foundClassroom ?? null
     }
+    async findByAcademy (academyId: string) {
+        return this.classrooms.filter(classroom => classroom.academyId === academyId)
+    }
 }

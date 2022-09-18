@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import {z} from 'zod'
-import { Classroom } from '../entities/classroom';
 import { Checkin } from '../entities/checkin';
 import { PrismaCheckinRepository } from '../repositories/prisma/prisma-checkin-repository';
 import { PrismaClassroomRepository } from '../repositories/prisma/prisma-classroom-repository';
 import { CreateCheckin } from '../services/checkin/create-checkin';
+import { VerifyCheckin } from '../services/checkin/verify-checkin';
 
 export const createCheckinSchema = z.object({
     body: z.object({
@@ -40,6 +40,13 @@ export const verifyCheckinSchema = z.object({
 type VerifyCheckinSchema = z.TypeOf<typeof verifyCheckinSchema>
 export async function handleVerifyCheckin(req:Request<{}, {}, VerifyCheckinSchema['body']>, res:Response){
     const {checkinId, verify} = req.body
-    const queryResult = await verifyCheckin(checkinId, verify)
+
+    const checkinsRepository = new PrismaCheckinRepository()
+    const verifyCheckin = new VerifyCheckin(checkinsRepository)
+
+    const queryResult = await verifyCheckin.do({
+        checkinId,
+        verify
+    })
     return res.json(queryResult)
 }

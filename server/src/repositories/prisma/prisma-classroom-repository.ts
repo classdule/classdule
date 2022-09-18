@@ -3,7 +3,6 @@ import {areIntervalsOverlapping} from 'date-fns'
 import { prismaClient } from "../../database/prisma";
 
 import { Classroom } from "../../entities/classroom";
-import { deleteClassroom } from "../../services/classroom";
 import { ClassroomRepository } from "../classroom-repository";
 
 export class PrismaClassroomRepository implements ClassroomRepository {

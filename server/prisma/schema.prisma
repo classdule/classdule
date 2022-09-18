@@ -20,7 +20,7 @@ model User {
   id                  String      @id @default(uuid())
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
-  name                String      @db.VarChar(255) @unique
+  name                String      @unique @db.VarChar(255)
   birthDay            DateTime
   currentGraduation   Graduation  @relation(fields: [graduationId], references: [id])
   graduationId        String
@@ -29,7 +29,7 @@ model User {
   classrooms          Classroom[]
   password            String      @db.VarChar(255)
   Academy             Academy[]
-  Checkin             Checkin[]
+  Checkins             Checkin[]
 }
 
 model Academy {
@@ -42,33 +42,32 @@ model Academy {
   Classroom             Classroom[]
 }
 
-model ClassroomSchedule {
-  id          String     @id @default(uuid())
-  weekDay     Int
-  startsAt    DateTime   @db.Time()
-  endsAt      DateTime   @db.Time()
-  Classroom   Classroom @relation(fields: [classroomId], references: [id])
-  classroomId String    @db.VarChar(255)
-  Checkin     Checkin[]
+model Classroom {
+  id         String             @id @default(uuid()) @db.VarChar(255)
+  type       String             @db.VarChar(255)
+  educator   User               @relation(fields: [educatorId], references: [id])
+  educatorId String
+  academy    Academy            @relation(fields: [academyId], references: [id])
+  academyId  String
+  startsAt   DateTime           @db.Time()
+  endsAt     DateTime           @db.Time()
+  checkins    Checkin[]
+  weekdays   ClassroomWeekday[]
 }
 
-model Classroom {
-  id         String              @id @default(uuid()) @db.VarChar(255)
-  type       String              @db.VarChar(255)
-  educator   User                @relation(fields: [educatorId], references: [id])
-  educatorId String
-  academy    Academy             @relation(fields: [academyId], references: [id])
-  academyId  String
-  schedule   ClassroomSchedule[]
+model ClassroomWeekday {
+  id         String      @id @default(uuid()) @db.VarChar(255)
+  classrooms Classroom[]
+  weekday    Int
 }
 
 model Checkin {
-  id                  String            @id @default(uuid()) @db.VarChar(255)
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
-  verified            Boolean           @default(false)
-  User                User              @relation(fields: [userId], references: [id])
-  userId              String            @db.VarChar(255)
-  ClassroomSchedule   ClassroomSchedule @relation(fields: [classroomScheduleId], references: [id])
-  classroomScheduleId String            @db.VarChar(255)
+  id          String    @id @default(uuid()) @db.VarChar(255)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  verified    Boolean   @default(false)
+  User        User      @relation(fields: [userId], references: [id])
+  userId      String    @db.VarChar(255)
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  classroomId String    @db.VarChar(255)
 }

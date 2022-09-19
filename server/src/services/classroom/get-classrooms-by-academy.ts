@@ -1,4 +1,3 @@
-import { AcademyRepositoryBase } from "../../repositories/academy-repository";
 import { ClassroomRepository } from "../../repositories/classroom-repository";
 
 interface Request {

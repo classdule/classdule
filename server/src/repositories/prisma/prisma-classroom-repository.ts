@@ -1,4 +1,5 @@
 import {areIntervalsOverlapping} from 'date-fns'
+import {intersection} from 'lodash'
 
 import { prismaClient } from "../../database/prisma";
 
@@ -69,14 +70,17 @@ export class PrismaClassroomRepository implements ClassroomRepository {
 
     }
     async findOverlappingDateClassroom (start: Date, end: Date, weekdays: Day[], academyId: string) {
-        const allAcademiesClassrooms = await prismaClient.classroom.findMany({
+        const allAcademiesClassrooms = (await prismaClient.classroom.findMany({
             where: {
                 academyId: academyId,
             },
             include: {
                 weekdays: true,
             }
-        })
+        })).filter(classroom => intersection(
+            classroom.weekdays.map(weekday => weekday.weekday),
+            weekdays
+        ).length > 0)
         const overlappingClassroom = allAcademiesClassrooms.find(classroom => {
             return areIntervalsOverlapping(
                 {

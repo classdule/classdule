@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addHours } from "date-fns";
+import { addHours, parseISO } from "date-fns";
 
 import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
@@ -30,16 +30,16 @@ describe('Create classroom tests', ()=> {
         const classroom1 = new Classroom({
             academyId: 'aaaa',
             educatorId: 'aaaa',
-            endsAt: addHours(new Date(), 2),
-            startsAt: new Date(),
+            endsAt: parseISO('1970-01-01 21:00:00'),
+            startsAt: parseISO('1970-01-01 19:00:00'),
             type: 'basic',
             weekdays: [1]
         })
         const classroom2 = new Classroom({
             academyId: 'aaaa',
             educatorId: 'aaaa',
-            endsAt: addHours(new Date(), 2),
-            startsAt: new Date(),
+            endsAt: parseISO('1970-01-01 21:00:00'),
+            startsAt: parseISO('1970-01-01 19:00:00'),
             type: 'basic',
             weekdays: [1]
         })
@@ -50,8 +50,8 @@ describe('Create classroom tests', ()=> {
         const classroom3 = new Classroom({
             academyId: 'bbbb',
             educatorId: 'aaaa',
-            endsAt: addHours(new Date(), 2),
-            startsAt: new Date(),
+            endsAt: parseISO('1970-01-01 21:00:00'),
+            startsAt: parseISO('1970-01-01 19:00:00'),
             type: 'basic',
             weekdays: [1]
         })
@@ -59,8 +59,8 @@ describe('Create classroom tests', ()=> {
         const classroom4 = new Classroom({
             academyId: 'bbbb',
             educatorId: 'aaaa',
-            endsAt: addHours(new Date(), 2),
-            startsAt: new Date(),
+            endsAt: parseISO('1970-01-01 21:00:00'),
+            startsAt: parseISO('1970-01-01 19:00:00'),
             type: 'basic',
             weekdays: [2]
         })
@@ -68,8 +68,8 @@ describe('Create classroom tests', ()=> {
         const classroom5 = new Classroom({
             academyId: 'bbbb',
             educatorId: 'aaaa',
-            endsAt: addHours(new Date(), 4),
-            startsAt: addHours(new Date(), 2),
+            endsAt: parseISO('1970-01-01 23:00:00'),
+            startsAt: parseISO('1970-01-01 21:00:00'),
             type: 'basic',
             weekdays: [2]
         })

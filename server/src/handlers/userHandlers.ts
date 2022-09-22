@@ -51,7 +51,6 @@ export const changeUsernameSchema = z.object({
     body: z.object({
         name: z.string(),
         user: z.object({
-            name: z.string(),
             id: z.string()
         })
     })
@@ -63,24 +62,19 @@ export async function handleChangeUsername(req:Request<{}, {}, ChangeUsernameReq
     const changeUsername = new ChangeUserName(userRepository)
     const signin = new Signin(userRepository)
 
-    if(name === user.name){
-        return res.status(201).json(user)
-    }
     const newUser = await changeUsername.execute(user.id, name)
     if(!newUser){
         return res.status(404).json({
             message:'User not found'
         })
     }
-    const {token} = await signin.execute(newUser.name, newUser.password)
-    res.cookie('access_token', token)
+    
     return res.status(201).json(newUser)
 }
 export const deleteUserSchema = z.object({
     body: z.object({
         user: z.object({
-            id: z.string(),
-            name: z.string()
+            id: z.string()
         })
     })
 })

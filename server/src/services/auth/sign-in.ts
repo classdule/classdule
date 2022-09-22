@@ -2,6 +2,7 @@ import { compare } from 'bcrypt';
 import jwt, {Secret} from 'jsonwebtoken'
 
 import { User } from '../../entities/user';
+import { GenerateTokenProvider } from '../../providers/token-provider/generate-token-provider';
 import {UserRepositoryBase} from '../../repositories/user-repository'
 
 interface Response {
@@ -22,13 +23,14 @@ export class Signin {
         }
         const isPasswordValid = await compare(password, user.password)
         if(!isPasswordValid){
+            console.log(password)
             throw new Error('Invalid password')
         }
-        const token = jwt.sign(
-            {name: user.name, id: user.id}, 
-            process.env.JWT_TOKEN_SECRET as Secret, 
-            {expiresIn: '1h'}
-        )
+        const generateTokenProvider = new GenerateTokenProvider()
+        const token = generateTokenProvider.do({
+            userId: user.id
+        })
+
         return {
             validPassword: isPasswordValid,
             user: user,

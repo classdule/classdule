@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addHours, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 
 import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";

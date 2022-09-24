@@ -1,6 +1,6 @@
 import {describe, it, expect} from 'vitest'
 import {v4 as uuid} from 'uuid'
-import {addHours, subHours, parseISO} from 'date-fns'
+import {parseISO} from 'date-fns'
 import { Classroom } from '../../entities/classroom';
 import { InMemoryClassroomRepository } from '../../repositories/in-memory/in-memory-classroom-repository'
 import { DeleteClassroom } from './delete-classroom';

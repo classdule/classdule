@@ -1,7 +1,7 @@
 import {describe, it, expect} from 'vitest';
 import { v4 as uuid } from 'uuid';
 
-import { addHours, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 import { Classroom } from './classroom';
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import {addHours, subHours, subDays, parseISO} from 'date-fns'
+import { subDays, parseISO } from 'date-fns'
 
 import { Checkin } from "../../entities/checkin";
 import { Classroom } from "../../entities/classroom";
@@ -29,7 +29,8 @@ describe('Create check-in tests', ()=> {
 
         const exampleCheckin = new Checkin({
             classroomId: existingClassroom.id,
-            userId: 'aaaa'
+            userId: 'aaaa',
+            createdAt: parseISO('1970-01-01 20:30')
         })
 
         expect(createCheckin.do({
@@ -44,8 +45,8 @@ describe('Create check-in tests', ()=> {
             academyId: 'aaaa',
             educatorId: 'bbbb',
             type: 'basic',
-            startsAt: parseISO('1970-01-01 20:30'),
-            endsAt: parseISO('1970-01-01 22:00'),
+            startsAt: parseISO('1970-01-02 20:30'),
+            endsAt: parseISO('1970-01-02 22:00'),
             weekdays: [1, 3]
         }))
 
@@ -57,7 +58,7 @@ describe('Create check-in tests', ()=> {
         const exampleCheckin = new Checkin({
             classroomId: existingClassroom.id,
             userId: 'bbbb',
-            createdAt: subDays(new Date(), 1),
+            createdAt: parseISO('1970-01-01 20:30'),
         })
 
         expect(createCheckin.do({

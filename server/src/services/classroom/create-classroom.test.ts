@@ -16,8 +16,8 @@ describe('Create classroom tests', ()=> {
             educatorId: 'aaaa',
             weekdays: [2, 4],
             type: 'basic',
-            endsAt: addHours(new Date(), 2),
-            startsAt: new Date()
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00')
         })
 
         expect(createClassroom.do(classroomToCreate)).resolves
@@ -30,16 +30,16 @@ describe('Create classroom tests', ()=> {
         const classroom1 = new Classroom({
             academyId: 'aaaa',
             educatorId: 'aaaa',
-            endsAt: parseISO('1970-01-01 21:00:00'),
-            startsAt: parseISO('1970-01-01 19:00:00'),
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00'),
             type: 'basic',
             weekdays: [1]
         })
         const classroom2 = new Classroom({
             academyId: 'aaaa',
             educatorId: 'aaaa',
-            endsAt: parseISO('1970-01-01 21:00:00'),
-            startsAt: parseISO('1970-01-01 19:00:00'),
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00'),
             type: 'basic',
             weekdays: [1]
         })
@@ -50,8 +50,8 @@ describe('Create classroom tests', ()=> {
         const classroom3 = new Classroom({
             academyId: 'bbbb',
             educatorId: 'aaaa',
-            endsAt: parseISO('1970-01-01 21:00:00'),
-            startsAt: parseISO('1970-01-01 19:00:00'),
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00'),
             type: 'basic',
             weekdays: [1]
         })
@@ -59,8 +59,8 @@ describe('Create classroom tests', ()=> {
         const classroom4 = new Classroom({
             academyId: 'bbbb',
             educatorId: 'aaaa',
-            endsAt: parseISO('1970-01-01 21:00:00'),
-            startsAt: parseISO('1970-01-01 19:00:00'),
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00'),
             type: 'basic',
             weekdays: [2]
         })
@@ -68,8 +68,8 @@ describe('Create classroom tests', ()=> {
         const classroom5 = new Classroom({
             academyId: 'bbbb',
             educatorId: 'aaaa',
-            endsAt: parseISO('1970-01-01 23:00:00'),
-            startsAt: parseISO('1970-01-01 21:00:00'),
+            endsAt: parseISO('1970-01-01 23:00'),
+            startsAt: parseISO('1970-01-01 21:00'),
             type: 'basic',
             weekdays: [2]
         })

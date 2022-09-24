@@ -1,6 +1,6 @@
 import {describe, it, expect} from 'vitest'
 import {v4 as uuid} from 'uuid'
-import {addHours, subHours} from 'date-fns'
+import {addHours, subHours, parseISO} from 'date-fns'
 import { Classroom } from '../../entities/classroom';
 import { InMemoryClassroomRepository } from '../../repositories/in-memory/in-memory-classroom-repository'
 import { DeleteClassroom } from './delete-classroom';
@@ -15,8 +15,8 @@ describe('Delete classroom tests', ()=> {
             educatorId: uuid(),
             type: 'basic',
             weekdays: [2, 4],
-            startsAt: subHours(new Date(), 1),
-            endsAt: addHours(new Date(), 1)
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
         })
         classroomRepository.classrooms = [createdClassroom]
         expect(classroomRepository.classrooms.length).toBe(1)

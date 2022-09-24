@@ -1,6 +1,6 @@
 import {expect, describe, it} from 'vitest'
 import {v4 as uuid} from 'uuid'
-import {addHours, subHours} from 'date-fns'
+import {parseISO} from 'date-fns'
 import { Classroom } from '../../entities/classroom'
 import { InMemoryClassroomRepository } from '../../repositories/in-memory/in-memory-classroom-repository'
 import { GetClassroomsByAcademy } from './get-classrooms-by-academy'
@@ -13,24 +13,24 @@ describe('Get classrooms by academy tests', ()=> {
         const classroom1 = new Classroom({
             academyId: 'aaaa',
             educatorId:uuid(),
-            startsAt: subHours(new Date(), 1),
-            endsAt: addHours(new Date(), 1),
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
             type: 'basic',
             weekdays: [1, 4]
         })
         const classroom2 = new Classroom({
             academyId: 'aaaa',
             educatorId:uuid(),
-            startsAt: subHours(new Date(), 1),
-            endsAt: addHours(new Date(), 1),
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
             type: 'basic',
             weekdays: [1, 4]
         })
         const classroom3 = new Classroom({
             academyId: 'bbbb',
             educatorId:uuid(),
-            startsAt: subHours(new Date(), 1),
-            endsAt: addHours(new Date(), 1),
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
             type: 'basic',
             weekdays: [1, 4]
         })

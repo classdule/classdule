@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import {addHours, subHours, subDays} from 'date-fns'
+import {addHours, subHours, subDays, parseISO} from 'date-fns'
 
 import { Checkin } from "../../entities/checkin";
 import { Classroom } from "../../entities/classroom";
@@ -17,8 +17,8 @@ describe('Create check-in tests', ()=> {
             academyId: 'aaaa',
             educatorId: 'aaaa',
             type: 'basic',
-            startsAt: subHours(new Date(), 1),
-            endsAt: addHours(new Date(), 1),
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
             weekdays: [1, 3]
         }))
 
@@ -44,8 +44,8 @@ describe('Create check-in tests', ()=> {
             academyId: 'aaaa',
             educatorId: 'bbbb',
             type: 'basic',
-            startsAt: subHours(new Date(), 1),
-            endsAt: addHours(new Date(), 1),
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
             weekdays: [1, 3]
         }))
 

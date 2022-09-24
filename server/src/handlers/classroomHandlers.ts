@@ -1,6 +1,9 @@
 import { parseISO} from 'date-fns';
 import { Request, Response } from 'express';
 import {z} from 'zod'
+
+import 'express-async-errors'
+
 import { Classroom } from '../entities/classroom';
 import { PrismaClassroomRepository } from '../repositories/prisma/prisma-classroom-repository';
 import { CreateClassroom } from '../services/classroom/create-classroom';
@@ -41,6 +44,9 @@ export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomS
     const {type, academyId, educatorId, endsAt, startsAt, weekdays} = req.body
     const classroomRepository = new PrismaClassroomRepository();
     const createClassroom = new CreateClassroom(classroomRepository);
+
+    const [parsedStartsAt, parsedEndsAt] = [parseISO(startsAt), parseISO(endsAt)]
+    console.log(parsedStartsAt, parsedEndsAt)
 
     const queryResult = await createClassroom.do(new Classroom({
         academyId,

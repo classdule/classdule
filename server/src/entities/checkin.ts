@@ -3,6 +3,12 @@ import { Entity } from "./entity";
 type Props = {
     userId: string;
     classroomId: string;
+    createdAt: Date;
+    verified: boolean;
+}
+type ConstructorProps = {
+    userId: string;
+    classroomId: string;
     createdAt?: Date;
     verified?: boolean;
 }
@@ -13,7 +19,7 @@ export class Checkin extends Entity<Props> {
         createdAt= new Date(), 
         verified=false,
         classroomId
-    }:Props, id?:string){
+    }:ConstructorProps, id?:string){
         super({userId, createdAt, verified, classroomId}, id);
     }
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { subDays, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
 
 import { Checkin } from "../../entities/checkin";
 import { Classroom } from "../../entities/classroom";
@@ -65,4 +65,41 @@ describe('Create check-in tests', ()=> {
             checkin: exampleCheckin
         })).rejects.toThrow()
     });
+
+    it('Should not be able to create two check-ins in the same classroom and the same day', async ()=> {
+        const checkinRepository = new InMemoryCheckinRepository();
+        const classroomRepository = new InMemoryClassroomRepository();
+
+        const existingClassroom = await classroomRepository.create(new Classroom({
+            academyId: 'aaaa',
+            educatorId: 'bbbb',
+            type: 'basic',
+            startsAt: parseISO('1970-01-02 20:30'),
+            endsAt: parseISO('1970-01-02 22:00'),
+            weekdays: [1, 3]
+        }))
+
+        const createCheckin = new CreateCheckin(
+            classroomRepository,
+            checkinRepository
+        );
+
+        const exampleCheckin1 = new Checkin({
+            classroomId: existingClassroom.id,
+            userId: 'bbbb',
+            createdAt: parseISO('1970-01-01 20:30'),
+        })
+        const exampleCheckin2 = new Checkin({
+            classroomId: existingClassroom.id,
+            userId: 'bbbb',
+            createdAt: parseISO('1970-01-01 20:30'),
+        })
+        await createCheckin.do({
+            checkin: exampleCheckin1
+        })
+
+        expect(createCheckin.do({
+            checkin: exampleCheckin2
+        })).rejects.toThrow()
+    })
 });

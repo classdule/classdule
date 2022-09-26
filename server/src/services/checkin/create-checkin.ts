@@ -22,6 +22,11 @@ export class CreateCheckin {
         if(!isSameDay(targetClassroom.startsAt, request.checkin.createdAt as Date)){
             throw new Error('Check-ins can just be assined in the same day as the classroom')
         }
+        const sameDayCheckins = await this.checkinRepository.findByDate(request.checkin.createdAt)
+        const conflictingCheckins = sameDayCheckins.filter(checkin => checkin.classroomId === request.checkin.classroomId)
+        if(conflictingCheckins.length > 0){
+            throw new Error('Cannot create two checkins for the same classroom in a same day')
+        }
         const createdCheckin = await this.checkinRepository.create(
             request.checkin
         )

@@ -1,3 +1,5 @@
+import {isSameDay} from 'date-fns'
+
 import { Checkin } from "../../entities/checkin";
 import { CheckinRepository } from "../checkin-repository";
 
@@ -18,5 +20,8 @@ export class InMemoryCheckinRepository implements CheckinRepository {
 
         this.checkins[targetIndex].verified = verify
         return targetCheckin
+    }
+    async findByDate(date: Date){
+        return this.checkins.filter(checkin => isSameDay(checkin.createdAt, date))
     }
 }

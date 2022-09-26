@@ -1,4 +1,4 @@
-import {isSameDay} from 'date-fns'
+import {isSameDay, getDay} from 'date-fns'
 
 import { Checkin } from "../../entities/checkin";
 import { CheckinRepository } from "../../repositories/checkin-repository";
@@ -19,8 +19,11 @@ export class CreateCheckin {
         if(!targetClassroom){
             throw new Error(`Classroom not found with id ${request.checkin.classroomId}`)
         }
-        if(!isSameDay(targetClassroom.startsAt, request.checkin.createdAt as Date)){
-            throw new Error('Check-ins can just be assined in the same day as the classroom')
+        const weekDay = getDay(request.checkin.createdAt)
+        const isClassroomOpen = targetClassroom.weekdays.includes(weekDay)
+
+        if(!isClassroomOpen){
+            throw new Error('Check-ins can just be assigned in the same day as the classroom')
         }
         const sameDayCheckins = await this.checkinRepository.findByDate(request.checkin.createdAt)
         const conflictingCheckins = sameDayCheckins.filter(checkin => checkin.classroomId === request.checkin.classroomId)

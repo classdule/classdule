@@ -19,7 +19,7 @@ describe('Create check-in tests', ()=> {
             type: 'basic',
             startsAt: parseISO('1970-01-01 20:30'),
             endsAt: parseISO('1970-01-01 22:00'),
-            weekdays: [1, 3]
+            weekdays: [1, 4] // Monday and Thursday
         }))
 
         const createCheckin = new CreateCheckin(
@@ -45,9 +45,9 @@ describe('Create check-in tests', ()=> {
             academyId: 'aaaa',
             educatorId: 'bbbb',
             type: 'basic',
-            startsAt: parseISO('1970-01-02 20:30'),
-            endsAt: parseISO('1970-01-02 22:00'),
-            weekdays: [1, 3]
+            startsAt: parseISO('1970-01-01 20:30'),
+            endsAt: parseISO('1970-01-01 22:00'),
+            weekdays: [2, 4] // Tuesday and Thursday
         }))
 
         const createCheckin = new CreateCheckin(
@@ -58,7 +58,7 @@ describe('Create check-in tests', ()=> {
         const exampleCheckin = new Checkin({
             classroomId: existingClassroom.id,
             userId: 'bbbb',
-            createdAt: parseISO('1970-01-01 20:30'),
+            createdAt: parseISO('2022-09-26 20:30'),
         })
 
         expect(createCheckin.do({
@@ -76,7 +76,7 @@ describe('Create check-in tests', ()=> {
             type: 'basic',
             startsAt: parseISO('1970-01-02 20:30'),
             endsAt: parseISO('1970-01-02 22:00'),
-            weekdays: [1, 3]
+            weekdays: [1, 3] // Monday and Wednesday
         }))
 
         const createCheckin = new CreateCheckin(
@@ -87,12 +87,12 @@ describe('Create check-in tests', ()=> {
         const exampleCheckin1 = new Checkin({
             classroomId: existingClassroom.id,
             userId: 'bbbb',
-            createdAt: parseISO('1970-01-01 20:30'),
+            createdAt: parseISO('2022-09-26 20:30'),
         })
         const exampleCheckin2 = new Checkin({
             classroomId: existingClassroom.id,
             userId: 'bbbb',
-            createdAt: parseISO('1970-01-01 20:30'),
+            createdAt: parseISO('2022-09-26 20:30'),
         })
         await createCheckin.do({
             checkin: exampleCheckin1

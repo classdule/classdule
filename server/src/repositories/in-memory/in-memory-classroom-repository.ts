@@ -1,4 +1,4 @@
-import {areIntervalsOverlapping, Day} from 'date-fns'
+import {areIntervalsOverlapping, Day, parseISO} from 'date-fns'
 import {intersection} from 'lodash'
 
 import { Classroom } from "../../entities/classroom";

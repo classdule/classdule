@@ -1,4 +1,4 @@
-import { parseISO} from 'date-fns';
+import { parseISO, parse } from 'date-fns';
 import { Request, Response } from 'express';
 import {z} from 'zod'
 
@@ -46,14 +46,13 @@ export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomS
     const createClassroom = new CreateClassroom(classroomRepository);
 
     const [parsedStartsAt, parsedEndsAt] = [parseISO(startsAt), parseISO(endsAt)]
-    console.log(parsedStartsAt, parsedEndsAt)
 
     const queryResult = await createClassroom.do(new Classroom({
         academyId,
         type,
         educatorId,
-        endsAt: parseISO(endsAt),
-        startsAt: parseISO(startsAt),
+        endsAt: parsedEndsAt,
+        startsAt: parsedStartsAt,
         weekdays: weekdays as Day[]
     }))
 

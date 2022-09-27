@@ -24,4 +24,7 @@ export class InMemoryCheckinRepository implements CheckinRepository {
     async findByDate(date: Date){
         return this.checkins.filter(checkin => isSameDay(checkin.createdAt, date))
     }
+    async findByUserId(userId: string) {
+        return this.checkins.filter(checkin => checkin.userId === userId)
+    }
 }

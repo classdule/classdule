@@ -53,4 +53,35 @@ export class PrismaCheckinRepository implements CheckinRepository {
             verified: verifiedCheckin.verified
         }, verifiedCheckin.id)
     }
+
+    async findByUserId(userId: string){
+        const queryResult = await prismaClient.checkin.findMany({
+            where: {
+                userId: userId
+            }
+        })
+        return queryResult.map(checkin => {
+            return new Checkin({
+                classroomId: checkin.classroomId,
+                userId: checkin.userId,
+                createdAt: checkin.createdAt,
+                verified: checkin.verified
+            })
+        })
+    }
+    async findByDate(date: Date){
+        const queryResult = await prismaClient.checkin.findMany({
+            where: {
+                createdAt: date
+            }
+        })
+        return queryResult.map(checkin => {
+            return new Checkin({
+                classroomId: checkin.classroomId,
+                userId: checkin.userId,
+                createdAt: checkin.createdAt,
+                verified: checkin.verified
+            })
+        })
+    }
 }

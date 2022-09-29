@@ -17,25 +17,4 @@ describe('Classroom tests', ()=> {
         })
         expect(classroom).toBeInstanceOf(Classroom)
     })
-
-    it('Should not be able to instantiate a classroom since dates are invalid', async ()=> {
-        expect(()=> new Classroom({
-            educatorId: uuid(),
-            type: 'basic',
-            academyId: uuid(),
-            endsAt: new Date(),
-            startsAt: new Date(),
-            weekdays: [1, 3]
-        })).toThrow()
-    })
-    it('Should not be able to instantiate a classroom that starts and ends in diferent days', ()=> {
-        expect(()=> new Classroom({
-            educatorId: uuid(),
-            type:'basic',
-            academyId: uuid(),
-            endsAt: parseISO('1970-01-02'),
-            startsAt: parseISO('1970-01-01'),
-            weekdays: [1, 3]
-        })).toThrow()
-    })
 })

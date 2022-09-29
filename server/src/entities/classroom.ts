@@ -1,4 +1,4 @@
-import {Day, isSameDay} from 'date-fns'
+;import {Day, isSameDay, getHours} from 'date-fns'
 
 import { Entity } from "./entity";
 
@@ -13,12 +13,6 @@ interface Props {
 
 export class Classroom extends Entity<Props> {
     constructor(props:Props, id?:string){
-        if(props.startsAt>= props.endsAt){
-            throw new Error('Classroom should not end before start')
-        }
-        if(!isSameDay(props.startsAt, props.endsAt)){
-            throw new Error('Classroom should start and end in the same day')
-        }
         super(props, id);
     }
 

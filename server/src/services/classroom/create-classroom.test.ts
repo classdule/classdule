@@ -22,7 +22,6 @@ describe('Create classroom tests', ()=> {
 
         expect(createClassroom.do(classroomToCreate)).resolves;
         expect(classroomRepository.classrooms.length).toBeGreaterThan(0)
-        console.log(classroomRepository.classrooms);
 
     });
 });

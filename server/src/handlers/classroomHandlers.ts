@@ -36,7 +36,7 @@ export const createClassroomSchema = z.object({
         academyId:z.string(),
         endsAt: z.string(),
         startsAt: z.string(),
-        weekdays: z.array(z.number())
+        weekdays: z.array(z.number().min(0).max(6))
     })
 })
 type CreateClassroomSchema = z.TypeOf<typeof createClassroomSchema>

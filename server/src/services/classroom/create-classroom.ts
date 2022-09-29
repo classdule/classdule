@@ -9,15 +9,6 @@ export class CreateClassroom {
     ){}
 
     async do(request: Request){
-        const overlappingDateClassroom = await this.classroomRepository.findOverlappingDateClassroom(
-            request.startsAt,
-            request.endsAt,
-            request.weekdays,
-            request.academyId
-        )
-        if(!!overlappingDateClassroom){
-            throw new Error('Cannot create a classroom that overlaps another classroom')
-        }
         const createdClassroom = await this.classroomRepository.create(new Classroom({
             educatorId: request.educatorId,
             academyId: request.academyId,

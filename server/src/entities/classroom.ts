@@ -13,6 +13,9 @@ interface Props {
 
 export class Classroom extends Entity<Props> {
     constructor(props:Props, id?:string){
+        if(props.weekdays.some(val => val>6 || val<0)){
+            throw new Error('Invalid weekday')
+        }
         super(props, id);
     }
 

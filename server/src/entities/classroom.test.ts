@@ -15,6 +15,6 @@ describe('Classroom tests', ()=> {
             weekdays: [1],
             academyId: uuid()
         })
-        expect(classroom).toBeInstanceOf(Classroom)
-    })
+        expect(classroom).toBeInstanceOf(Classroom);
+    });
 })

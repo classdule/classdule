@@ -27,7 +27,7 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                     connectOrCreate: classroom.weekdays.map(weekday => {
                         return {
                             where: {
-                                id: classroom.id
+                                weekday: weekday
                             },
                             create: {
                                 weekday: weekday

@@ -58,7 +58,7 @@ model Classroom {
 model ClassroomWeekday {
   id         String      @id @default(uuid()) @db.VarChar(255)
   classrooms Classroom[]
-  weekday    Int
+  weekday    Int @unique
 }
 
 model Checkin {

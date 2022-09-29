@@ -45,7 +45,7 @@ export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomS
     const classroomRepository = new PrismaClassroomRepository();
     const createClassroom = new CreateClassroom(classroomRepository);
 
-    const [parsedStartsAt, parsedEndsAt] = [parseISO(startsAt), parseISO(endsAt)]
+    const [parsedStartsAt, parsedEndsAt] = [startsAt, endsAt].map(str => parseISO(str))
 
     const queryResult = await createClassroom.do(new Classroom({
         academyId,

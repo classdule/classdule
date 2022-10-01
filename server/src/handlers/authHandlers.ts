@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import jwt, { Secret } from "jsonwebtoken";
 
 import { z } from 'zod'
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
@@ -11,21 +10,24 @@ export const signinSchema = z.object({
         name: username,
         password: password
     })
-})
+});
 
 type handleSigninRequest = z.TypeOf<typeof signinSchema>
 export async function handleSignin(req:Request<{}, {}, handleSigninRequest['body']>, res:Response){
-    const {name, password} = req.body
-    const signin = new Signin(new UserRepositoryPrisma())
+    const {name, password} = req.body;
+    const signin = new Signin(new UserRepositoryPrisma());
     try {
-        const { token } = await signin.execute(name, password)
+        const { token } = await signin.execute(name, password);
         
-        res.cookie('access_token', token)
+        res.cookie('access_token', token);
+        return res.status(200).json({
+            error:'Sucessfully authenticated'
+        })
     } catch(err){
-        console.log(err)
-        return res.status(404).json({error: err})
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
     }
-    return res.status(200).json({
-        message:'Sucessfully authenticated'
-    })
 }

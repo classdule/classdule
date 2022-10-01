@@ -25,14 +25,22 @@ export const createGraduationSchema = z.object({
 })
 type handleCreateGraduationRequestBody = z.TypeOf<typeof createGraduationSchema>['body']
 export async function handleCreateGraduation(req:Request<{}, {}, handleCreateGraduationRequestBody>, res:Response){
-    const {name, value} = req.body
-    const graduationRepository = new PrismaGraduationRepository()
-    const createGraduation = new CreateGraduation(graduationRepository)
-    const operationResult = await createGraduation.do(new Graduation({
-        name,
-        value
-    }))
-    return res.status(201).json(operationResult)
+    const {name, value} = req.body;
+    const graduationRepository = new PrismaGraduationRepository();
+    const createGraduation = new CreateGraduation(graduationRepository);
+    try {
+        const operationResult = await createGraduation.do(new Graduation({
+            name,
+            value
+        }));
+        return res.status(201).json(operationResult);
+    }catch(err){
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
+    }
 }
 
 export const deleteGraduationSchema = z.object({
@@ -47,8 +55,16 @@ export async function handleDeleteGraduation(req:Request<{}, {}, handleDeleteGra
     const {id} = req.body
     const graduationRepository = new PrismaGraduationRepository()
     const deleteGraduation = new DeleteGraduation(graduationRepository)
-    const operationResult = await deleteGraduation.do({
-        graduationId: id
-    })
-    return res.status(200).json(operationResult)
+    try {
+        const operationResult = await deleteGraduation.do({
+            graduationId: id
+        })
+        return res.status(200).json(operationResult)
+    }catch(err){
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
+    }
 }

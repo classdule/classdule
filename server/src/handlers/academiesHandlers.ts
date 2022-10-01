@@ -21,15 +21,23 @@ export const createAcademySchema = z.object({
 })
 type createAcademyRequestBody = z.TypeOf<typeof createAcademySchema>['body']
 export async function handleCreateAcademy(req:Request<{}, {}, createAcademyRequestBody>, res:Response){
-    const {location, name, responsibleEducatorId} = req.body
+    const {location, name, responsibleEducatorId} = req.body;
 
-    const repository = new PrismaAcademyRepository()
-    const createAcademy = new CreateAcademy(repository)
+    const repository = new PrismaAcademyRepository();
+    const createAcademy = new CreateAcademy(repository);
 
-    const queryResult = await createAcademy.execute({
-        location: location,
-        name: name,
-        responsibleEducatorId: responsibleEducatorId
-    })
-    res.status(201).json(queryResult)
+    try{
+        const queryResult = await createAcademy.execute({
+            location: location,
+            name: name,
+            responsibleEducatorId: responsibleEducatorId
+        });
+        res.status(201).json(queryResult);
+    }catch(err){
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.json({
+            error: errMessage
+        });
+    }
 }

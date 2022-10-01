@@ -9,13 +9,11 @@ import { DeleteUser } from "../services/user/delete-user";
 import { GetAllUsers } from "../services/user/get-all-users";
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
-    const usersRepository = new UserRepositoryPrisma()
-    const findUsers = new GetAllUsers(usersRepository)
-    const queryResult = await findUsers.do()
-    return res.status(200).json(queryResult)
+    const usersRepository = new UserRepositoryPrisma();
+    const findUsers = new GetAllUsers(usersRepository);
+    const queryResult = await findUsers.do();
+    return res.status(200).json(queryResult);
 }
-
-const a = ()=> new Error('yes');
 
 export const createUserSchema = z.object({
     body: z.object({
@@ -28,12 +26,12 @@ export const createUserSchema = z.object({
             required_error: 'Birthday is required'
         })
     })
-})
+});
 type handleCreateUserRequestBody = z.TypeOf<typeof createUserSchema>['body']
-export async function handleCreateUser(req:Request<{}, {}, handleCreateUserRequestBody>, res:Response, next:NextFunction){
-    const {name, password, graduation, birthday} = req.body
-    const parsedBirthday = new Date(birthday)
-    const createUser = new CreateUser(new UserRepositoryPrisma())
+export async function handleCreateUser(req:Request<{}, {}, handleCreateUserRequestBody>, res:Response){
+    const {name, password, graduation, birthday} = req.body;
+    const parsedBirthday = new Date(birthday);
+    const createUser = new CreateUser(new UserRepositoryPrisma());
 
     try {
         const operationResult = await createUser.execute(new User({
@@ -43,7 +41,7 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
             name: name,
             password: password,
         }))
-        return res.json(operationResult)
+        return res.json(operationResult);
     } catch(err) {
         let errMessage = 'Unknown error';
         if(err instanceof Error) errMessage = err.message;
@@ -69,7 +67,7 @@ export async function handleChangeUsername(req:Request<{}, {}, ChangeUsernameReq
     const newUser = await changeUsername.execute(user.id, name)
     if(!newUser){
         return res.status(404).json({
-            message:'User not found'
+            error:'User not found'
         })
     }
     

@@ -22,13 +22,21 @@ export async function handleCreateCheckin(req:Request<{}, {}, CreateCheckinSchem
     const classroomRepository = new PrismaClassroomRepository();
     const createCheckin = new CreateCheckin(classroomRepository, checkinsRepository);
 
-    const queryResult = await createCheckin.do({
-        checkin: new Checkin({
-            classroomId,
-            userId: user.id
+    try{
+        const queryResult = await createCheckin.do({
+            checkin: new Checkin({
+                classroomId,
+                userId: user.id
+            })
         })
-    })
-    return res.json(queryResult)
+        return res.json(queryResult)
+    } catch(err){
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
+    }
 }
 export const verifyCheckinSchema = z.object({
     body: z.object({
@@ -50,10 +58,18 @@ export async function handleVerifyCheckin(req:Request<{}, {}, VerifyCheckinSchem
         classroomRepository,
         user.id
     );
+    try{
+        const queryResult = await verifyCheckin.do({
+            checkinId,
+            verify
+        })
+        return res.json(queryResult)
+    }catch(err){
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
+    }
 
-    const queryResult = await verifyCheckin.do({
-        checkinId,
-        verify
-    })
-    return res.json(queryResult)
 }

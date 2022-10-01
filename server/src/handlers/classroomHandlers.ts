@@ -1,4 +1,4 @@
-import { parseISO, parse } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { Request, Response } from 'express';
 import {z} from 'zod'
 
@@ -65,16 +65,24 @@ export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomS
 
     const [parsedStartsAt, parsedEndsAt] = [startsAt, endsAt].map(str => parseISO(str))
 
-    const queryResult = await createClassroom.do(new Classroom({
-        academyId,
-        type,
-        educatorId,
-        endsAt: parsedEndsAt,
-        startsAt: parsedStartsAt,
-        weekdays: weekdays as Day[]
-    }))
+    try{
+        const queryResult = await createClassroom.do(new Classroom({
+            academyId,
+            type,
+            educatorId,
+            endsAt: parsedEndsAt,
+            startsAt: parsedStartsAt,
+            weekdays: weekdays as Day[]
+        }))
 
-    return res.json(queryResult);
+        return res.json(queryResult);
+    } catch(err){
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
+    }
 }
 
 export const deleteClassroomSchema = z.object({

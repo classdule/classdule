@@ -56,4 +56,21 @@ describe('Create classroom tests', ()=> {
         });
         expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
     });
+    it('Should not be able to create a classroom since actor is not associated with academy', async () => {
+        const createClassroom = new CreateClassroom(
+            classroomRepository,
+            academyRepository,
+            'abab'
+        );
+
+        const classroomToCreate = new Classroom({
+            academyId: 'aaaa',
+            educatorId: 'aaaa',
+            weekdays: [2, 4],
+            type: 'basic',
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00')
+        });
+        expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
+    });
 });

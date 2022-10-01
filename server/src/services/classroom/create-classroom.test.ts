@@ -9,17 +9,17 @@ import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memor
 import { Academy } from "../../entities/academy";
 
 describe('Create classroom tests', ()=> {
+    const classroomRepository = new InMemoryClassroomRepository();
+    const academyRepository = new InMemoryAcademyRepository();
+    academyRepository.academies = [
+        new Academy({
+            educatorsIds: ['aaaa'],
+            location: 'Any location',
+            name: 'Any name',
+            responsibleEducatorId: 'aaaa'
+        }, 'aaaa')
+    ];
     it('Should be able to create an classroom', async ()=> {
-        const classroomRepository = new InMemoryClassroomRepository();
-        const academyRepository = new InMemoryAcademyRepository();
-        academyRepository.academies = [
-            new Academy({
-                educatorsIds: ['aaaa'],
-                location: 'Any location',
-                name: 'Any name',
-                responsibleEducatorId: 'aaaa'
-            }, 'aaaa')
-        ];
         const createClassroom = new CreateClassroom(
             classroomRepository,
             academyRepository,
@@ -37,5 +37,21 @@ describe('Create classroom tests', ()=> {
         expect(await createClassroom.do(classroomToCreate)).toBeInstanceOf(Classroom);
         expect(classroomRepository.classrooms.length).toBeGreaterThan(0);
 
+    });
+    it('Should not be able to create a classroom since educator is not associated with academy', async () => {
+        const createClassroom = new CreateClassroom(
+            classroomRepository,
+            academyRepository
+        );
+
+        const classroomToCreate = new Classroom({
+            academyId: 'aaaa',
+            educatorId: 'bbbb',
+            weekdays: [2, 4],
+            type: 'basic',
+            endsAt: parseISO('1970-01-01 21:00'),
+            startsAt: parseISO('1970-01-01 19:00')
+        });
+        expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
     });
 });

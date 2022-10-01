@@ -9,7 +9,7 @@ export function verifyToken(req:Request, res:Response, next:NextFunction){
     const tokenSecret = process.env.JWT_TOKEN_SECRET as Secret
     jwt.verify(token as string, tokenSecret, (err, decoded) => {
         if(err){
-            return res.status(403).json({})
+            return res.sendStatus(403)
         }
         req.body.user = decoded
         next()

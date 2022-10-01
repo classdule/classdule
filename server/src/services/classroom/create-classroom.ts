@@ -8,6 +8,7 @@ export class CreateClassroom {
     constructor(
         public classroomRepository: ClassroomRepository,
         public academyRepository: AcademyRepositoryBase,
+        public creatorId: string,
     ){}
 
     async do(request: Request){

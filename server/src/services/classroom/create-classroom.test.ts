@@ -13,7 +13,7 @@ describe('Create classroom tests', ()=> {
     const academyRepository = new InMemoryAcademyRepository();
     academyRepository.academies = [
         new Academy({
-            educatorsIds: ['aaaa'],
+            educatorsIds: ['aaaa', 'cccc'],
             location: 'Any location',
             name: 'Any name',
             responsibleEducatorId: 'aaaa'
@@ -23,6 +23,7 @@ describe('Create classroom tests', ()=> {
         const createClassroom = new CreateClassroom(
             classroomRepository,
             academyRepository,
+            'aaaa'
         );
         
         const classroomToCreate = new Classroom({
@@ -41,7 +42,8 @@ describe('Create classroom tests', ()=> {
     it('Should not be able to create a classroom since educator is not associated with academy', async () => {
         const createClassroom = new CreateClassroom(
             classroomRepository,
-            academyRepository
+            academyRepository,
+            'aaaa'
         );
 
         const classroomToCreate = new Classroom({

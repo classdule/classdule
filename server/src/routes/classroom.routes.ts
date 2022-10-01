@@ -20,7 +20,10 @@ classroomRoutes.get(
 )
 classroomRoutes.post(
     '/classroom/create',
-    validateInput(createClassroomSchema),
+    [
+        verifyToken,
+        validateInput(createClassroomSchema),
+    ],
     handleCreateClassroom
 )
 classroomRoutes.delete(

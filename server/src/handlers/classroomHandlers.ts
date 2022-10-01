@@ -9,6 +9,7 @@ import { PrismaClassroomRepository } from '../repositories/prisma/prisma-classro
 import { CreateClassroom } from '../services/classroom/create-classroom';
 import { DeleteClassroom } from '../services/classroom/delete-classroom';
 import { GetClassroomsByAcademy } from '../services/classroom/get-classrooms-by-academy';
+import { PrismaAcademyRepository } from '../repositories/prisma/prisma-academy-repository';
 
 export const getClassroomsByAcademySchema = z.object({
     query: z.object({
@@ -36,14 +37,31 @@ export const createClassroomSchema = z.object({
         academyId:z.string(),
         endsAt: z.string(),
         startsAt: z.string(),
-        weekdays: z.array(z.number().min(0).max(6))
+        weekdays: z.array(z.number().min(0).max(6)),
+        user: z.object({
+            id: z.string()
+        })
     })
 })
 type CreateClassroomSchema = z.TypeOf<typeof createClassroomSchema>
 export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomSchema['body']>, res:Response){
-    const {type, academyId, educatorId, endsAt, startsAt, weekdays} = req.body
+    const {
+        type, 
+        academyId, 
+        educatorId, 
+        endsAt, 
+        startsAt, 
+        weekdays,
+        user
+    } = req.body
+
     const classroomRepository = new PrismaClassroomRepository();
-    const createClassroom = new CreateClassroom(classroomRepository);
+    const academyRepository = new PrismaAcademyRepository();
+    const createClassroom = new CreateClassroom(
+        classroomRepository,
+        academyRepository,
+        user.id
+    );
 
     const [parsedStartsAt, parsedEndsAt] = [startsAt, endsAt].map(str => parseISO(str))
 

@@ -3,7 +3,6 @@ import { z } from "zod";
 import { User } from "../entities/user";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
-import { Signin } from "../services/auth/sign-in";
 import { ChangeUserName } from "../services/user/change-username";
 import { CreateUser } from "../services/user/create-user";
 import { DeleteUser } from "../services/user/delete-user";
@@ -15,6 +14,8 @@ export async function handleGetUsers(req:Request, res:Response, next:NextFunctio
     const queryResult = await findUsers.do()
     return res.status(200).json(queryResult)
 }
+
+const a = ()=> new Error('yes');
 
 export const createUserSchema = z.object({
     body: z.object({
@@ -44,7 +45,11 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
         }))
         return res.json(operationResult)
     } catch(err) {
-        return res.json({error: err})
+        let errMessage = 'Unknown error';
+        if(err instanceof Error) errMessage = err.message;
+        return res.status(400).json({
+            error: errMessage
+        });
     }
 }
 export const changeUsernameSchema = z.object({
@@ -60,7 +65,6 @@ export async function handleChangeUsername(req:Request<{}, {}, ChangeUsernameReq
     const {name, user} = req.body;
     const userRepository = new UserRepositoryPrisma()
     const changeUsername = new ChangeUserName(userRepository)
-    const signin = new Signin(userRepository)
 
     const newUser = await changeUsername.execute(user.id, name)
     if(!newUser){

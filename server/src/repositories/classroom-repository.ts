@@ -7,5 +7,5 @@ export interface ClassroomRepository {
     delete: (classroomId: string) => Promise<Classroom | null>;
     findOverlappingDateClassroom: (start: Date, end: Date, weekdays: Day[], academyId: string) => Promise<Classroom | null>;
     findById: (classroomId: string) => Promise<Classroom | null>;
-    findByAcademy: (academyId: string) => Promise<Classroom[]>
+    findByAcademy: (academyId: string) => Promise<Classroom[]>;
 }

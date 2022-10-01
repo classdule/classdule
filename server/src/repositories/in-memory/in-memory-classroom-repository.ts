@@ -8,7 +8,6 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
     classrooms: Classroom[] = [];
 
     async create(classroom: Classroom) {
-
         // Ensure that all classrooms has the same date, and only the time is different.
         classroom.startsAt.setFullYear(1970, 0, 1);
         classroom.endsAt.setFullYear(1970, 0, 1);

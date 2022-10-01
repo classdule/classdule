@@ -135,5 +135,18 @@ export class PrismaAcademyRepository implements AcademyRepositoryBase {
             responsibleEducatorId: academy.responsibleEducator.id
         }, academy.id))
     }
+    async findEducatorsIds(academyId: string){
+        const queryResult = await prismaClient.academy.findUnique({
+            where: {
+                id: academyId
+            },
+            include: {
+                educators: true
+            }
+        });
+        return queryResult
+            ? queryResult.educators.map(educator => educator.id)
+            : []
+    }
 
 }

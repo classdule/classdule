@@ -10,4 +10,5 @@ export interface AcademyRepositoryBase {
     findAcademyByName: (academyName: string) => Promise<Academy | null>;
     queryAcademiesByName: (subName: string) => Promise<Academy[]>;
     findAll: () => Promise<Academy[]>;
+    findEducatorsIds: (academyId: string) => Promise<string[]>;
 }

@@ -33,4 +33,11 @@ export class InMemoryAcademyRepository implements AcademyRepositoryBase {
     async findAll () {
         return this.academies
     }
+    async findEducatorsIds(academyId: string){
+        const targetAcademy = this.academies.find(academy => academyId === academy.id);
+        if(!targetAcademy){
+            return [];
+        }
+        return targetAcademy.educatorsIds;
+    }
 }

@@ -1,4 +1,4 @@
-;import {Day, isSameDay, getHours} from 'date-fns'
+import {Day, isSameDay, getHours} from 'date-fns';
 
 import { Entity } from "./entity";
 

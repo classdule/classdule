@@ -42,7 +42,10 @@ classroomRoutes.post(
 )
 classroomRoutes.post(
     '/classroom/checkin/status',
-    [validateInput(verifyCheckinSchema)],
+    [
+        verifyToken,
+        validateInput(verifyCheckinSchema)
+    ],
     handleVerifyCheckin
 )
 

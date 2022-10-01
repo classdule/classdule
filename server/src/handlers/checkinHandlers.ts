@@ -10,7 +10,6 @@ export const createCheckinSchema = z.object({
     body: z.object({
         classroomId: z.string(),
         user: z.object({
-            name: z.string(),
             id: z.string()
         })
     })
@@ -34,15 +33,23 @@ export async function handleCreateCheckin(req:Request<{}, {}, CreateCheckinSchem
 export const verifyCheckinSchema = z.object({
     body: z.object({
         checkinId: z.string(),
-        verify: z.boolean()
+        verify: z.boolean(),
+        user: z.object({
+            id: z.string()
+        })
     })
-})
+});
 type VerifyCheckinSchema = z.TypeOf<typeof verifyCheckinSchema>
 export async function handleVerifyCheckin(req:Request<{}, {}, VerifyCheckinSchema['body']>, res:Response){
-    const {checkinId, verify} = req.body
+    const {checkinId, verify, user} = req.body
 
-    const checkinsRepository = new PrismaCheckinRepository()
-    const verifyCheckin = new VerifyCheckin(checkinsRepository)
+    const checkinsRepository = new PrismaCheckinRepository();
+    const classroomRepository = new PrismaClassroomRepository();
+    const verifyCheckin = new VerifyCheckin(
+        checkinsRepository,
+        classroomRepository,
+        user.id
+    );
 
     const queryResult = await verifyCheckin.do({
         checkinId,

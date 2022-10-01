@@ -1,5 +1,5 @@
 import { Classroom } from "../../entities/classroom";
-import { AcademyRepositoryBase } from "../../repositories/academy-repository";
+import { AcademyRepository } from "../../repositories/academy-repository";
 import { ClassroomRepository } from "../../repositories/classroom-repository";
 
 type Request = Classroom;
@@ -7,7 +7,7 @@ type Request = Classroom;
 export class CreateClassroom {
     constructor(
         public classroomRepository: ClassroomRepository,
-        public academyRepository: AcademyRepositoryBase,
+        public academyRepository: AcademyRepository,
         public creatorId: string,
     ){}
 

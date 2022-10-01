@@ -6,4 +6,5 @@ export interface CheckinRepository {
     verify: (checkinId: string, verify: boolean) => Promise<Checkin | null>;
     findByDate: (date: Date) => Promise<Checkin[]>;
     findByUserId: (userId: string) => Promise<Checkin[]>;
+    findById: (checkinId: string) => Promise<Checkin | null>;
 }

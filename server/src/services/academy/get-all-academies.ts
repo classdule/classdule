@@ -1,8 +1,8 @@
-import { AcademyRepositoryBase } from "../../repositories/academy-repository";
+import { AcademyRepository } from "../../repositories/academy-repository";
 
 export class GetAllAcademies {
     constructor(
-        public academiesRepository: AcademyRepositoryBase
+        public academiesRepository: AcademyRepository
     ){}
 
     async do(){

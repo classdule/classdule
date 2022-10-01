@@ -27,4 +27,9 @@ export class InMemoryCheckinRepository implements CheckinRepository {
     async findByUserId(userId: string) {
         return this.checkins.filter(checkin => checkin.userId === userId)
     }
+
+    async findById(checkinId: string){
+        const foundCheckin = this.checkins.find(checkin => checkin.id === checkinId) ?? null;
+        return foundCheckin;
+    }
 }

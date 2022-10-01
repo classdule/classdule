@@ -4,7 +4,7 @@ export interface OperationError {
     message: string;
     error: string;
 }
-export interface AcademyRepositoryBase {
+export interface AcademyRepository {
     create: (academy: Academy) => Promise<Academy | OperationError | null>;
     delete: (academyId: string) => Promise<Academy | null>;
     findAcademyByName: (academyName: string) => Promise<Academy | null>;

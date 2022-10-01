@@ -1,9 +1,9 @@
 import {v4 as uuid} from 'uuid'
 
 import { Academy } from "../../entities/academy";
-import { AcademyRepositoryBase } from "../academy-repository";
+import { AcademyRepository } from "../academy-repository";
 
-export class InMemoryAcademyRepository implements AcademyRepositoryBase {
+export class InMemoryAcademyRepository implements AcademyRepository {
     academies: Academy[] = [];
     async create (academy: Academy) {
         const createAcademy = new Academy({

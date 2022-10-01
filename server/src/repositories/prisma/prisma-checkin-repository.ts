@@ -84,4 +84,20 @@ export class PrismaCheckinRepository implements CheckinRepository {
             })
         })
     }
+    async findById(checkinId: string){
+        const foundCheckin = await prismaClient.checkin.findUnique({
+            where: {
+                id: checkinId
+            }
+        })
+        if(!foundCheckin){
+            return null
+        }
+        return new Checkin({
+            classroomId: foundCheckin.classroomId,
+            userId: foundCheckin.userId,
+            createdAt: foundCheckin.createdAt,
+            verified: foundCheckin.verified
+        });
+    }
 }

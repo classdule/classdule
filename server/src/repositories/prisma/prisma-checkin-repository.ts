@@ -1,3 +1,4 @@
+import { isSameDay } from "date-fns";
 import { prismaClient } from "../../database/prisma";
 import { Checkin } from "../../entities/checkin";
 
@@ -70,11 +71,9 @@ export class PrismaCheckinRepository implements CheckinRepository {
         })
     }
     async findByDate(date: Date){
-        const queryResult = await prismaClient.checkin.findMany({
-            where: {
-                createdAt: date
-            }
-        })
+        const queryResult = (await prismaClient.checkin.findMany())
+            .filter(checkin => isSameDay(checkin.createdAt, date));
+
         return queryResult.map(checkin => {
             return new Checkin({
                 classroomId: checkin.classroomId,

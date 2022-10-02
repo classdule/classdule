@@ -94,9 +94,18 @@ describe('Create check-in tests', ()=> {
             userId: 'bbbb',
             createdAt: parseISO('2022-09-26 20:30'),
         })
+        const exampleCheckin3 = new Checkin({
+            classroomId: existingClassroom.id,
+            userId: 'aaaa',
+            createdAt: parseISO('2022-09-26 20:30')
+        })
         await createCheckin.do({
             checkin: exampleCheckin1
         })
+
+        expect(createCheckin.do({
+            checkin: exampleCheckin3
+        })).resolves;
 
         expect(createCheckin.do({
             checkin: exampleCheckin2

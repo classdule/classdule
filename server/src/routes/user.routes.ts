@@ -6,7 +6,9 @@ import {
     handleGetUsers,
     createUserSchema,
     changeUsernameSchema,
-    deleteUserSchema
+    deleteUserSchema,
+    getUserInfoSchema,
+    handleGetUserInfo
 } from "../handlers/userHandlers";
 import { validateInput } from "../middlewares/validateInput";
 import { verifyToken } from "../middlewares/verifyToken";
@@ -29,5 +31,10 @@ userRoutes.delete(
     [verifyToken, validateInput(deleteUserSchema)],
     handleDeleteUser
 )
+userRoutes.get(
+    '/user/:id',
+    [validateInput(getUserInfoSchema)],
+    handleGetUserInfo
+);
 
 export {userRoutes}

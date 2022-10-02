@@ -5,8 +5,13 @@ interface Request {
   userId: string;
 }
 interface Response {
-  userName: string;
-  userId: string;
+  user: {
+    name: string;
+    id: string;
+    currentGrade: number;
+    currentGraduation: string;
+    birthday: Date;
+  }
   checkinsCount: number;
 }
 
@@ -17,11 +22,17 @@ export class GetUserInfo {
   ){}
   async do({userId}:Request): Promise<Response | null>{
     const foundUser = await this.userRepository.findById(userId);
+    const foundCheckins = await this.checkinsRepository.findByUserId(userId);
     if(foundUser){
       return {
-        checkinsCount: 0,
-        userId: 'aaa',
-        userName: 'yes',
+        checkinsCount: foundCheckins.length,
+        user: {
+          name: foundUser.name,
+          birthday: foundUser.birthDay,
+          currentGrade: foundUser.currentGrade,
+          currentGraduation: foundUser.currentGraduation,
+          id: foundUser.id
+        }
       };
     }
     return null;

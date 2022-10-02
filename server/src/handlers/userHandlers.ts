@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 import { User } from "../entities/user";
+import { PrismaCheckinRepository } from "../repositories/prisma/prisma-checkin-repository";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
 import { ChangeUserName } from "../services/user/change-username";
 import { CreateUser } from "../services/user/create-user";
 import { DeleteUser } from "../services/user/delete-user";
 import { GetAllUsers } from "../services/user/get-all-users";
+import { GetUserInfo } from "../services/user/get-user-info";
 
 export async function handleGetUsers(req:Request, res:Response, next:NextFunction){
     const usersRepository = new UserRepositoryPrisma();
@@ -86,4 +88,25 @@ export async function handleDeleteUser(req:Request<{}, {}, DeleteUserRequest['bo
     const deleteUser = new DeleteUser(new UserRepositoryPrisma())
     const deletedUser = await deleteUser.execute(user.id)
     return res.json(deletedUser)
+}
+
+export const getUserInfoSchema = z.object({
+    params: z.object({
+        id: z.string()
+    })
+});
+
+type GetUserInfoSchema = z.TypeOf<typeof getUserInfoSchema>;
+export async function handleGetUserInfo(req:Request<GetUserInfoSchema['params']>, res:Response){
+    const {id} = req.params;
+    const userRepository = new UserRepositoryPrisma();
+    const checkinsRepository = new PrismaCheckinRepository();
+    const getUserInfo = new GetUserInfo(
+        userRepository,
+        checkinsRepository
+    );
+    const userInfo = await getUserInfo.do({
+        userId: id
+    });
+    return res.json(userInfo);
 }

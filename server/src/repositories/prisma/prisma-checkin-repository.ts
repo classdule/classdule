@@ -70,8 +70,12 @@ export class PrismaCheckinRepository implements CheckinRepository {
             })
         })
     }
-    async findByDate(date: Date){
-        const queryResult = (await prismaClient.checkin.findMany())
+    async findByDate(date: Date, userId: string){
+        const queryResult = (await prismaClient.checkin.findMany({
+            where: {
+                userId: userId
+            }
+        }))
             .filter(checkin => isSameDay(checkin.createdAt, date));
 
         return queryResult.map(checkin => {

@@ -6,4 +6,5 @@ export interface UserRepositoryBase {
     changeUserName: (userId: string, username: string) => Promise<User |null>;
     findUserByName: (username: string) => Promise<User | null>;
     findAll: ()=> Promise<User[]>;
+    findById: (userId: string) => Promise<User | null>;
 }

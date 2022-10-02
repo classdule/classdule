@@ -107,4 +107,25 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         })
     }
 
+    async findById(userId:string){
+        const foundUser = (await prismaClient.user.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                currentGraduation: true
+            }
+        })) ?? null;
+        if(!foundUser){
+            return null;
+        }
+        return new User({
+            birthDay: foundUser.birthDay,
+            currentGrade: foundUser.currentGrade,
+            currentGraduation: foundUser.currentGraduation.name,
+            name: foundUser.name,
+            password: foundUser.password
+        }, foundUser.id);
+    }
+
 }

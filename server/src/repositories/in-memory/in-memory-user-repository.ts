@@ -50,5 +50,8 @@ export class InMemoryUserRepository implements UserRepositoryBase {
     async findAll(){
         return this.users
     }
+    async findById(userId: string){
+        return this.users.find(user => user.id === userId) ?? null;
+    }
 
 }

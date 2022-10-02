@@ -8,29 +8,35 @@ import {
     changeUsernameSchema,
     deleteUserSchema,
     getUserInfoSchema,
-    handleGetUserInfo
+    handleGetUserInfo,
+    handleGetAccountInfo
 } from "../handlers/userHandlers";
 import { validateInput } from "../middlewares/validateInput";
 import { verifyToken } from "../middlewares/verifyToken";
 
 const userRoutes = Router()
 
-userRoutes.get('/users', handleGetUsers)
+userRoutes.get('/users', handleGetUsers);
+userRoutes.get(
+    '/user',
+    [verifyToken],
+    handleGetAccountInfo
+);
 userRoutes.post(
     '/user/create',
     [validateInput(createUserSchema)],
     handleCreateUser
-)
+);
 userRoutes.post(
     '/user/changeUserName',
     [verifyToken, validateInput(changeUsernameSchema)],
     handleChangeUsername
-)
+);
 userRoutes.delete(
     '/user/delete',
     [verifyToken, validateInput(deleteUserSchema)],
     handleDeleteUser
-)
+);
 userRoutes.get(
     '/user/:id',
     [validateInput(getUserInfoSchema)],

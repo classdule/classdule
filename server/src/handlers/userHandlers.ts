@@ -110,3 +110,25 @@ export async function handleGetUserInfo(req:Request<GetUserInfoSchema['params']>
     });
     return res.json(userInfo);
 }
+export const getAccountInfoSchema = z.object({
+    body: z.object({
+        user: z.object({
+            id: z.string()
+        })
+    })
+});
+
+type GetAccountInfoSchema = z.TypeOf<typeof getAccountInfoSchema>;
+export async function handleGetAccountInfo(req:Request<{}, {}, GetAccountInfoSchema['body']>, res:Response){
+    const {user} = req.body;
+    const userRepository = new UserRepositoryPrisma();
+    const checkinsRepository = new PrismaCheckinRepository();
+    const getUserInfo = new GetUserInfo(
+        userRepository,
+        checkinsRepository
+    );
+    const userInfo = await getUserInfo.do({
+        userId: user.id
+    });
+    return res.json(userInfo);
+}

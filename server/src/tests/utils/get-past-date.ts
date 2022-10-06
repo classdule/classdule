@@ -1,5 +1,5 @@
-import {subYears} from 'date-fns'
+import {subYears} from 'date-fns';
 
 export function getPastDate(){
-    return subYears(new Date(), 8)
+    return subYears(new Date(), 8);
 }

@@ -28,7 +28,8 @@ export const createUserSchema = z.object({
             required_error: 'Birthday is required'
         }),
         graduationDate: z.string(),
-        email: z.string().email()
+        email: z.string().email(),
+        academyId: z.string()
     })
 });
 type handleCreateUserRequestBody = z.TypeOf<typeof createUserSchema>['body']
@@ -39,7 +40,8 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
         graduation, 
         birthday,
         graduationDate,
-        email
+        email,
+        academyId
     } = req.body;
     const parsedBirthday = new Date(birthday);
     const parsedGraduationDate = new Date(graduationDate);
@@ -53,7 +55,8 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
             name: name,
             password: password,
             email: email,
-            graduationDate: parsedGraduationDate
+            graduationDate: parsedGraduationDate,
+            academyId: academyId
         }))
         return res.json(operationResult);
     } catch(err) {

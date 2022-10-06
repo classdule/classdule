@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 
 import { DeleteUser } from "./delete-user";
 import { InMemoryUserRepository } from "../../repositories/in-memory/in-memory-user-repository";
-import { User } from "../../entities/user";
 import { getRandomUser } from "../../tests/utils/get-random-user";
 
 describe('Delete user test', () => {

@@ -30,6 +30,8 @@ model User {
   password            String      @db.VarChar(255)
   Academy             Academy[]
   Checkins             Checkin[]
+  graduationDate DateTime
+  email String
 }
 
 model Academy {

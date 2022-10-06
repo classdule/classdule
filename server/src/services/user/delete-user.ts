@@ -4,11 +4,11 @@ export class DeleteUser {
     repository: UserRepositoryBase;
 
     constructor(repository: UserRepositoryBase) {
-        this.repository = repository
+        this.repository = repository;
     }
 
     async execute(userId: string){
-        const deletedUser = await this.repository.delete(userId)
-        return deletedUser
+        const deletedUser = await this.repository.delete(userId);
+        return deletedUser;
     }
 }

@@ -1,4 +1,4 @@
-import { parseISO } from "date-fns";
+import { parseISO, subDays } from "date-fns";
 import { describe, it, expect } from "vitest";
 import { User } from "../../entities/user";
 import { InMemoryCheckinRepository } from "../../repositories/in-memory/in-memory-checkin-repository";
@@ -17,7 +17,9 @@ describe('Get user info tests', ()=> {
     currentGrade:0,
     currentGraduation: 'branca',
     name: 'John Doe',
-    password: 'password'
+    password: 'password',
+    email: 'email@email.com',
+    graduationDate: subDays(new Date(), 20)
   });
   userRepository.users = [
     existingUser

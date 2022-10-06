@@ -20,7 +20,9 @@ export class CreateUser {
             birthDay: user.birthDay,
             currentGrade: user.currentGrade,
             currentGraduation: user.currentGraduation,
-            name: user.name
+            name: user.name,
+            email: user.email,
+            graduationDate: user.graduationDate
         })
 
         const createdUser = await this.repository.create(createUser)

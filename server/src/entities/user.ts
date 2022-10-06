@@ -8,34 +8,42 @@ interface Props {
     currentGraduation: string;
     currentGrade: number;
     password:string;
+    graduationDate: Date;
+    email: string;
 }
 
 export class User extends Entity<Props> {
     constructor(props:Props, id?: string){
-        const age = Math.abs(differenceInYears(new Date(), props.birthDay))
+        const age = Math.abs(differenceInYears(new Date(), props.birthDay));
         if(age < 4){
-            throw new Error('Cannot create a user that is younger than 4 years')
+            throw new Error('Cannot create a user that is younger than 4 years');
         }
-        super(props, id)
+        super(props, id);
     }
 
     get id(){
-        return this._id
+        return this._id;
     }
 
     get name(){
-        return this.props.name
+        return this.props.name;
     }
     get birthDay(){
-        return this.props.birthDay
+        return this.props.birthDay;
     }
     get currentGraduation(){
-        return this.props.currentGraduation
+        return this.props.currentGraduation;
     }
     get currentGrade(){
-        return this.props.currentGrade
+        return this.props.currentGrade;
     }
     get password(){
-        return this.props.password
+        return this.props.password;
+    }
+    get graduationDate(){
+        return this.props.graduationDate;
+    }
+    get email(){
+        return this.props.email;
     }
 }

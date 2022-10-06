@@ -14,7 +14,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                         name: user.currentGraduation
                     }
                 },
-                password:user.password
+                password:user.password,
+                email: user.email,
+                graduationDate: user.graduationDate
             },
             include: {
                 currentGraduation: true
@@ -25,7 +27,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             currentGrade: createdUser.currentGrade,
             currentGraduation: createdUser.currentGraduation.name,
             name: createdUser.name,
-            password: createdUser.password
+            password: createdUser.password,
+            email: createdUser.email,
+            graduationDate: createdUser.graduationDate
         }, createdUser.id)
     }
     async delete(userId: string){
@@ -42,7 +46,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             currentGraduation: deletedUser.currentGraduation.name,
             currentGrade: deletedUser.currentGrade,
             name: deletedUser.name,
-            password: deletedUser.password
+            password: deletedUser.password,
+            email: deletedUser.email,
+            graduationDate: deletedUser.graduationDate
         }, deletedUser.id)
     }
     async findUserByName(username: string){
@@ -65,6 +71,8 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 currentGraduation: user.currentGraduation.name,
                 name: user.name,
                 password: user.password,
+                email: user.email,
+                graduationDate: user.graduationDate
             }, user.id)
         }
         return null
@@ -86,7 +94,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             currentGrade: updatedUser.currentGrade,
             currentGraduation: updatedUser.currentGraduation.name,
             name: updatedUser.name,
-            password: updatedUser.password
+            password: updatedUser.password,
+            email: updatedUser.email,
+            graduationDate: updatedUser.graduationDate
         }, updatedUser.id)
     }
 
@@ -102,7 +112,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 currentGrade: user.currentGrade,
                 currentGraduation: user.currentGraduation.name,
                 name: user.name,
-                password: user.password
+                password: user.password,
+                email: user.email,
+                graduationDate: user.graduationDate
             }, user.id)
         })
     }
@@ -124,7 +136,9 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             currentGrade: foundUser.currentGrade,
             currentGraduation: foundUser.currentGraduation.name,
             name: foundUser.name,
-            password: foundUser.password
+            password: foundUser.password,
+            email: foundUser.email,
+            graduationDate: foundUser.graduationDate
         }, foundUser.id);
     }
 

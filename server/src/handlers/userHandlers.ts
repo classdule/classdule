@@ -26,13 +26,23 @@ export const createUserSchema = z.object({
         }).max(255, 'There is not belt with such an big name'),
         birthday: z.string({
             required_error: 'Birthday is required'
-        })
+        }),
+        graduationDate: z.string(),
+        email: z.string().email()
     })
 });
 type handleCreateUserRequestBody = z.TypeOf<typeof createUserSchema>['body']
 export async function handleCreateUser(req:Request<{}, {}, handleCreateUserRequestBody>, res:Response){
-    const {name, password, graduation, birthday} = req.body;
+    const {
+        name, 
+        password, 
+        graduation, 
+        birthday,
+        graduationDate,
+        email
+    } = req.body;
     const parsedBirthday = new Date(birthday);
+    const parsedGraduationDate = new Date(graduationDate);
     const createUser = new CreateUser(new UserRepositoryPrisma());
 
     try {
@@ -42,6 +52,8 @@ export async function handleCreateUser(req:Request<{}, {}, handleCreateUserReque
             currentGraduation: graduation,
             name: name,
             password: password,
+            email: email,
+            graduationDate: parsedGraduationDate
         }))
         return res.json(operationResult);
     } catch(err) {

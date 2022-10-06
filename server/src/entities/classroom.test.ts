@@ -13,7 +13,8 @@ describe('Classroom tests', ()=> {
             startsAt: parseISO('1970-01-01 10:00'),
             endsAt: parseISO('1970-01-01 12:00'),
             weekdays: [1],
-            academyId: uuid()
+            academyId: uuid(),
+            content:[]
         })
         expect(classroom).toBeInstanceOf(Classroom);
     });

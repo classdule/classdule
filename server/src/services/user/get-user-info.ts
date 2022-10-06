@@ -11,6 +11,7 @@ interface Response {
     currentGrade: number;
     currentGraduation: string;
     birthday: Date;
+    email: string;
   }
   checkinsCount: number;
 }
@@ -31,7 +32,8 @@ export class GetUserInfo {
           birthday: foundUser.birthDay,
           currentGrade: foundUser.currentGrade,
           currentGraduation: foundUser.currentGraduation,
-          id: foundUser.id
+          id: foundUser.id,
+          email: foundUser.email
         }
       };
     }

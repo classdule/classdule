@@ -6,7 +6,7 @@ export class GetAllUsers {
     ){}
 
     async do(){
-        const queryResult = await this.usersRepository.findAll()
-        return queryResult
+        const queryResult = await this.usersRepository.findAll();
+        return queryResult;
     }
 }

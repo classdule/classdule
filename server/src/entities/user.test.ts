@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest"
 
-import {subDays} from 'date-fns';
+import {subDays, addYears} from 'date-fns';
 
 import { getPastDate } from "../tests/utils/get-past-date"
 
@@ -30,6 +30,16 @@ describe('User tests', ()=> {
             password: 'areallybadpassword',
             graduationDate: subDays(new Date(), 20),
             email: 'email@email.com'
-        })).toThrow()
+        })).toThrow();
+        expect(()=> new User({
+            birthDay: addYears(new Date(), 8),
+            currentGrade: 0,
+            currentGraduation: 'branca',
+            name: 'Joe Doe Junior',
+            password: 'areallybadpassword',
+            graduationDate: subDays(new Date(), 20),
+            email: 'email@email.com'
+        })).toThrow();
+
     })
 })

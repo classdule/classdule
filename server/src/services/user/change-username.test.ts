@@ -4,10 +4,10 @@ import { InMemoryUserRepository } from '../../repositories/in-memory/in-memory-u
 import { getRandomUser } from '../../tests/utils/get-random-user';
 import {ChangeUserName} from './change-username';
 
-describe('Create user tests', ()=> {
+describe('Change username tests', ()=> {
     const repository = new InMemoryUserRepository();
     const changeUsername = new ChangeUserName(repository);
-    it('Should be able to create a user', async ()=> {
+    it('Should be able to change username', async ()=> {
         const user = getRandomUser();
         const createdUser = await repository.create(user);
 

@@ -6,26 +6,21 @@ export class CreateUser {
     repository: UserRepositoryBase;
 
     constructor(repository: UserRepositoryBase){
-        this.repository = repository
+        this.repository = repository;
     }
 
     async execute(user:User){
-        const alreadyTakenUsername = (await this.repository.findUserByName(user.name)) !== null
-        if(alreadyTakenUsername){
-            throw new Error('Username already in use');
+        const alreadyTakenEmail = (await this.repository.findByEmail(user.email)) !== null;
+        if(alreadyTakenEmail){
+            throw new Error('User email already in use');
         }
-        const encryptedPassword = await hash(user.password, 10)
+        const encryptedPassword = await hash(user.password, 10);
         const createUser = new User({
-            password: encryptedPassword,
-            birthDay: user.birthDay,
-            currentGrade: user.currentGrade,
-            currentGraduation: user.currentGraduation,
-            name: user.name,
-            email: user.email,
-            graduationDate: user.graduationDate
-        })
+            ...user.spreadProps,
+            password: encryptedPassword
+        });
 
-        const createdUser = await this.repository.create(createUser)
-        return createdUser
+        const createdUser = await this.repository.create(createUser);
+        return createdUser;
     }
 }

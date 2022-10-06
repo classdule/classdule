@@ -10,6 +10,7 @@ interface Props {
     password:string;
     graduationDate: Date;
     email: string;
+    academyId: string;
 }
 
 export class User extends Entity<Props> {
@@ -31,6 +32,9 @@ export class User extends Entity<Props> {
     get name(){
         return this.props.name;
     }
+    set name(name:string){
+        this.props.name = name;
+    }
     get birthDay(){
         return this.props.birthDay;
     }
@@ -51,5 +55,11 @@ export class User extends Entity<Props> {
     }
     get age(){
         return Math.abs(differenceInYears(new Date(), this.props.birthDay));
+    }
+    get academyId(){
+        return this.props.academyId;
+    }
+    get spreadProps(){
+        return this.props
     }
 }

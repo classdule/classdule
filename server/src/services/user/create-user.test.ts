@@ -15,7 +15,7 @@ describe('Create user tests', ()=> {
         expect(createdUser).toBeInstanceOf(User);
     })
     
-    it('Should not be able to create another user since username is already taken', async ()=> {
+    it('Should not be able to create another user since email is already taken', async ()=> {
         const user1 = getRandomUser();
         await expect(createUser.execute(user1)).rejects.toThrow();
     });

@@ -1,3 +1,4 @@
+import { isThisQuarter } from "date-fns";
 import { prismaClient } from "../../database/prisma"; 
 
 import { User } from "../../entities/user";
@@ -16,7 +17,12 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 },
                 password:user.password,
                 email: user.email,
-                graduationDate: user.graduationDate
+                graduationDate: user.graduationDate,
+                academy: {
+                    connect: {
+                        id: user.academyId
+                    }
+                },
             },
             include: {
                 currentGraduation: true
@@ -25,11 +31,12 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         return new User({
             birthDay: createdUser.birthDay,
             currentGrade: createdUser.currentGrade,
-            currentGraduation: createdUser.currentGraduation.name,
+            currentGraduation: createdUser.graduationId,
             name: createdUser.name,
             password: createdUser.password,
             email: createdUser.email,
-            graduationDate: createdUser.graduationDate
+            graduationDate: createdUser.graduationDate,
+            academyId: createdUser.academyId
         }, createdUser.id)
     }
     async delete(userId: string){
@@ -48,13 +55,14 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             name: deletedUser.name,
             password: deletedUser.password,
             email: deletedUser.email,
-            graduationDate: deletedUser.graduationDate
+            graduationDate: deletedUser.graduationDate,
+            academyId: deletedUser.academyId
         }, deletedUser.id)
     }
-    async findUserByName(username: string){
+    async findByEmail(email: string){
         const user = await prismaClient.user.findUnique({
             where: {
-                name: username
+                email: email
             },
             include: {
                 currentGraduation: {
@@ -63,7 +71,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                     }
                 }
             },
-        })
+        });
         if(!!user){
             return new User({
                 birthDay: user.birthDay,
@@ -72,10 +80,11 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 name: user.name,
                 password: user.password,
                 email: user.email,
-                graduationDate: user.graduationDate
-            }, user.id)
+                graduationDate: user.graduationDate,
+                academyId: user.academyId
+            }, user.id);
         }
-        return null
+        return null;
     }
     async changeUserName (userId: string, username: string){
         const updatedUser = await prismaClient.user.update({
@@ -86,7 +95,8 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 id: userId
             },
             include: {
-                currentGraduation: true
+                currentGraduation: true,
+                academy: true
             }
         })
         return new User({
@@ -96,14 +106,16 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             name: updatedUser.name,
             password: updatedUser.password,
             email: updatedUser.email,
-            graduationDate: updatedUser.graduationDate
+            graduationDate: updatedUser.graduationDate,
+            academyId: updatedUser.academyId
         }, updatedUser.id)
     }
 
     async findAll(){
         const queryUsers = await prismaClient.user.findMany({
             include: {
-                currentGraduation: true
+                currentGraduation: true,
+                academy: true
             }
         })
         return queryUsers.map(user => {
@@ -114,7 +126,8 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
                 name: user.name,
                 password: user.password,
                 email: user.email,
-                graduationDate: user.graduationDate
+                graduationDate: user.graduationDate,
+                academyId: user.academyId
             }, user.id)
         })
     }
@@ -138,8 +151,34 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
             name: foundUser.name,
             password: foundUser.password,
             email: foundUser.email,
-            graduationDate: foundUser.graduationDate
+            graduationDate: foundUser.graduationDate,
+            academyId: foundUser.academyId
         }, foundUser.id);
+    }
+
+    async queryByName(name: string){
+        const foundUsers = await prismaClient.user.findMany({
+            where: {
+                name: {
+                    contains: name
+                }
+            },
+            include: {
+                currentGraduation: true
+            }
+        })
+        return foundUsers.map(u => {
+            return new User({
+                academyId: u.academyId,
+                birthDay: u.birthDay,
+                currentGrade: u.currentGrade,
+                currentGraduation: u.currentGraduation.name,
+                email: u.email,
+                graduationDate: u.graduationDate,
+                name: u.name,
+                password: u.password
+            }, u.id);
+        });
     }
 
 }

@@ -4,21 +4,8 @@ import { UserRepositoryBase } from "../user-repository";
 export class InMemoryUserRepository implements UserRepositoryBase {
     users: User[] = []
     async create (user: User){
-        const createUser = new User({
-            birthDay: user.birthDay,
-            currentGrade: user.currentGrade,
-            currentGraduation: user.currentGraduation,
-            name: user.name,
-            password: user.password
-        })
-        this.users.push(createUser)
-        return new User({
-            birthDay: user.birthDay,
-            currentGrade: user.currentGrade,
-            currentGraduation: user.currentGraduation,
-            name: user.name,
-            password: user.password
-        }, createUser.id)
+        this.users.push(user);
+        return user;
     }
     async delete (userId: string){
         const deleteUser = this.users.find(user => user.id === userId) || null
@@ -29,26 +16,22 @@ export class InMemoryUserRepository implements UserRepositoryBase {
 
     async changeUserName (userId: string, username: string) {
         const userIndex = this.users.findIndex(user => user.id === userId)
-        const targetUser = this.users[userIndex]
-        this.users[userIndex] = new User({
-            name: username,
-            birthDay: targetUser.birthDay,
-            currentGrade: targetUser.currentGrade,
-            currentGraduation: targetUser.currentGraduation,
-            password: targetUser.password
-        }, targetUser.id)
+        this.users[userIndex].name = username;
         return this.users[userIndex]
     }
 
-    async findUserByName (username: string){
-        const user = this.users.find(user => user.name === username)
+    async findByEmail (email: string){
+        const user = this.users.find(user => user.email === email);
         if(!!user){
-            return user
+            return user;
         }
-        return null
+        return null;
+    }
+    async queryByName(name:string) {
+        return this.users.filter(user => name.includes(user.name));
     }
     async findAll(){
-        return this.users
+        return this.users;
     }
     async findById(userId: string){
         return this.users.find(user => user.id === userId) ?? null;

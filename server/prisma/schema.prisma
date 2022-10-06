@@ -20,7 +20,7 @@ model User {
   id                  String      @id @default(uuid())
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
-  name                String      @unique @db.VarChar(255)
+  name                String      @db.VarChar(255)
   birthDay            DateTime
   currentGraduation   Graduation  @relation(fields: [graduationId], references: [id])
   graduationId        String
@@ -28,20 +28,23 @@ model User {
   educatorOnAcademies Academy[]   @relation("educators")
   classrooms          Classroom[]
   password            String      @db.VarChar(255)
-  Academy             Academy[]
+  academiesResponsible             Academy[] @relation("educator")
   Checkins             Checkin[]
   graduationDate DateTime
-  email String
+  email String @unique @db.VarChar(255)
+  academy Academy @relation(fields: [academyId], references: [id], onUpdate: NoAction)
+  academyId String
 }
 
 model Academy {
   id                    String      @id @default(uuid())
   name                  String      @unique @db.VarChar(255)
   location              String      @db.VarChar(255)
-  responsibleEducator   User        @relation(fields: [responsibleEducatorId], references: [id])
+  responsibleEducator   User        @relation(fields: [responsibleEducatorId], references: [id], "educator")
   responsibleEducatorId String
   educators             User[]      @relation("educators")
   Classroom             Classroom[]
+  apprentices User[]
 }
 
 model Classroom {

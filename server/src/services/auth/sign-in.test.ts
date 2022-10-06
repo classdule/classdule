@@ -16,7 +16,7 @@ describe('Sign-in tests', () => {
         const createUser = new CreateUser(repository)
         await createUser.execute(exampleUser)
         const signIn = new Signin(repository)
-        const {user, validPassword} = await signIn.execute(exampleUser.name, exampleUser.password)
+        const {user, validPassword} = await signIn.execute(exampleUser.email, exampleUser.password)
         expect(user).toBeInstanceOf(User)
         expect(validPassword).toBeTruthy()
     })

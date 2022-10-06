@@ -1,7 +1,7 @@
 import { expect, describe, it } from "vitest"
+import {v4 as uuid} from 'uuid';
 
 import {subDays, addYears} from 'date-fns';
-
 import { getPastDate } from "../tests/utils/get-past-date"
 
 import { User } from "./user"
@@ -15,7 +15,8 @@ describe('User tests', ()=> {
             name: 'John Doe',
             password: 'password#123',
             graduationDate: subDays(new Date(), 20),
-            email: 'email@email.com'
+            email: 'email@email.com',
+            academyId: uuid()
         })
         expect(user).toBeInstanceOf(User)
         expect(user.id).toBeDefined()
@@ -29,7 +30,8 @@ describe('User tests', ()=> {
             name: 'Joe Doe Junior',
             password: 'areallybadpassword',
             graduationDate: subDays(new Date(), 20),
-            email: 'email@email.com'
+            email: 'email@email.com',
+            academyId: uuid()
         })).toThrow();
         expect(()=> new User({
             birthDay: addYears(new Date(), 8),
@@ -38,7 +40,8 @@ describe('User tests', ()=> {
             name: 'Joe Doe Junior',
             password: 'areallybadpassword',
             graduationDate: subDays(new Date(), 20),
-            email: 'email@email.com'
+            email: 'email@email.com',
+            academyId: uuid()
         })).toThrow();
 
     })

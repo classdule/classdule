@@ -53,12 +53,18 @@ model Classroom {
   endsAt     DateTime           @db.Time()
   checkins    Checkin[]
   weekdays   ClassroomWeekday[]
+  content ClassroomContent[]
 }
 
 model ClassroomWeekday {
   id         String      @id @default(uuid()) @db.VarChar(255)
   classrooms Classroom[]
   weekday    Int @unique
+}
+model ClassroomContent {
+  id String @id @default(uuid()) @db.VarChar(255)
+  content String @unique
+  classrooms Classroom[]
 }
 
 model Checkin {

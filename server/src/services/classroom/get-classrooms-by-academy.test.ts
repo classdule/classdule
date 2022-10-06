@@ -16,7 +16,10 @@ describe('Get classrooms by academy tests', ()=> {
             startsAt: parseISO('1970-01-01 20:30'),
             endsAt: parseISO('1970-01-01 22:00'),
             type: 'basic',
-            weekdays: [1, 4]
+            weekdays: [1, 4],
+            content: [
+                '3 Ashi waza'
+            ]
         })
         const classroom2 = new Classroom({
             academyId: 'aaaa',
@@ -24,7 +27,10 @@ describe('Get classrooms by academy tests', ()=> {
             startsAt: parseISO('1970-01-01 20:30'),
             endsAt: parseISO('1970-01-01 22:00'),
             type: 'basic',
-            weekdays: [1, 4]
+            weekdays: [1, 4],
+            content: [
+                '3 Ashi waza'
+            ]
         })
         const classroom3 = new Classroom({
             academyId: 'bbbb',
@@ -32,7 +38,10 @@ describe('Get classrooms by academy tests', ()=> {
             startsAt: parseISO('1970-01-01 20:30'),
             endsAt: parseISO('1970-01-01 22:00'),
             type: 'basic',
-            weekdays: [1, 4]
+            weekdays: [1, 4],
+            content: [
+                '3 Ashi waza'
+            ]
         })
         classroomRepository.classrooms = [classroom1, classroom2, classroom3]
         expect(classroomRepository.classrooms.length).toBe(3)

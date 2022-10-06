@@ -35,20 +35,33 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                         }
                     })
                 },
+                content: {
+                    connectOrCreate: classroom.content.map(cont => {
+                        return {
+                            where: {
+                                content: cont
+                            },
+                            create: {
+                                content: cont
+                            }
+                        };
+                    })
+                }
             },
             include: {
-                weekdays: true
+                weekdays: true,
+                content: true
             }
-        })
-
+        });
         return new Classroom({
             academyId: queryResult.academyId,
             educatorId: queryResult.educatorId,
             endsAt: queryResult.endsAt,
             startsAt: queryResult.startsAt,
             type: queryResult.type,
-            weekdays: queryResult.weekdays.map(weekday => weekday.weekday as Day)
-        }, queryResult.id)
+            weekdays: queryResult.weekdays.map(weekday => weekday.weekday as Day),
+            content: queryResult.content.map(cont => cont.content)
+        }, queryResult.id);
     }
     async delete (classroomId: string) {
         const deletedClassroom = await prismaClient.classroom.delete({
@@ -56,18 +69,19 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                 id: classroomId
             },
             include: {
-                weekdays: true
+                weekdays: true,
+                content: true
             }
-        })
+        });
         return new Classroom({
             academyId: deletedClassroom.academyId,
             educatorId: deletedClassroom.educatorId,
             endsAt: deletedClassroom.endsAt,
             startsAt: deletedClassroom.startsAt,
             type: deletedClassroom.type,
-            weekdays: deletedClassroom.weekdays.map(weekday => weekday.weekday as Day)
-        })
-
+            weekdays: deletedClassroom.weekdays.map(weekday => weekday.weekday as Day),
+            content: deletedClassroom.content.map(cont => cont.content)
+        });
     }
     async findOverlappingDateClassroom (start: Date, end: Date, weekdays: Day[], academyId: string) {
         const allAcademiesClassrooms = (await prismaClient.classroom.findMany({
@@ -76,11 +90,12 @@ export class PrismaClassroomRepository implements ClassroomRepository {
             },
             include: {
                 weekdays: true,
+                content: true
             }
         })).filter(classroom => intersection(
             classroom.weekdays.map(weekday => weekday.weekday),
             weekdays
-        ).length > 0)
+        ).length > 0);
         const overlappingClassroom = allAcademiesClassrooms.find(classroom => {
             return areIntervalsOverlapping(
                 {
@@ -92,9 +107,9 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                     end: classroom.endsAt
                 }
             )
-        })
+        });
         if(!overlappingClassroom){
-            return null
+            return null;
         }
         return new Classroom({
             academyId: overlappingClassroom.academyId,
@@ -102,8 +117,9 @@ export class PrismaClassroomRepository implements ClassroomRepository {
             endsAt: overlappingClassroom.endsAt,
             startsAt: overlappingClassroom.startsAt,
             type: overlappingClassroom.type,
-            weekdays: overlappingClassroom.weekdays.map(weekday => weekday.weekday as Day)
-        }, overlappingClassroom.id)
+            weekdays: overlappingClassroom.weekdays.map(weekday => weekday.weekday as Day),
+            content: overlappingClassroom.content.map(cont => cont.content)
+        }, overlappingClassroom.id);
     }
     async findById (classroomId: string) {
         const foundClassroom = await prismaClient.classroom.findUnique({
@@ -111,11 +127,12 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                 id: classroomId
             },
             include: {
-                weekdays: true
+                weekdays: true,
+                content: true
             }
-        })
+        });
         if(!foundClassroom){
-            return null
+            return null;
         }
         return new Classroom({
             academyId: foundClassroom.academyId,
@@ -123,8 +140,9 @@ export class PrismaClassroomRepository implements ClassroomRepository {
             endsAt: foundClassroom.endsAt,
             startsAt: foundClassroom.startsAt,
             type: foundClassroom.type,
-            weekdays: foundClassroom.weekdays.map(weekday => weekday.weekday as Day)
-        })
+            weekdays: foundClassroom.weekdays.map(weekday => weekday.weekday as Day),
+            content: foundClassroom.content.map(cont => cont.content)
+        });
     }
     async findByAcademy (academyId: string) {
         const academyClassrooms = await prismaClient.classroom.findMany({
@@ -132,9 +150,10 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                 academyId: academyId
             },
             include: {
-                weekdays: true
+                weekdays: true,
+                content: true
             }
-        })
+        });
         return academyClassrooms.map(classroom => {
             return new Classroom({
                 academyId: classroom.academyId,
@@ -142,9 +161,10 @@ export class PrismaClassroomRepository implements ClassroomRepository {
                 endsAt: classroom.endsAt,
                 startsAt: classroom.startsAt,
                 type: classroom.type,
-                weekdays: classroom.weekdays.map(weekday => weekday.weekday as Day)
-            }, classroom.id)
-        })
+                weekdays: classroom.weekdays.map(weekday => weekday.weekday as Day),
+                content: classroom.content.map(cont => cont.content)
+            }, classroom.id);
+        });
     }
 
 }

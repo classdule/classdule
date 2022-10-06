@@ -1,4 +1,4 @@
-import {Day, isSameDay, getHours} from 'date-fns';
+import {Day} from 'date-fns';
 
 import { Entity } from "./entity";
 
@@ -9,6 +9,7 @@ interface Props {
     weekdays: Day[];
     startsAt: Date;
     endsAt: Date;
+    content: string[];
 }
 
 export class Classroom extends Entity<Props> {
@@ -36,6 +37,9 @@ export class Classroom extends Entity<Props> {
     }
     get academyId(){
         return this.props.academyId
+    }
+    get content(){
+        return this.props.content;
     }
 
 }

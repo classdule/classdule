@@ -32,7 +32,10 @@ describe('Create classroom tests', ()=> {
             weekdays: [2, 4],
             type: 'basic',
             endsAt: parseISO('1970-01-01 21:00'),
-            startsAt: parseISO('1970-01-01 19:00')
+            startsAt: parseISO('1970-01-01 19:00'),
+            content: [
+                '3 Koshi waza'
+            ]
         });
 
         expect(await createClassroom.do(classroomToCreate)).toBeInstanceOf(Classroom);
@@ -52,7 +55,10 @@ describe('Create classroom tests', ()=> {
             weekdays: [2, 4],
             type: 'basic',
             endsAt: parseISO('1970-01-01 21:00'),
-            startsAt: parseISO('1970-01-01 19:00')
+            startsAt: parseISO('1970-01-01 19:00'),
+            content: [
+                '3 Koshi waza'
+            ]
         });
         expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
     });
@@ -69,7 +75,10 @@ describe('Create classroom tests', ()=> {
             weekdays: [2, 4],
             type: 'basic',
             endsAt: parseISO('1970-01-01 21:00'),
-            startsAt: parseISO('1970-01-01 19:00')
+            startsAt: parseISO('1970-01-01 19:00'),
+            content: [
+                '3 Ashi waza'
+            ]
         });
         expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
     });

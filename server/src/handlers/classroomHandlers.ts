@@ -37,6 +37,7 @@ export const createClassroomSchema = z.object({
         academyId:z.string(),
         endsAt: z.string(),
         startsAt: z.string(),
+        content: z.array(z.string()),
         weekdays: z.array(z.number().min(0).max(6)),
         user: z.object({
             id: z.string()
@@ -52,7 +53,8 @@ export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomS
         endsAt, 
         startsAt, 
         weekdays,
-        user
+        user,
+        content
     } = req.body
 
     const classroomRepository = new PrismaClassroomRepository();
@@ -72,7 +74,8 @@ export async function handleCreateClassroom(req:Request<{}, {}, CreateClassroomS
             educatorId,
             endsAt: parsedEndsAt,
             startsAt: parsedStartsAt,
-            weekdays: weekdays as Day[]
+            weekdays: weekdays as Day[],
+            content: content
         }))
 
         return res.json(queryResult);

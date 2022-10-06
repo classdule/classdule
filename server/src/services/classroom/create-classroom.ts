@@ -25,7 +25,8 @@ export class CreateClassroom {
             type: request.type,
             endsAt: request.endsAt,
             startsAt: request.startsAt,
-            weekdays: request.weekdays
+            weekdays: request.weekdays,
+            content: request.content
         }))
         return createdClassroom
     }

@@ -1,5 +1,4 @@
 import { compare } from 'bcrypt';
-import jwt, {Secret} from 'jsonwebtoken'
 
 import { User } from '../../entities/user';
 import { GenerateTokenProvider } from '../../providers/token-provider/generate-token-provider';

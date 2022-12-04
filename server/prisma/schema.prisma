@@ -1,42 +1,30 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = []
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
-}
-
-model Graduation {
-  id    String @id @default(uuid())
-  name  String @unique @db.VarChar(255)
-  value Int    @unique @db.UnsignedInt
-  User  User[]
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
-  id                  String      @id @default(uuid())
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
-  name                String      @db.VarChar(255)
-  birthDay            DateTime
-  currentGraduation   Graduation  @relation(fields: [graduationId], references: [id])
-  graduationId        String
-  currentGrade        Int         @default(0)
-  educatorOnAcademies Academy[]   @relation("educators")
-  classrooms          Classroom[]
-  password            String      @db.VarChar(255)
-  academiesResponsible             Academy[] @relation("educator")
-  Checkins             Checkin[]
-  graduationDate DateTime
-  email String @unique @db.VarChar(255)
-  academy Academy @relation(fields: [academyId], references: [id], onUpdate: NoAction)
-  academyId String
+  id                String      @id @default(uuid())
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  name              String      @db.VarChar(255)
+  birthDay          DateTime
+  educatorOnGroups  Group[]     @relation("educators")
+  classrooms        Classroom[]
+  password          String      @db.VarChar(255)
+  groupsResponsible Group[]     @relation("educator")
+  Checkins          Checkin[]
+  email             String      @unique @db.VarChar(255)
+  groups            Group[]
 }
 
-model Academy {
+model Group {
   id                    String      @id @default(uuid())
   name                  String      @unique @db.VarChar(255)
   location              String      @db.VarChar(255)
@@ -44,7 +32,10 @@ model Academy {
   responsibleEducatorId String
   educators             User[]      @relation("educators")
   Classroom             Classroom[]
-  apprentices User[]
+  apprentices           User[]
+
+  @@index([responsibleEducatorId])
+  @@map("Academy")
 }
 
 model Classroom {
@@ -52,23 +43,27 @@ model Classroom {
   type       String             @db.VarChar(255)
   educator   User               @relation(fields: [educatorId], references: [id])
   educatorId String
-  academy    Academy            @relation(fields: [academyId], references: [id])
+  academy    Group              @relation(fields: [academyId], references: [id])
   academyId  String
   startsAt   DateTime           @db.Time()
   endsAt     DateTime           @db.Time()
-  checkins    Checkin[]
+  checkins   Checkin[]
   weekdays   ClassroomWeekday[]
-  content ClassroomContent[]
+  content    ClassroomContent[]
+
+  @@index([educatorId])
+  @@index([academyId])
 }
 
 model ClassroomWeekday {
   id         String      @id @default(uuid()) @db.VarChar(255)
   classrooms Classroom[]
-  weekday    Int @unique
+  weekday    Int         @unique
 }
+
 model ClassroomContent {
-  id String @id @default(uuid()) @db.VarChar(255)
-  content String @unique
+  id         String      @id @default(uuid()) @db.VarChar(255)
+  content    String      @unique
   classrooms Classroom[]
 }
 
@@ -81,4 +76,7 @@ model Checkin {
   userId      String    @db.VarChar(255)
   classroom   Classroom @relation(fields: [classroomId], references: [id])
   classroomId String    @db.VarChar(255)
+
+  @@index([userId])
+  @@index([classroomId])
 }

@@ -1,10 +1,10 @@
-import { Academy } from "../../entities/academy";
+import { Group } from "../../entities/academy";
 import { AcademyRepository } from "../academy-repository";
 
 import { prismaClient } from "../../database/prisma";
 
 export class PrismaAcademyRepository implements AcademyRepository {
-    async create (academy: Academy) {
+    async create (academy: Group) {
         try {
             const createdAcademy = await prismaClient.academy.create({
                 data: {
@@ -25,7 +25,7 @@ export class PrismaAcademyRepository implements AcademyRepository {
                 }
                 
             })
-            return new Academy({
+            return new Group({
                 educatorsIds: [],
                 location: createdAcademy.location,
                 name: createdAcademy.name,
@@ -60,7 +60,7 @@ export class PrismaAcademyRepository implements AcademyRepository {
                 }
             }
         })
-        return new Academy({
+        return new Group({
             educatorsIds: deletedAcademy.educators.map(educator =>educator.id ),
             location: deletedAcademy.location,
             name: deletedAcademy.name,
@@ -88,7 +88,7 @@ export class PrismaAcademyRepository implements AcademyRepository {
         if(!queryResult){
             return queryResult
         }
-        return new Academy({
+        return new Group({
             educatorsIds: queryResult.educators.map(educator => educator.id),
             location: queryResult.location,
             name: queryResult.name,
@@ -113,7 +113,7 @@ export class PrismaAcademyRepository implements AcademyRepository {
                 }
             }
         }) || null
-        return academiesFound.map(academy => new Academy({
+        return academiesFound.map(academy => new Group({
             educatorsIds: academy.educators.map(educator => educator.id),
             location: academy.location,
             name: academy.name,
@@ -128,7 +128,7 @@ export class PrismaAcademyRepository implements AcademyRepository {
                 responsibleEducator: true
             }
         })
-        return queryResult.map(academy => new Academy({
+        return queryResult.map(academy => new Group({
             educatorsIds: academy.educators.map(educator => educator.id),
             location: academy.location,
             name: academy.name,

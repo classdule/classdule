@@ -6,13 +6,13 @@ import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
 import { CreateClassroom } from "./create-classroom";
 import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memory-academy-repository";
-import { Academy } from "../../entities/academy";
+import { Group } from "../../entities/academy";
 
 describe('Create classroom tests', ()=> {
     const classroomRepository = new InMemoryClassroomRepository();
     const academyRepository = new InMemoryAcademyRepository();
     academyRepository.academies = [
-        new Academy({
+        new Group({
             educatorsIds: ['aaaa', 'cccc'],
             location: 'Any location',
             name: 'Any name',
@@ -34,7 +34,7 @@ describe('Create classroom tests', ()=> {
             endsAt: parseISO('1970-01-01 21:00'),
             startsAt: parseISO('1970-01-01 19:00'),
             content: [
-                '3 Koshi waza'
+                'Fração'
             ]
         });
 
@@ -77,7 +77,7 @@ describe('Create classroom tests', ()=> {
             endsAt: parseISO('1970-01-01 21:00'),
             startsAt: parseISO('1970-01-01 19:00'),
             content: [
-                '3 Ashi waza'
+                'Fração'
             ]
         });
         expect(createClassroom.do(classroomToCreate)).rejects.toThrow();

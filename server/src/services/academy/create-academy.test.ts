@@ -2,7 +2,7 @@ import {describe, it, expect} from 'vitest'
 
 import { v4 as uuid } from 'uuid'
 
-import { Academy } from "../../entities/academy"
+import { Group } from "../../entities/academy"
 import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memory-academy-repository"
 import { CreateAcademy } from "./create-academy"
 
@@ -11,7 +11,7 @@ describe('Create academy tests', ()=> {
         const repository = new InMemoryAcademyRepository()
         const createAcademy = new CreateAcademy(repository)
 
-        const exampleAcademy = new Academy({
+        const exampleAcademy = new Group({
             educatorsIds: [],
             location: 'Nowhere',
             name: 'Academy 1',

@@ -5,12 +5,9 @@ import { Entity } from "./entity";
 interface Props {
     name: string;
     birthDay:Date;
-    currentGraduation: string;
-    currentGrade: number;
     password:string;
-    graduationDate: Date;
     email: string;
-    academyId: string;
+    academyIds: string[];
 }
 
 export class User extends Entity<Props> {
@@ -38,17 +35,8 @@ export class User extends Entity<Props> {
     get birthDay(){
         return this.props.birthDay;
     }
-    get currentGraduation(){
-        return this.props.currentGraduation;
-    }
-    get currentGrade(){
-        return this.props.currentGrade;
-    }
     get password(){
         return this.props.password;
-    }
-    get graduationDate(){
-        return this.props.graduationDate;
     }
     get email(){
         return this.props.email;
@@ -56,8 +44,8 @@ export class User extends Entity<Props> {
     get age(){
         return Math.abs(differenceInYears(new Date(), this.props.birthDay));
     }
-    get academyId(){
-        return this.props.academyId;
+    get academyIds(){
+        return this.props.academyIds;
     }
     get spreadProps(){
         return this.props

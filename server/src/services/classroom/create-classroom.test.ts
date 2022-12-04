@@ -5,12 +5,12 @@ import { parseISO } from "date-fns";
 import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
 import { CreateClassroom } from "./create-classroom";
-import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memory-academy-repository";
-import { Group } from "../../entities/academy";
+import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
+import { Group } from "../../entities/group";
 
 describe('Create classroom tests', ()=> {
     const classroomRepository = new InMemoryClassroomRepository();
-    const academyRepository = new InMemoryAcademyRepository();
+    const academyRepository = new InMemoryGroupRepository();
     academyRepository.academies = [
         new Group({
             educatorsIds: ['aaaa', 'cccc'],

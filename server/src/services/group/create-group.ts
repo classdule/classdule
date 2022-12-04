@@ -1,5 +1,5 @@
-import { Group } from "../../entities/academy";
-import { AcademyRepository } from "../../repositories/academy-repository";
+import { Group } from "../../entities/group";
+import { GroupRepository } from "../../repositories/group-repository";
 
 interface Request {
     responsibleEducatorId: string;
@@ -7,9 +7,9 @@ interface Request {
     location: string;
 }
 export class CreateAcademy {
-    private repository: AcademyRepository;
+    private repository: GroupRepository;
 
-    constructor(repository: AcademyRepository){
+    constructor(repository: GroupRepository){
         this.repository = repository
     }
     async execute(request: Request){

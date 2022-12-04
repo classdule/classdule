@@ -1,9 +1,9 @@
-import { Group } from "../../entities/academy";
-import { AcademyRepository } from "../academy-repository";
+import { Group } from "../../entities/group";
+import { GroupRepository } from "../group-repository";
 
 import { prismaClient } from "../../database/prisma";
 
-export class PrismaAcademyRepository implements AcademyRepository {
+export class PrismaAcademyRepository implements GroupRepository {
     async create (academy: Group) {
         try {
             const createdAcademy = await prismaClient.academy.create({

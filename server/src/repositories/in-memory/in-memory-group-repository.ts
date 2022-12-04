@@ -1,9 +1,9 @@
 import {v4 as uuid} from 'uuid'
 
-import { Group } from "../../entities/academy";
-import { AcademyRepository } from "../academy-repository";
+import { Group } from "../../entities/group";
+import { GroupRepository } from "../group-repository";
 
-export class InMemoryAcademyRepository implements AcademyRepository {
+export class InMemoryGroupRepository implements GroupRepository {
     academies: Group[] = [];
     async create (academy: Group) {
         const createAcademy = new Group({

@@ -2,13 +2,13 @@ import {describe, it, expect} from 'vitest'
 
 import { v4 as uuid } from 'uuid'
 
-import { Group } from "../../entities/academy"
-import { InMemoryAcademyRepository } from "../../repositories/in-memory/in-memory-academy-repository"
-import { CreateAcademy } from "./create-academy"
+import { Group } from "../../entities/group"
+import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository"
+import { CreateAcademy } from "./create-group"
 
 describe('Create academy tests', ()=> {
     it('Should be able to create an academy', async () => {
-        const repository = new InMemoryAcademyRepository()
+        const repository = new InMemoryGroupRepository()
         const createAcademy = new CreateAcademy(repository)
 
         const exampleAcademy = new Group({

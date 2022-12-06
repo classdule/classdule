@@ -11,7 +11,7 @@ import { Group } from "../../entities/group";
 describe("Create classroom tests", () => {
   const classroomRepository = new InMemoryClassroomRepository();
   const academyRepository = new InMemoryGroupRepository();
-  academyRepository.academies = [
+  academyRepository.groups = [
     new Group(
       {
         educatorsIds: ["aaaa", "cccc"],

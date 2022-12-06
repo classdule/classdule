@@ -30,7 +30,7 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
     start: Date,
     end: Date,
     weekdays: Day[],
-    academyId: string
+    groupId: string
   ) {
     const overlappingClassroom = this.classrooms.find((classroom) => {
       return (
@@ -45,7 +45,7 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
           }
         ) &&
         intersection(weekdays, classroom.weekdays).length > 0 &&
-        academyId === classroom.groupId
+        groupId === classroom.groupId
       );
     });
     return overlappingClassroom ?? null;
@@ -56,9 +56,7 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
     );
     return foundClassroom ?? null;
   }
-  async findByAcademy(academyId: string) {
-    return this.classrooms.filter(
-      (classroom) => classroom.groupId === academyId
-    );
+  async findByGroup(groupId: string) {
+    return this.classrooms.filter((classroom) => classroom.groupId === groupId);
   }
 }

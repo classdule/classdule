@@ -166,7 +166,7 @@ export class PrismaClassroomRepository implements ClassroomRepository {
       content: foundClassroom.content.map((cont) => cont.content),
     });
   }
-  async findByAcademy(groupId: string) {
+  async findByGroup(groupId: string) {
     const academyClassrooms = await prismaClient.classroom.findMany({
       where: {
         groupId: groupId,

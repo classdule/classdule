@@ -59,7 +59,7 @@ export class PrismaAcademyRepository implements GroupRepository {
       deletedAcademy.id
     );
   }
-  async findAcademyByName(groupName: string) {
+  async findGroupByName(groupName: string) {
     const queryResult =
       (await prismaClient.group.findUnique({
         where: {
@@ -83,7 +83,7 @@ export class PrismaAcademyRepository implements GroupRepository {
       queryResult.id
     );
   }
-  async queryAcademiesByName(subName: string) {
+  async queryGroupsByName(subName: string) {
     const academiesFound =
       (await prismaClient.group.findMany({
         where: {

@@ -1,16 +1,14 @@
 import { ClassroomRepository } from "../../repositories/classroom-repository";
 
 interface Request {
-    academyId: string;
+  academyId: string;
 }
 
 export class GetClassroomsByAcademy {
-    constructor(
-        public classroomsRepository: ClassroomRepository,
-    ) {}
+  constructor(public classroomsRepository: ClassroomRepository) {}
 
-    async do({academyId}: Request){
-        const queryResult = await this.classroomsRepository.findByAcademy(academyId)
-        return queryResult
-    }
+  async do({ academyId }: Request) {
+    const queryResult = await this.classroomsRepository.findByGroup(academyId);
+    return queryResult;
+  }
 }

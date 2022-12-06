@@ -15,8 +15,10 @@ export async function handleGetGroups(req: Request, res: Response) {
 export const createGroupSchema = z.object({
   body: z.object({
     name: z.string(),
-    responsibleEducatorId: z.string(),
     location: z.string(),
+    user: z.object({
+      id: z.string(),
+    }),
   }),
 });
 type createGroupRequestBody = z.TypeOf<typeof createGroupSchema>["body"];
@@ -24,7 +26,7 @@ export async function handleCreateGroup(
   req: Request<{}, {}, createGroupRequestBody>,
   res: Response
 ) {
-  const { location, name, responsibleEducatorId } = req.body;
+  const { location, name, user } = req.body;
 
   const repository = new PrismaGroupRepository();
   const createGroup = new CreateGroup(repository);
@@ -33,7 +35,7 @@ export async function handleCreateGroup(
     const queryResult = await createGroup.execute({
       location: location,
       name: name,
-      responsibleEducatorId: responsibleEducatorId,
+      responsibleEducatorId: user.id,
     });
     res.status(201).json(queryResult);
   } catch (err) {

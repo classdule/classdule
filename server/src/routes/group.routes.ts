@@ -5,13 +5,14 @@ import {
   handleGetGroups,
 } from "../handlers/groupHandlers";
 import { validateInput } from "../middlewares/validateInput";
+import { verifyToken } from "../middlewares/verifyToken";
 
 const groupRoutes = Router();
 
 groupRoutes.get("/group", handleGetGroups);
 groupRoutes.post(
   "/group",
-  [validateInput(createGroupSchema)],
+  [verifyToken, validateInput(createGroupSchema)],
   handleCreateGroup
 );
 

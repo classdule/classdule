@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
@@ -14,38 +15,43 @@ model User {
   updatedAt         DateTime    @updatedAt
   name              String      @db.VarChar(255)
   birthDay          DateTime
-  educatorOnGroups  Group[]     @relation("educators")
-  classrooms        Classroom[]
-  password          String      @db.VarChar(255)
-  groupsResponsible Group[]     @relation("educator")
-  Checkins          Checkin[]
   email             String      @unique @db.VarChar(255)
-  groups            Group[]
+  password          String      @db.VarChar(255)
+  classrooms        Classroom[]
+  educatorOnGroups  Group[]     @relation("educators")
+  groupsResponsible Group[]     @relation("educator")
+  groups            Group[]     
+  Checkins          Checkin[]
 }
 
 model Group {
   id                    String      @id @default(uuid())
   name                  String      @unique @db.VarChar(255)
   location              String      @db.VarChar(255)
-  responsibleEducator   User        @relation(fields: [responsibleEducatorId], references: [id], "educator")
+  responsibleEducator   User       @relation(fields: [responsibleEducatorId], references: [id], "educator")
   responsibleEducatorId String
-  educators             User[]      @relation("educators")
+  educators             User[] @relation("educators")      
   Classroom             Classroom[]
-  members               User[]
+  members               User[]     
+
+  @@index([responsibleEducatorId])
 }
 
 model Classroom {
   id         String             @id @default(uuid()) @db.VarChar(255)
   type       String             @db.VarChar(255)
   educator   User               @relation(fields: [educatorId], references: [id])
-  educatorId String
-  academy    Group              @relation(fields: [academyId], references: [id])
-  academyId  String
+  academy    Group              @relation(fields: [groupId], references: [id])
   startsAt   DateTime           @db.Time()
   endsAt     DateTime           @db.Time()
   checkins   Checkin[]
   weekdays   ClassroomWeekday[]
   content    ClassroomContent[]
+  educatorId String
+  groupId    String
+
+  @@index([educatorId])
+  @@index([groupId])
 }
 
 model ClassroomWeekday {
@@ -69,4 +75,7 @@ model Checkin {
   userId      String    @db.VarChar(255)
   classroom   Classroom @relation(fields: [classroomId], references: [id])
   classroomId String    @db.VarChar(255)
+
+  @@index([userId])
+  @@index([classroomId])
 }

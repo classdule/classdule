@@ -41,7 +41,7 @@ model Classroom {
   id         String             @id @default(uuid()) @db.VarChar(255)
   type       String             @db.VarChar(255)
   educator   User               @relation(fields: [educatorId], references: [id])
-  academy    Group              @relation(fields: [groupId], references: [id])
+  group    Group              @relation(fields: [groupId], references: [id])
   startsAt   DateTime           @db.Time()
   endsAt     DateTime           @db.Time()
   checkins   Checkin[]

@@ -8,28 +8,26 @@ import { Classroom } from "../entities/classroom";
 import { PrismaClassroomRepository } from "../repositories/prisma/prisma-classroom-repository";
 import { CreateClassroom } from "../services/classroom/create-classroom";
 import { DeleteClassroom } from "../services/classroom/delete-classroom";
-import { GetClassroomsByAcademy } from "../services/classroom/get-classrooms-by-academy";
-import { PrismaAcademyRepository } from "../repositories/prisma/prisma-academy-repository";
+import { GetClassroomsByGroup } from "../services/classroom/get-classrooms-by-group";
+import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
 
-export const getClassroomsByAcademySchema = z.object({
+export const getClassroomsByGroupSchema = z.object({
   query: z.object({
-    academyId: z.string(),
+    groupId: z.string(),
   }),
 });
-type GetClassroomsSchema = z.TypeOf<typeof getClassroomsByAcademySchema>;
-export async function handleGetClassroomsByAcademy(
+type GetClassroomsSchema = z.TypeOf<typeof getClassroomsByGroupSchema>;
+export async function handleGetClassroomsByGroup(
   req: Request<{}, {}, {}, GetClassroomsSchema["query"]>,
   res: Response
 ) {
-  const { academyId } = req.query;
+  const { groupId } = req.query;
 
   const classroomsRepository = new PrismaClassroomRepository();
-  const getClassroomsByAcademy = new GetClassroomsByAcademy(
-    classroomsRepository
-  );
+  const getClassroomsByGroup = new GetClassroomsByGroup(classroomsRepository);
 
-  const queryResult = await getClassroomsByAcademy.do({
-    academyId,
+  const queryResult = await getClassroomsByGroup.do({
+    groupId: groupId,
   });
 
   return res.json(queryResult);
@@ -39,7 +37,7 @@ export const createClassroomSchema = z.object({
   body: z.object({
     type: z.string(),
     educatorId: z.string(),
-    academyId: z.string(),
+    groupId: z.string(),
     endsAt: z.string(),
     startsAt: z.string(),
     content: z.array(z.string()),
@@ -56,7 +54,7 @@ export async function handleCreateClassroom(
 ) {
   const {
     type,
-    academyId,
+    groupId,
     educatorId,
     endsAt,
     startsAt,
@@ -66,10 +64,10 @@ export async function handleCreateClassroom(
   } = req.body;
 
   const classroomRepository = new PrismaClassroomRepository();
-  const academyRepository = new PrismaAcademyRepository();
+  const groupRepository = new PrismaGroupRepository();
   const createClassroom = new CreateClassroom(
     classroomRepository,
-    academyRepository,
+    groupRepository,
     user.id
   );
 
@@ -80,7 +78,7 @@ export async function handleCreateClassroom(
   try {
     const queryResult = await createClassroom.do(
       new Classroom({
-        groupId: academyId,
+        groupId: groupId,
         type,
         educatorId,
         endsAt: parsedEndsAt,

@@ -3,10 +3,10 @@ import { GroupRepository } from "../group-repository";
 
 import { prismaClient } from "../../database/prisma";
 
-export class PrismaAcademyRepository implements GroupRepository {
+export class PrismaGroupRepository implements GroupRepository {
   async create(group: Group) {
     try {
-      const createdAcademy = await prismaClient.group.create({
+      const createdGroup = await prismaClient.group.create({
         data: {
           location: group.location,
           name: group.name,
@@ -23,11 +23,11 @@ export class PrismaAcademyRepository implements GroupRepository {
       return new Group(
         {
           educatorsIds: [],
-          location: createdAcademy.location,
-          name: createdAcademy.name,
-          responsibleEducatorId: createdAcademy.responsibleEducatorId,
+          location: createdGroup.location,
+          name: createdGroup.name,
+          responsibleEducatorId: createdGroup.responsibleEducatorId,
         },
-        createdAcademy.id
+        createdGroup.id
       );
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -40,7 +40,7 @@ export class PrismaAcademyRepository implements GroupRepository {
     }
   }
   async delete(groupId: string) {
-    const deletedAcademy = await prismaClient.group.delete({
+    const deletedGroup = await prismaClient.group.delete({
       where: {
         id: groupId,
       },
@@ -51,12 +51,12 @@ export class PrismaAcademyRepository implements GroupRepository {
     });
     return new Group(
       {
-        educatorsIds: deletedAcademy.educators.map((educator) => educator.id),
-        location: deletedAcademy.location,
-        name: deletedAcademy.name,
-        responsibleEducatorId: deletedAcademy.responsibleEducatorId,
+        educatorsIds: deletedGroup.educators.map((educator) => educator.id),
+        location: deletedGroup.location,
+        name: deletedGroup.name,
+        responsibleEducatorId: deletedGroup.responsibleEducatorId,
       },
-      deletedAcademy.id
+      deletedGroup.id
     );
   }
   async findGroupByName(groupName: string) {
@@ -95,15 +95,15 @@ export class PrismaAcademyRepository implements GroupRepository {
         },
       })) || null;
     return academiesFound.map(
-      (academy) =>
+      (group) =>
         new Group(
           {
-            educatorsIds: academy.educators.map((educator) => educator.id),
-            location: academy.location,
-            name: academy.name,
-            responsibleEducatorId: academy.responsibleEducatorId,
+            educatorsIds: group.educators.map((educator) => educator.id),
+            location: group.location,
+            name: group.name,
+            responsibleEducatorId: group.responsibleEducatorId,
           },
-          academy.id
+          group.id
         )
     );
   }

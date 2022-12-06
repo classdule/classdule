@@ -11,7 +11,7 @@ interface Props {
 }
 
 export class User extends Entity<Props> {
-  constructor(props: Props, id?: string) {
+  constructor({ groupIds = [], ...props }: Props, id?: string) {
     if (isFuture(props.birthDay)) {
       throw new Error("Cannot create a user that is not birth yet");
     }
@@ -19,7 +19,7 @@ export class User extends Entity<Props> {
     if (age < 4) {
       throw new Error("Cannot create a user that is younger than 4 years");
     }
-    super(props, id);
+    super({ groupIds, ...props }, id);
   }
 
   get id() {

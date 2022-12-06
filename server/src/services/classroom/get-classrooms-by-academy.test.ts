@@ -3,14 +3,12 @@ import { v4 as uuid } from "uuid";
 import { parseISO } from "date-fns";
 import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
-import { GetClassroomsByAcademy } from "./get-classrooms-by-academy";
+import { GetClassroomsByGroup } from "./get-classrooms-by-group";
 
-describe("Get classrooms by academy tests", () => {
-  it("Should be able to get all classrooms given an academy id", async () => {
+describe("Get classrooms by group tests", () => {
+  it("Should be able to get all classrooms given an group id", async () => {
     const classroomRepository = new InMemoryClassroomRepository();
-    const getClassroomsByAcademy = new GetClassroomsByAcademy(
-      classroomRepository
-    );
+    const getClassroomsByGroup = new GetClassroomsByGroup(classroomRepository);
 
     const classroom1 = new Classroom({
       groupId: "aaaa",
@@ -42,11 +40,11 @@ describe("Get classrooms by academy tests", () => {
     classroomRepository.classrooms = [classroom1, classroom2, classroom3];
     expect(classroomRepository.classrooms.length).toBe(3);
 
-    expect(
-      getClassroomsByAcademy.do({ academyId: "aaaa" })
-    ).resolves.toHaveLength(2);
-    expect(
-      getClassroomsByAcademy.do({ academyId: "bbbb" })
-    ).resolves.toHaveLength(1);
+    expect(getClassroomsByGroup.do({ groupId: "aaaa" })).resolves.toHaveLength(
+      2
+    );
+    expect(getClassroomsByGroup.do({ groupId: "bbbb" })).resolves.toHaveLength(
+      1
+    );
   });
 });

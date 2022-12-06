@@ -4,23 +4,23 @@ import { v4 as uuid } from "uuid";
 
 import { Group } from "../../entities/group";
 import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
-import { CreateAcademy } from "./create-group";
+import { CreateGroup } from "./create-group";
 
-describe("Create academy tests", () => {
-  it("Should be able to create an academy", async () => {
+describe("Create group tests", () => {
+  it("Should be able to create an group", async () => {
     const repository = new InMemoryGroupRepository();
-    const createAcademy = new CreateAcademy(repository);
+    const createGroup = new CreateGroup(repository);
 
-    const exampleAcademy = new Group({
+    const exampleGroup = new Group({
       educatorsIds: [],
       location: "Nowhere",
-      name: "Academy 1",
+      name: "Math group",
       responsibleEducatorId: uuid(),
     });
-    await createAcademy.execute({
-      location: exampleAcademy.location,
-      name: exampleAcademy.name,
-      responsibleEducatorId: exampleAcademy.responsibleEducatorId,
+    await createGroup.execute({
+      location: exampleGroup.location,
+      name: exampleGroup.name,
+      responsibleEducatorId: exampleGroup.responsibleEducatorId,
     });
     expect(repository.groups.length).toBeGreaterThan(0);
   });

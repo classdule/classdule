@@ -10,8 +10,8 @@ import { Group } from "../../entities/group";
 
 describe("Create classroom tests", () => {
   const classroomRepository = new InMemoryClassroomRepository();
-  const academyRepository = new InMemoryGroupRepository();
-  academyRepository.groups = [
+  const groupRepository = new InMemoryGroupRepository();
+  groupRepository.groups = [
     new Group(
       {
         educatorsIds: ["aaaa", "cccc"],
@@ -25,7 +25,7 @@ describe("Create classroom tests", () => {
   it("Should be able to create an classroom", async () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
-      academyRepository,
+      groupRepository,
       "aaaa"
     );
 
@@ -44,10 +44,10 @@ describe("Create classroom tests", () => {
     );
     expect(classroomRepository.classrooms.length).toBeGreaterThan(0);
   });
-  it("Should not be able to create a classroom since educator is not associated with academy", async () => {
+  it("Should not be able to create a classroom since educator is not associated with group", async () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
-      academyRepository,
+      groupRepository,
       "aaaa"
     );
 
@@ -62,10 +62,10 @@ describe("Create classroom tests", () => {
     });
     expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
   });
-  it("Should not be able to create a classroom since actor is not associated with academy", async () => {
+  it("Should not be able to create a classroom since actor is not associated with group", async () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
-      academyRepository,
+      groupRepository,
       "abab"
     );
 

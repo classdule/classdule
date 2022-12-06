@@ -7,20 +7,20 @@ type Request = Classroom;
 export class CreateClassroom {
   constructor(
     public classroomRepository: ClassroomRepository,
-    public academyRepository: GroupRepository,
+    public groupRepository: GroupRepository,
     public actorId: string
   ) {}
 
   async do(request: Request) {
-    const academyEducatorsIds = await this.academyRepository.findEducatorsIds(
+    const groupEducatorsIds = await this.groupRepository.findEducatorsIds(
       request.groupId
     );
-    if (!academyEducatorsIds.includes(this.actorId)) {
+    if (!groupEducatorsIds.includes(this.actorId)) {
       throw new Error(
         "Cannot create a classroom since you are not authorized to do so"
       );
     }
-    if (!academyEducatorsIds.includes(request.educatorId)) {
+    if (!groupEducatorsIds.includes(request.educatorId)) {
       throw new Error("Cannot create a classroom if educator does not exists");
     }
     const createdClassroom = await this.classroomRepository.create(

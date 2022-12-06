@@ -13,7 +13,7 @@ export class PrismaClassroomRepository implements ClassroomRepository {
         startsAt: classroom.startsAt,
         endsAt: classroom.endsAt,
         type: classroom.type,
-        academy: {
+        group: {
           connect: {
             id: classroom.groupId,
           },

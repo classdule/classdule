@@ -24,18 +24,18 @@ classroomRoutes.get(
   handleGetClassroomsByGroup
 );
 classroomRoutes.post(
-  "/classroom/create",
+  "/classroom",
   [verifyToken, validateInput(createClassroomSchema)],
   handleCreateClassroom
 );
 classroomRoutes.delete(
-  "/classroom/delete",
+  "/classroom",
   [validateInput(deleteClassroomSchema)],
   handleDeleteClassroom
 );
 
 classroomRoutes.post(
-  "/classroom/checkin/create",
+  "/classroom/checkin",
   [verifyToken, validateInput(createCheckinSchema)],
   handleCreateCheckin
 );

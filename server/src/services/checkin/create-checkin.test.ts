@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 
 import { parseISO } from "date-fns";
 
@@ -9,10 +9,13 @@ import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-mem
 import { CreateCheckin } from "./create-checkin";
 
 describe("Create check-in tests", () => {
+  let checkinRepository: InMemoryCheckinRepository;
+  let classroomRepository: InMemoryClassroomRepository;
+  beforeEach(() => {
+    checkinRepository = new InMemoryCheckinRepository();
+    classroomRepository = new InMemoryClassroomRepository();
+  });
   it("Should be able to create a check-in", async () => {
-    const checkinRepository = new InMemoryCheckinRepository();
-    const classroomRepository = new InMemoryClassroomRepository();
-
     const existingClassroom = await classroomRepository.create(
       new Classroom({
         groupId: "aaaa",
@@ -21,6 +24,7 @@ describe("Create check-in tests", () => {
         startsAt: parseISO("1970-01-01 20:30"),
         endsAt: parseISO("1970-01-01 22:00"),
         weekdays: [1, 4], // Monday and Thursday
+        content: [],
       })
     );
 
@@ -42,9 +46,6 @@ describe("Create check-in tests", () => {
     ).resolves;
   });
   it("Should not be able to create a check-in since checkin cannot be created a day before the classroom", async () => {
-    const checkinRepository = new InMemoryCheckinRepository();
-    const classroomRepository = new InMemoryClassroomRepository();
-
     const existingClassroom = await classroomRepository.create(
       new Classroom({
         groupId: "aaaa",
@@ -53,6 +54,7 @@ describe("Create check-in tests", () => {
         startsAt: parseISO("1970-01-01 20:30"),
         endsAt: parseISO("1970-01-01 22:00"),
         weekdays: [2, 4], // Tuesday and Thursday
+        content: [],
       })
     );
 
@@ -75,9 +77,6 @@ describe("Create check-in tests", () => {
   });
 
   it("Should not be able to create two check-ins in the same classroom and the same day", async () => {
-    const checkinRepository = new InMemoryCheckinRepository();
-    const classroomRepository = new InMemoryClassroomRepository();
-
     const existingClassroom = await classroomRepository.create(
       new Classroom({
         groupId: "aaaa",
@@ -86,6 +85,7 @@ describe("Create check-in tests", () => {
         startsAt: parseISO("1970-01-02 20:30"),
         endsAt: parseISO("1970-01-02 22:00"),
         weekdays: [1, 3], // Monday and Wednesday
+        content: [],
       })
     );
 
@@ -125,4 +125,5 @@ describe("Create check-in tests", () => {
       })
     ).rejects.toThrow();
   });
+  it("Should not be able to create a check-in since user is not a group member", () => {});
 });

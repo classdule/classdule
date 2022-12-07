@@ -36,7 +36,6 @@ export async function handleGetClassroomsByGroup(
 export const createClassroomSchema = z.object({
   body: z.object({
     type: z.string(),
-    educatorId: z.string(),
     groupId: z.string(),
     endsAt: z.string(),
     startsAt: z.string(),
@@ -52,16 +51,7 @@ export async function handleCreateClassroom(
   req: Request<{}, {}, CreateClassroomSchema["body"]>,
   res: Response
 ) {
-  const {
-    type,
-    groupId,
-    educatorId,
-    endsAt,
-    startsAt,
-    weekdays,
-    user,
-    content,
-  } = req.body;
+  const { type, groupId, endsAt, startsAt, weekdays, user, content } = req.body;
 
   const classroomRepository = new PrismaClassroomRepository();
   const groupRepository = new PrismaGroupRepository();
@@ -80,7 +70,7 @@ export async function handleCreateClassroom(
       new Classroom({
         groupId: groupId,
         type,
-        educatorId,
+        educatorId: user.id,
         endsAt: parsedEndsAt,
         startsAt: parsedStartsAt,
         weekdays: weekdays as Day[],

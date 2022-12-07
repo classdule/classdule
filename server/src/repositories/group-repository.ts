@@ -5,10 +5,11 @@ export interface OperationError {
   error: string;
 }
 export interface GroupRepository {
-  create: (academy: Group) => Promise<Group | OperationError | null>;
-  delete: (academyId: string) => Promise<Group | null>;
-  findGroupByName: (academyName: string) => Promise<Group | null>;
+  create: (group: Group) => Promise<Group | OperationError | null>;
+  delete: (groupId: string) => Promise<Group | null>;
+  findGroupByName: (groupName: string) => Promise<Group | null>;
   queryGroupsByName: (subName: string) => Promise<Group[]>;
   findAll: () => Promise<Group[]>;
-  findEducatorsIds: (academyId: string) => Promise<string[]>;
+  findEducatorsIds: (groupId: string) => Promise<string[]>;
+  findGroupById: (groupId: string) => Promise<Group | null>;
 }

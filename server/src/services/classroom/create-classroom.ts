@@ -12,15 +12,19 @@ export class CreateClassroom {
   ) {}
 
   async do(request: Request) {
-    const groupEducatorsIds = await this.groupRepository.findEducatorsIds(
-      request.groupId
-    );
-    if (!groupEducatorsIds.includes(this.actorId)) {
+    const targetGroup = await this.groupRepository.findGroupById(request.groupId);
+    if (!targetGroup) {
+      throw new Error(`Group with id ${request.groupId} not found`);
+    }
+    if (
+      !targetGroup.educatorsIds.includes(this.actorId) &&
+      targetGroup.responsibleEducatorId !== this.actorId
+    ) {
       throw new Error(
         "Cannot create a classroom since you are not authorized to do so"
       );
     }
-    if (!groupEducatorsIds.includes(request.educatorId)) {
+    if (!targetGroup.educatorsIds.includes(request.educatorId) && targetGroup.responsibleEducatorId !== this.actorId) {
       throw new Error("Cannot create a classroom if educator does not exists");
     }
     const createdClassroom = await this.classroomRepository.create(

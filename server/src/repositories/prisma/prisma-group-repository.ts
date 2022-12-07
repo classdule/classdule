@@ -141,4 +141,24 @@ export class PrismaGroupRepository implements GroupRepository {
       ? queryResult.educators.map((educator) => educator.id)
       : [];
   }
+
+  async findGroupById(groupId: string) {
+    const queryResult = await prismaClient.group.findUnique({
+      where: {
+        id: groupId,
+      },
+      include: {
+        educators: true,
+      },
+    });
+    if (!queryResult) {
+      return null;
+    }
+    return new Group({
+      location: queryResult.location,
+      name: queryResult.name,
+      responsibleEducatorId: queryResult.responsibleEducatorId,
+      educatorsIds: queryResult.educators.map((educator) => educator.id),
+    });
+  }
 }

@@ -14,7 +14,7 @@ describe("Create classroom tests", () => {
   groupRepository.groups = [
     new Group(
       {
-        educatorsIds: ["aaaa", "cccc"],
+        educatorsIds: ["cccc"],
         location: "Any location",
         name: "Any name",
         responsibleEducatorId: "aaaa",
@@ -58,9 +58,9 @@ describe("Create classroom tests", () => {
       type: "basic",
       endsAt: parseISO("1970-01-01 21:00"),
       startsAt: parseISO("1970-01-01 19:00"),
-      content: ["3 Koshi waza"],
+      content: ["Fração"],
     });
-    expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
+    expect(createClassroom.do(classroomToCreate)).rejects;
   });
   it("Should not be able to create a classroom since actor is not associated with group", async () => {
     const createClassroom = new CreateClassroom(

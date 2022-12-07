@@ -1,5 +1,4 @@
 import { Entity } from "./entity";
-import { User } from "./user";
 
 interface Props {
     name: string;
@@ -8,7 +7,7 @@ interface Props {
     educatorsIds:string[];
 }
 
-export class Academy extends Entity<Props> {
+export class Group extends Entity<Props> {
     constructor(props:Props, id?: string){
         super(props, id);
     }

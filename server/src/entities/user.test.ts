@@ -10,13 +10,10 @@ describe('User tests', ()=> {
     it('Should be able to instantiate a user', ()=> {
         const user = new User({
             birthDay: getPastDate(),
-            currentGrade: 0,
-            currentGraduation: 'branca',
             name: 'John Doe',
             password: 'password#123',
-            graduationDate: subDays(new Date(), 20),
             email: 'email@email.com',
-            academyId: uuid()
+            academyIds: [uuid()]
         })
         expect(user).toBeInstanceOf(User)
         expect(user.id).toBeDefined()
@@ -25,23 +22,17 @@ describe('User tests', ()=> {
     it('Should not be able to instantiate a user since birthday is invalid', ()=> {
         expect(()=> new User({
             birthDay: new Date(),
-            currentGrade: 0,
-            currentGraduation: 'branca',
             name: 'Joe Doe Junior',
             password: 'areallybadpassword',
-            graduationDate: subDays(new Date(), 20),
             email: 'email@email.com',
-            academyId: uuid()
+            academyIds: [uuid()]
         })).toThrow();
         expect(()=> new User({
             birthDay: addYears(new Date(), 8),
-            currentGrade: 0,
-            currentGraduation: 'branca',
             name: 'Joe Doe Junior',
             password: 'areallybadpassword',
-            graduationDate: subDays(new Date(), 20),
             email: 'email@email.com',
-            academyId: uuid()
+            academyIds: [uuid()]
         })).toThrow();
 
     })

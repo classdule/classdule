@@ -26,6 +26,7 @@ export class PrismaGroupRepository implements GroupRepository {
           location: createdGroup.location,
           name: createdGroup.name,
           responsibleEducatorId: createdGroup.responsibleEducatorId,
+          membersIds: [],
         },
         createdGroup.id
       );
@@ -55,6 +56,7 @@ export class PrismaGroupRepository implements GroupRepository {
         location: deletedGroup.location,
         name: deletedGroup.name,
         responsibleEducatorId: deletedGroup.responsibleEducatorId,
+        membersIds: [],
       },
       deletedGroup.id
     );
@@ -79,6 +81,7 @@ export class PrismaGroupRepository implements GroupRepository {
         location: queryResult.location,
         name: queryResult.name,
         responsibleEducatorId: queryResult.responsibleEducatorId,
+        membersIds: [],
       },
       queryResult.id
     );
@@ -102,6 +105,7 @@ export class PrismaGroupRepository implements GroupRepository {
             location: group.location,
             name: group.name,
             responsibleEducatorId: group.responsibleEducatorId,
+            membersIds: [],
           },
           group.id
         )
@@ -123,6 +127,7 @@ export class PrismaGroupRepository implements GroupRepository {
             location: group.location,
             name: group.name,
             responsibleEducatorId: group.responsibleEducator.id,
+            membersIds: [],
           },
           group.id
         )
@@ -159,6 +164,7 @@ export class PrismaGroupRepository implements GroupRepository {
       name: queryResult.name,
       responsibleEducatorId: queryResult.responsibleEducatorId,
       educatorsIds: queryResult.educators.map((educator) => educator.id),
+      membersIds: [],
     });
   }
 }

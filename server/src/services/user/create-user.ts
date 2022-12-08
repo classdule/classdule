@@ -7,7 +7,6 @@ interface Request {
   birthDay: Date;
   password: string;
   email: string;
-  groupIds?: string[];
 }
 export class CreateUser {
   repository: UserRepositoryBase;
@@ -16,7 +15,7 @@ export class CreateUser {
     this.repository = repository;
   }
 
-  async execute({ birthDay, email, name, password, groupIds = [] }: Request) {
+  async execute({ birthDay, email, name, password }: Request) {
     const alreadyTakenEmail =
       (await this.repository.findByEmail(email)) !== null;
     if (alreadyTakenEmail) {
@@ -26,7 +25,6 @@ export class CreateUser {
     const createUser = new User({
       birthDay,
       email,
-      groupIds,
       name,
       password: encryptedPassword,
     });

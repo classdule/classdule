@@ -47,7 +47,13 @@ export async function handleCreateUser(
       name,
       password,
     });
-    return res.json(operationResult);
+    if (!!operationResult) {
+      return res.status(201).json({
+        message: "User created successfully",
+        name: operationResult.name,
+        email: operationResult.email,
+      });
+    }
   } catch (err) {
     let errMessage = "Unknown error";
     if (err instanceof Error) errMessage = err.message;

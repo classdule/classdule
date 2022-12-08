@@ -20,7 +20,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         name: createdUser.name,
         password: createdUser.password,
         email: createdUser.email,
-        groupIds: [],
       },
       createdUser.id
     );
@@ -44,7 +43,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         name: deletedUser.name,
         password: deletedUser.password,
         email: deletedUser.email,
-        groupIds: deletedUser.groups.map((gr) => gr.id),
       },
       deletedUser.id
     );
@@ -69,7 +67,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
           name: user.name,
           password: user.password,
           email: user.email,
-          groupIds: user.groups.map((gr) => gr.id),
         },
         user.id
       );
@@ -98,7 +95,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         name: updatedUser.name,
         password: updatedUser.password,
         email: updatedUser.email,
-        groupIds: updatedUser.groups.map((gr) => gr.id),
       },
       updatedUser.id
     );
@@ -121,7 +117,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
           name: user.name,
           password: user.password,
           email: user.email,
-          groupIds: user.groups.map((grp) => grp.id),
         },
         user.id
       );
@@ -151,7 +146,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         name: foundUser.name,
         password: foundUser.password,
         email: foundUser.email,
-        groupIds: foundUser.groups.map((grp) => grp.id),
       },
       foundUser.id
     );
@@ -175,7 +169,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
     return foundUsers.map((user) => {
       return new User(
         {
-          groupIds: user.groups.map((grp) => grp.id),
           birthDay: user.birthDay,
           email: user.email,
           name: user.name,

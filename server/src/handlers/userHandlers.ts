@@ -50,8 +50,10 @@ export async function handleCreateUser(
     if (!!operationResult) {
       return res.status(201).json({
         message: "User created successfully",
-        name: operationResult.name,
-        email: operationResult.email,
+        user: {
+          name: operationResult.name,
+          email: operationResult.email,
+        },
       });
     }
   } catch (err) {
@@ -86,7 +88,9 @@ export async function handleChangeUsername(
     });
   }
 
-  return res.status(201).json(newUser);
+  return res.status(201).json({
+    message: 'User name changed successfully'
+  });
 }
 export const deleteUserSchema = z.object({
   body: z.object({
@@ -103,7 +107,9 @@ export async function handleDeleteUser(
   const { user } = req.body;
   const deleteUser = new DeleteUser(new UserRepositoryPrisma());
   const deletedUser = await deleteUser.execute(user.id);
-  return res.json(deletedUser);
+  return res.json({
+    message: `Deleted user with id ${user.id}`
+  });
 }
 
 export const getUserInfoSchema = z.object({
@@ -124,7 +130,10 @@ export async function handleGetUserInfo(
   const userInfo = await getUserInfo.do({
     userId: id,
   });
-  return res.json(userInfo);
+  return res.json({
+    name: userInfo.name,
+    email: userInfo.email,
+  });
 }
 export const getAccountInfoSchema = z.object({
   body: z.object({
@@ -146,5 +155,8 @@ export async function handleGetAccountInfo(
   const userInfo = await getUserInfo.do({
     userId: user.id,
   });
-  return res.json(userInfo);
+  return res.json({
+    name: userInfo.name,
+    email: userInfo.email,
+  });
 }

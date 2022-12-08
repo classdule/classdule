@@ -10,6 +10,7 @@ import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-
 import { CreateCheckin } from "./create-checkin";
 
 import { Group } from "../../entities/group";
+import { User } from "../../entities/user";
 
 describe("Create check-in tests", () => {
   let checkinRepository: InMemoryCheckinRepository;
@@ -28,7 +29,7 @@ describe("Create check-in tests", () => {
           location: "The campus",
           responsibleEducatorId: "aabb",
           educatorsIds: [],
-          membersIds: [],
+          membersIds: ["aaaa", "bbbb"],
         },
         "aaaa"
       )
@@ -131,6 +132,30 @@ describe("Create check-in tests", () => {
     expect(
       createCheckin.do({
         checkin: exampleCheckin2,
+      })
+    ).rejects.toThrow();
+  });
+  it("Should fail to create a a check-in since user is not a group member", async () => {
+    const existingClassroom = await classroomRepository.create(
+      new Classroom({
+        groupId: "aaaa",
+        educatorId: "bbbb",
+        type: "basic",
+        startsAt: parseISO("1970-01-02 20:30"),
+        endsAt: parseISO("1970-01-02 22:00"),
+        weekdays: [1, 3], // Monday and Wednesday
+        content: [],
+      })
+    );
+
+    const invalidCheckin = new Checkin({
+      classroomId: existingClassroom.id,
+      userId: "abab",
+      createdAt: parseISO("2022-09-26 20:30"),
+    });
+    expect(
+      createCheckin.do({
+        checkin: invalidCheckin,
       })
     ).rejects.toThrow();
   });

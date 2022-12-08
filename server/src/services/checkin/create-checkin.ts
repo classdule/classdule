@@ -28,8 +28,14 @@ export class CreateCheckin {
     const classroomGroup = await this.groupRepository.findGroupById(
       targetClassroom.groupId
     );
+
     if (classroomGroup === null) {
       throw new Error(`Group not found with id ${targetClassroom.groupId}`);
+    }
+    if (!classroomGroup.membersIds.includes(request.checkin.userId)) {
+      throw new Error(
+        `Group member with id ${request.checkin.userId} not found`
+      );
     }
     const weekDay = getDay(request.checkin.createdAt);
     const isClassroomOpen = targetClassroom.weekdays.includes(weekDay);

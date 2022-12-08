@@ -7,11 +7,10 @@ interface Props {
   birthDay: Date;
   password: string;
   email: string;
-  groupIds: string[];
 }
 
 export class User extends Entity<Props> {
-  constructor({ groupIds = [], ...props }: Props, id?: string) {
+  constructor({ ...props }: Props, id?: string) {
     if (isFuture(props.birthDay)) {
       throw new Error("Cannot create a user that is not birth yet");
     }
@@ -19,7 +18,7 @@ export class User extends Entity<Props> {
     if (age < 4) {
       throw new Error("Cannot create a user that is younger than 4 years");
     }
-    super({ groupIds, ...props }, id);
+    super(props, id);
   }
 
   get id() {
@@ -43,9 +42,6 @@ export class User extends Entity<Props> {
   }
   get age() {
     return Math.abs(differenceInYears(new Date(), this.props.birthDay));
-  }
-  get academyIds() {
-    return this.props.groupIds;
   }
   get spreadProps() {
     return this.props;

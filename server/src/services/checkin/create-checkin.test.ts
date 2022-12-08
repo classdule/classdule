@@ -6,14 +6,39 @@ import { Checkin } from "../../entities/checkin";
 import { Classroom } from "../../entities/classroom";
 import { InMemoryCheckinRepository } from "../../repositories/in-memory/in-memory-checkin-repository";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
+import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
 import { CreateCheckin } from "./create-checkin";
+
+import { Group } from "../../entities/group";
+import { User } from "../../entities/user";
 
 describe("Create check-in tests", () => {
   let checkinRepository: InMemoryCheckinRepository;
   let classroomRepository: InMemoryClassroomRepository;
-  beforeEach(() => {
+  let groupRepository: InMemoryGroupRepository;
+  let createCheckin: CreateCheckin;
+  beforeEach(async () => {
     checkinRepository = new InMemoryCheckinRepository();
     classroomRepository = new InMemoryClassroomRepository();
+    groupRepository = new InMemoryGroupRepository();
+
+    await groupRepository.create(
+      new Group(
+        {
+          name: "Example group",
+          location: "The campus",
+          responsibleEducatorId: "aabb",
+          educatorsIds: [],
+          membersIds: ["aaaa", "bbbb"],
+        },
+        "aaaa"
+      )
+    );
+    createCheckin = new CreateCheckin(
+      classroomRepository,
+      checkinRepository,
+      groupRepository
+    );
   });
   it("Should be able to create a check-in", async () => {
     const existingClassroom = await classroomRepository.create(
@@ -26,11 +51,6 @@ describe("Create check-in tests", () => {
         weekdays: [1, 4], // Monday and Thursday
         content: [],
       })
-    );
-
-    const createCheckin = new CreateCheckin(
-      classroomRepository,
-      checkinRepository
     );
 
     const exampleCheckin = new Checkin({
@@ -58,11 +78,6 @@ describe("Create check-in tests", () => {
       })
     );
 
-    const createCheckin = new CreateCheckin(
-      classroomRepository,
-      checkinRepository
-    );
-
     const exampleCheckin = new Checkin({
       classroomId: existingClassroom.id,
       userId: "bbbb",
@@ -87,11 +102,6 @@ describe("Create check-in tests", () => {
         weekdays: [1, 3], // Monday and Wednesday
         content: [],
       })
-    );
-
-    const createCheckin = new CreateCheckin(
-      classroomRepository,
-      checkinRepository
     );
 
     const exampleCheckin1 = new Checkin({
@@ -125,5 +135,28 @@ describe("Create check-in tests", () => {
       })
     ).rejects.toThrow();
   });
-  it("Should not be able to create a check-in since user is not a group member", () => {});
+  it("Should fail to create a a check-in since user is not a group member", async () => {
+    const existingClassroom = await classroomRepository.create(
+      new Classroom({
+        groupId: "aaaa",
+        educatorId: "bbbb",
+        type: "basic",
+        startsAt: parseISO("1970-01-02 20:30"),
+        endsAt: parseISO("1970-01-02 22:00"),
+        weekdays: [1, 3], // Monday and Wednesday
+        content: [],
+      })
+    );
+
+    const invalidCheckin = new Checkin({
+      classroomId: existingClassroom.id,
+      userId: "abab",
+      createdAt: parseISO("2022-09-26 20:30"),
+    });
+    expect(
+      createCheckin.do({
+        checkin: invalidCheckin,
+      })
+    ).rejects.toThrow();
+  });
 });

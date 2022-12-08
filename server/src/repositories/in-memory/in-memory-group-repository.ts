@@ -5,16 +5,10 @@ import { GroupRepository } from "../group-repository";
 
 export class InMemoryGroupRepository implements GroupRepository {
   groups: Group[] = [];
-  async create(academy: Group) {
-    const createGroup = new Group({
-      educatorsIds: [],
-      location: academy.location,
-      name: academy.name,
-      responsibleEducatorId: uuid(),
-    });
-    this.groups.push(createGroup);
+  async create(group: Group) {
+    this.groups.push(group);
 
-    return createGroup;
+    return group;
   }
   async delete(groupId: string) {
     const deleteAcademy =

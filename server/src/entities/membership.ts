@@ -6,15 +6,22 @@ export enum MembershipRole {
   EDUCATOR = "EDUCATOR",
 }
 
-interface MemberShipProps {
+interface MembershipProps {
   userId: string;
   groupId: string;
   role: MembershipRole;
 }
 
-export class Membership extends Entity<MemberShipProps> {
-  constructor(props: MemberShipProps, id?: string) {
-    super(props, id);
+interface MembershipConstructorParams {
+  userId: string;
+  groupId: string;
+  role?: MembershipRole;
+}
+
+export class Membership extends Entity<MembershipProps> {
+  constructor(props: MembershipConstructorParams, id?: string) {
+    const initialRole = props.role || MembershipRole.PENDING;
+    super({ ...props, role: initialRole }, id);
   }
 
   get role() {
@@ -28,5 +35,9 @@ export class Membership extends Entity<MemberShipProps> {
   }
   get id() {
     return this._id;
+  }
+
+  set role(_role: MembershipRole) {
+    this.props.role = _role;
   }
 }

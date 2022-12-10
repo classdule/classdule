@@ -2,6 +2,7 @@ import { Group } from "../../entities/group";
 import { GroupRepository } from "../group-repository";
 
 import { prismaClient } from "../../database/prisma";
+import { UserGroupStatus } from "@prisma/client";
 
 export class PrismaGroupRepository implements GroupRepository {
   async create(group: Group) {
@@ -46,13 +47,17 @@ export class PrismaGroupRepository implements GroupRepository {
         id: groupId,
       },
       include: {
-        educators: true,
+        members: {
+          where: {
+            status: UserGroupStatus.EDUCATOR,
+          },
+        },
         responsibleEducator: true,
       },
     });
     return new Group(
       {
-        educatorsIds: deletedGroup.educators.map((educator) => educator.id),
+        educatorsIds: deletedGroup.members.map((educator) => educator.userId),
         location: deletedGroup.location,
         name: deletedGroup.name,
         responsibleEducatorId: deletedGroup.responsibleEducatorId,
@@ -68,7 +73,11 @@ export class PrismaGroupRepository implements GroupRepository {
           name: groupName,
         },
         include: {
-          educators: true,
+          members: {
+            where: {
+              status: UserGroupStatus.EDUCATOR,
+            },
+          },
           responsibleEducator: true,
         },
       })) || null;
@@ -77,7 +86,7 @@ export class PrismaGroupRepository implements GroupRepository {
     }
     return new Group(
       {
-        educatorsIds: queryResult.educators.map((educator) => educator.id),
+        educatorsIds: queryResult.members.map((educator) => educator.userId),
         location: queryResult.location,
         name: queryResult.name,
         responsibleEducatorId: queryResult.responsibleEducatorId,
@@ -93,7 +102,11 @@ export class PrismaGroupRepository implements GroupRepository {
           name: subName,
         },
         include: {
-          educators: true,
+          members: {
+            where: {
+              status: UserGroupStatus.EDUCATOR,
+            },
+          },
           responsibleEducator: true,
         },
       })) || null;
@@ -101,7 +114,7 @@ export class PrismaGroupRepository implements GroupRepository {
       (group) =>
         new Group(
           {
-            educatorsIds: group.educators.map((educator) => educator.id),
+            educatorsIds: group.members.map((educator) => educator.userId),
             location: group.location,
             name: group.name,
             responsibleEducatorId: group.responsibleEducatorId,
@@ -115,7 +128,11 @@ export class PrismaGroupRepository implements GroupRepository {
   async findAll() {
     const queryResult = await prismaClient.group.findMany({
       include: {
-        educators: true,
+        members: {
+          where: {
+            status: UserGroupStatus.EDUCATOR,
+          },
+        },
         responsibleEducator: true,
       },
     });
@@ -123,7 +140,7 @@ export class PrismaGroupRepository implements GroupRepository {
       (group) =>
         new Group(
           {
-            educatorsIds: group.educators.map((educator) => educator.id),
+            educatorsIds: group.members.map((educator) => educator.userId),
             location: group.location,
             name: group.name,
             responsibleEducatorId: group.responsibleEducator.id,
@@ -139,11 +156,15 @@ export class PrismaGroupRepository implements GroupRepository {
         id: groupId,
       },
       include: {
-        educators: true,
+        members: {
+          where: {
+            status: UserGroupStatus.EDUCATOR,
+          },
+        },
       },
     });
     return queryResult
-      ? queryResult.educators.map((educator) => educator.id)
+      ? queryResult.members.map((educator) => educator.userId)
       : [];
   }
 
@@ -153,7 +174,11 @@ export class PrismaGroupRepository implements GroupRepository {
         id: groupId,
       },
       include: {
-        educators: true,
+        members: {
+          where: {
+            status: UserGroupStatus.EDUCATOR,
+          },
+        },
       },
     });
     if (!queryResult) {
@@ -163,7 +188,7 @@ export class PrismaGroupRepository implements GroupRepository {
       location: queryResult.location,
       name: queryResult.name,
       responsibleEducatorId: queryResult.responsibleEducatorId,
-      educatorsIds: queryResult.educators.map((educator) => educator.id),
+      educatorsIds: queryResult.members.map((educator) => educator.userId),
       membersIds: [],
     });
   }

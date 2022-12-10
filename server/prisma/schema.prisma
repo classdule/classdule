@@ -10,38 +10,48 @@ datasource db {
 }
 
 model User {
-  id                String      @id @default(uuid())
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
-  name              String      @db.VarChar(255)
+  id                String        @id @default(uuid())
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  name              String        @db.VarChar(255)
   birthDay          DateTime
-  email             String      @unique @db.VarChar(255)
-  password          String      @db.VarChar(255)
+  email             String        @unique @db.VarChar(255)
+  password          String        @db.VarChar(255)
   classrooms        Classroom[]
-  educatorOnGroups  Group[]     @relation("educators")
-  groupsResponsible Group[]     @relation("educator")
-  groups            Group[]     
+  groupsResponsible Group[]       @relation("educator")
   Checkins          Checkin[]
+  memberOnGroups    UserOnGroup[]
 }
 
 model Group {
-  id                    String      @id @default(uuid())
-  name                  String      @unique @db.VarChar(255)
-  location              String      @db.VarChar(255)
-  responsibleEducator   User       @relation(fields: [responsibleEducatorId], references: [id], "educator")
+  id                    String        @id @default(uuid())
+  name                  String        @unique @db.VarChar(255)
+  location              String        @db.VarChar(255)
+  responsibleEducator   User          @relation(fields: [responsibleEducatorId], references: [id], "educator")
   responsibleEducatorId String
-  educators             User[] @relation("educators")      
   Classroom             Classroom[]
-  members               User[]     
+  members               UserOnGroup[]
 
   @@index([responsibleEducatorId])
+}
+
+model UserOnGroup {
+  id      String          @id @default(uuid()) @db.VarChar(255)
+  user    User            @relation(fields: [userId], references: [id])
+  group   Group           @relation(fields: [groupId], references: [id])
+  userId  String
+  groupId String
+  status  UserGroupStatus
+
+  @@index([userId])
+  @@index([groupId])
 }
 
 model Classroom {
   id         String             @id @default(uuid()) @db.VarChar(255)
   type       String             @db.VarChar(255)
   educator   User               @relation(fields: [educatorId], references: [id])
-  group    Group              @relation(fields: [groupId], references: [id])
+  group      Group              @relation(fields: [groupId], references: [id])
   startsAt   DateTime           @db.Time()
   endsAt     DateTime           @db.Time()
   checkins   Checkin[]
@@ -78,4 +88,10 @@ model Checkin {
 
   @@index([userId])
   @@index([classroomId])
+}
+
+enum UserGroupStatus {
+  PENDANT
+  MEMBER
+  EDUCATOR
 }

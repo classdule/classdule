@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, expect } from "vitest";
 import { Group } from "../../entities/group";
-import { Membership } from "../../entities/membership";
+import { Membership, MembershipRole } from "../../entities/membership";
 import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
 import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
 import { DeleteMembership } from "./delete-membership";
@@ -31,21 +31,22 @@ describe("Delete membership tests", () => {
           groupId: "gggg",
           userId: "abab",
         },
-        "oooo"
+        "iiii"
       ),
       new Membership(
         {
           groupId: "gggg",
           userId: "ghgh",
+          role: MembershipRole.EDUCATOR,
         },
-        "pppp"
+        "bbbb"
       ),
       new Membership(
         {
           groupId: "gggg",
           userId: "alal",
         },
-        "qqqq"
+        "cccc"
       ),
     ];
   });
@@ -57,13 +58,25 @@ describe("Delete membership tests", () => {
       "aaaa"
     );
 
-    await deleteMembership.do({
-      membershipId: "oooo",
-    });
+    expect(
+      deleteMembership.do({
+        membershipId: "iiii",
+      })
+    ).resolves;
 
     expect(membershipRepository.memberships.length).toBe(2);
   });
-  it.todo(
-    "Should fail to delete a membership since actor does not have permission to do so"
-  );
+  it("Should fail to delete a membership since actor does not have permission to do so", async () => {
+    const deleteMembership = new DeleteMembership(
+      membershipRepository,
+      groupRepository,
+      "alal"
+    );
+
+    expect(
+      deleteMembership.do({
+        membershipId: "iiii",
+      })
+    ).rejects.toThrow();
+  });
 });

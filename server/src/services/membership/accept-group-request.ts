@@ -27,7 +27,19 @@ export class AcceptGroupRequest {
       throw new Error(`Group not found with id ${targetMembership.groupId}`);
     }
 
-    const allowedActors = targetGroup?.membershipsIds;
+    const groupMemberships = await this.membershipRepository.findByGroup(
+      targetGroup.id
+    );
+    const allowedActorsIds = [
+      ...groupMemberships
+        .filter((membership) => membership.role === MembershipRole.EDUCATOR)
+        .map((membership) => membership.userId),
+      targetGroup.responsibleEducatorId,
+    ];
+
+    if (!allowedActorsIds.includes(this.actorId)) {
+      throw new Error("Actor is not allowed to accept a request");
+    }
 
     const membership = await this.membershipRepository.updateRole(
       membershipId,

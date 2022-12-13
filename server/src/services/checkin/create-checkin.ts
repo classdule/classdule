@@ -1,9 +1,11 @@
 import { isSameDay, getDay } from "date-fns";
 
 import { Checkin } from "../../entities/checkin";
+import { MembershipRole } from "../../entities/membership";
 import { CheckinRepository } from "../../repositories/checkin-repository";
 import { ClassroomRepository } from "../../repositories/classroom-repository";
 import { GroupRepository } from "../../repositories/group-repository";
+import { MembershipRepository } from "../../repositories/membership-repository";
 
 type Request = {
   checkin: Checkin;
@@ -13,7 +15,8 @@ export class CreateCheckin {
   constructor(
     private classroomRepository: ClassroomRepository,
     private checkinRepository: CheckinRepository,
-    private groupRepository: GroupRepository
+    private groupRepository: GroupRepository,
+    private membershipRepository: MembershipRepository
   ) {}
 
   async do(request: Request) {
@@ -32,7 +35,13 @@ export class CreateCheckin {
     if (classroomGroup === null) {
       throw new Error(`Group not found with id ${targetClassroom.groupId}`);
     }
-    if (!classroomGroup.membersIds.includes(request.checkin.userId)) {
+    const classroomGroupMemberships =
+      await this.membershipRepository.findByGroup(classroomGroup.id);
+    const classroomGroupMembersIds = classroomGroupMemberships
+      .filter((membership) => membership.role === MembershipRole.MEMBER)
+      .map((membership) => membership.userId);
+
+    if (!classroomGroupMembersIds.includes(request.checkin.userId)) {
       throw new Error(
         `Group member with id ${request.checkin.userId} not found`
       );

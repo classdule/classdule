@@ -10,17 +10,40 @@ import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-
 import { CreateCheckin } from "./create-checkin";
 
 import { Group } from "../../entities/group";
-import { User } from "../../entities/user";
+import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
+import { Membership, MembershipRole } from "../../entities/membership";
 
 describe("Create check-in tests", () => {
   let checkinRepository: InMemoryCheckinRepository;
   let classroomRepository: InMemoryClassroomRepository;
   let groupRepository: InMemoryGroupRepository;
+  let membershipRepository: InMemoryMembershipRepository;
   let createCheckin: CreateCheckin;
+
   beforeEach(async () => {
     checkinRepository = new InMemoryCheckinRepository();
     classroomRepository = new InMemoryClassroomRepository();
     groupRepository = new InMemoryGroupRepository();
+    membershipRepository = new InMemoryMembershipRepository();
+
+    membershipRepository.memberships = [
+      new Membership(
+        {
+          groupId: "aaaa",
+          userId: "aaaa",
+          role: MembershipRole.MEMBER,
+        },
+        "cccc"
+      ),
+      new Membership(
+        {
+          groupId: "aaaa",
+          userId: "bbbb",
+          role: MembershipRole.MEMBER,
+        },
+        "dddd"
+      ),
+    ];
 
     await groupRepository.create(
       new Group(
@@ -28,8 +51,7 @@ describe("Create check-in tests", () => {
           name: "Example group",
           location: "The campus",
           responsibleEducatorId: "aabb",
-          educatorsIds: [],
-          membersIds: ["aaaa", "bbbb"],
+          membershipsIds: ["cccc", "dddd"],
         },
         "aaaa"
       )
@@ -37,7 +59,8 @@ describe("Create check-in tests", () => {
     createCheckin = new CreateCheckin(
       classroomRepository,
       checkinRepository,
-      groupRepository
+      groupRepository,
+      membershipRepository
     );
   });
   it("Should be able to create a check-in", async () => {

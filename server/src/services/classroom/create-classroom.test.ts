@@ -6,15 +6,29 @@ import { Classroom } from "../../entities/classroom";
 import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
 import { CreateClassroom } from "./create-classroom";
 import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
+import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
 import { Group } from "../../entities/group";
+import { Membership } from "../../entities/membership";
 
 describe("Create classroom tests", () => {
   const classroomRepository = new InMemoryClassroomRepository();
   const groupRepository = new InMemoryGroupRepository();
+  const membershipRepository = new InMemoryMembershipRepository();
+
+  membershipRepository.memberships = [
+    new Membership(
+      {
+        groupId: "aaaa",
+        userId: "bbbb",
+      },
+      "efef"
+    ),
+  ];
+
   groupRepository.groups = [
     new Group(
       {
-        educatorsIds: ["cccc"],
+        membershipsIds: ["efef"],
         location: "Any location",
         name: "Any name",
         responsibleEducatorId: "aaaa",
@@ -26,6 +40,7 @@ describe("Create classroom tests", () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
       groupRepository,
+      membershipRepository,
       "aaaa"
     );
 
@@ -48,6 +63,7 @@ describe("Create classroom tests", () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
       groupRepository,
+      membershipRepository,
       "aaaa"
     );
 
@@ -66,6 +82,7 @@ describe("Create classroom tests", () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
       groupRepository,
+      membershipRepository,
       "abab"
     );
 

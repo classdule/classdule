@@ -20,7 +20,7 @@ model User {
   classrooms        Classroom[]
   groupsResponsible Group[]       @relation("educator")
   Checkins          Checkin[]
-  memberOnGroups    UserOnGroup[]
+  memberOnGroups    Membership[]
 }
 
 model Group {
@@ -30,18 +30,18 @@ model Group {
   responsibleEducator   User          @relation(fields: [responsibleEducatorId], references: [id], "educator")
   responsibleEducatorId String
   Classroom             Classroom[]
-  members               UserOnGroup[]
+  memberships               Membership[]
 
   @@index([responsibleEducatorId])
 }
 
-model UserOnGroup {
+model Membership {
   id      String          @id @default(uuid()) @db.VarChar(255)
   user    User            @relation(fields: [userId], references: [id])
   group   Group           @relation(fields: [groupId], references: [id])
   userId  String
   groupId String
-  status  UserGroupStatus
+  role  UserGroupRole
 
   @@index([userId])
   @@index([groupId])
@@ -90,8 +90,8 @@ model Checkin {
   @@index([classroomId])
 }
 
-enum UserGroupStatus {
-  PENDANT
+enum UserGroupRole {
+  PENDING
   MEMBER
   EDUCATOR
 }

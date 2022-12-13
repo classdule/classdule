@@ -4,6 +4,7 @@ import { Checkin } from "../entities/checkin";
 import { PrismaCheckinRepository } from "../repositories/prisma/prisma-checkin-repository";
 import { PrismaClassroomRepository } from "../repositories/prisma/prisma-classroom-repository";
 import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
+import { PrismaMembershipRepository } from "../repositories/prisma/prisma-membership-repository";
 import { CreateCheckin } from "../services/checkin/create-checkin";
 import { VerifyCheckin } from "../services/checkin/verify-checkin";
 
@@ -25,10 +26,12 @@ export async function handleCreateCheckin(
   const checkinsRepository = new PrismaCheckinRepository();
   const classroomRepository = new PrismaClassroomRepository();
   const groupRepository = new PrismaGroupRepository();
+  const membershipRepository = new PrismaMembershipRepository();
   const createCheckin = new CreateCheckin(
     classroomRepository,
     checkinsRepository,
-    groupRepository
+    groupRepository,
+    membershipRepository
   );
 
   try {

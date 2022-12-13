@@ -89,7 +89,7 @@ export async function handleChangeUsername(
   }
 
   return res.status(201).json({
-    message: 'User name changed successfully'
+    message: "User name changed successfully",
   });
 }
 export const deleteUserSchema = z.object({
@@ -108,7 +108,7 @@ export async function handleDeleteUser(
   const deleteUser = new DeleteUser(new UserRepositoryPrisma());
   const deletedUser = await deleteUser.execute(user.id);
   return res.json({
-    message: `Deleted user with id ${user.id}`
+    message: `Deleted user with id ${user.id}`,
   });
 }
 
@@ -130,9 +130,12 @@ export async function handleGetUserInfo(
   const userInfo = await getUserInfo.do({
     userId: id,
   });
+  if (!userInfo) {
+    return res.sendStatus(404);
+  }
   return res.json({
-    name: userInfo.name,
-    email: userInfo.email,
+    name: userInfo.user.name,
+    email: userInfo.user.email,
   });
 }
 export const getAccountInfoSchema = z.object({
@@ -155,8 +158,11 @@ export async function handleGetAccountInfo(
   const userInfo = await getUserInfo.do({
     userId: user.id,
   });
+  if (!userInfo) {
+    return res.sendStatus(404);
+  }
   return res.json({
-    name: userInfo.name,
-    email: userInfo.email,
+    name: userInfo.user.name,
+    email: userInfo.user.email,
   });
 }

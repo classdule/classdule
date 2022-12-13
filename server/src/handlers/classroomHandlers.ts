@@ -1,8 +1,7 @@
+import "express-async-errors";
 import { parseISO } from "date-fns";
 import { Request, Response } from "express";
 import { z } from "zod";
-
-import "express-async-errors";
 
 import { Classroom } from "../entities/classroom";
 import { PrismaClassroomRepository } from "../repositories/prisma/prisma-classroom-repository";
@@ -10,6 +9,7 @@ import { CreateClassroom } from "../services/classroom/create-classroom";
 import { DeleteClassroom } from "../services/classroom/delete-classroom";
 import { GetClassroomsByGroup } from "../services/classroom/get-classrooms-by-group";
 import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
+import { PrismaMembershipRepository } from "../repositories/prisma/prisma-membership-repository";
 
 export const getClassroomsByGroupSchema = z.object({
   query: z.object({
@@ -55,9 +55,11 @@ export async function handleCreateClassroom(
 
   const classroomRepository = new PrismaClassroomRepository();
   const groupRepository = new PrismaGroupRepository();
+  const membershipRepository = new PrismaMembershipRepository();
   const createClassroom = new CreateClassroom(
     classroomRepository,
     groupRepository,
+    membershipRepository,
     user.id
   );
 

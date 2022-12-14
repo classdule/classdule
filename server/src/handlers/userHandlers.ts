@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
-import { User } from "../entities/user";
 import { PrismaCheckinRepository } from "../repositories/prisma/prisma-checkin-repository";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";

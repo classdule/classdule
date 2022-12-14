@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Membership, MembershipRole } from "../../entities/membership";
+import { MembershipRole } from "../../entities/membership";
 import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
 
 import { CreateMembership } from "./create-membership";
@@ -9,17 +9,15 @@ describe("Create membership tests", () => {
     const membershipRepository = new InMemoryMembershipRepository();
     const createMembership = new CreateMembership(membershipRepository);
 
-    const exampleMembership = new Membership({
-      groupId: "aaaa",
-      userId: "bbbb",
-    });
-
-    expect(exampleMembership.role).toBe(MembershipRole.PENDING);
-
     expect(
       createMembership.do({
-        membership: exampleMembership,
+        groupId: "aaaa",
+        userId: "bbbb",
       })
-    ).resolves;
+    ).resolves.not.toThrow();
+
+    expect(membershipRepository.memberships[0].role).toBe(
+      MembershipRole.PENDING
+    );
   });
 });

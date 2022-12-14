@@ -59,19 +59,27 @@ export async function handleAcceptMembershipRequest(
     user.id
   );
 
-  const { membership } = await acceptMembershipRequest.do({
-    membershipId,
-  });
+  try {
+    const { membership } = await acceptMembershipRequest.do({
+      membershipId,
+    });
 
-  if (!membership) {
-    return res.sendStatus(404);
+    if (!membership) {
+      return res.sendStatus(404);
+    }
+
+    return res.json({
+      groupId: membership.groupId,
+      userId: membership.userId,
+      role: membership.role,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      res.status(403).json({
+        error: err.message,
+      });
+    }
   }
-
-  return res.json({
-    groupId: membership.groupId,
-    userId: membership.userId,
-    role: membership.role,
-  });
 }
 
 export const denyMembershipRequestSchema = z.object({

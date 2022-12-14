@@ -1,4 +1,3 @@
-import { isThisQuarter } from "date-fns";
 import { prismaClient } from "../../database/prisma";
 
 import { User } from "../../entities/user";
@@ -29,13 +28,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
       where: {
         id: userId,
       },
-      include: {
-        groups: {
-          select: {
-            id: true,
-          },
-        },
-      },
     });
     return new User(
       {
@@ -51,13 +43,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
     const user = await prismaClient.user.findUnique({
       where: {
         email: email,
-      },
-      include: {
-        groups: {
-          select: {
-            id: true,
-          },
-        },
       },
     });
     if (!!user) {
@@ -81,13 +66,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
       where: {
         id: userId,
       },
-      include: {
-        groups: {
-          select: {
-            id: true,
-          },
-        },
-      },
     });
     return new User(
       {
@@ -101,15 +79,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
   }
 
   async findAll() {
-    const queryUsers = await prismaClient.user.findMany({
-      include: {
-        groups: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
+    const queryUsers = await prismaClient.user.findMany();
     return queryUsers.map((user) => {
       return new User(
         {
@@ -128,13 +98,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
       (await prismaClient.user.findUnique({
         where: {
           id: userId,
-        },
-        include: {
-          groups: {
-            select: {
-              id: true,
-            },
-          },
         },
       })) ?? null;
     if (!foundUser) {
@@ -156,13 +119,6 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
       where: {
         name: {
           contains: name,
-        },
-      },
-      include: {
-        groups: {
-          select: {
-            id: true,
-          },
         },
       },
     });

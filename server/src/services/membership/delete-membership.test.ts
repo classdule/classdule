@@ -58,11 +58,9 @@ describe("Delete membership tests", () => {
       "aaaa"
     );
 
-    expect(
-      deleteMembership.do({
-        membershipId: "iiii",
-      })
-    ).resolves;
+    await deleteMembership.do({
+      membershipId: "iiii",
+    });
 
     expect(membershipRepository.memberships.length).toBe(2);
   });

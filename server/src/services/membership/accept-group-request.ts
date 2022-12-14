@@ -1,9 +1,12 @@
-import { MembershipRole } from "../../entities/membership";
+import { Membership, MembershipRole } from "../../entities/membership";
 import { GroupRepository } from "../../repositories/group-repository";
 import { MembershipRepository } from "../../repositories/membership-repository";
 
 interface Request {
   membershipId: string;
+}
+interface Response {
+  membership: Membership | null;
 }
 
 export class AcceptGroupRequest {
@@ -13,7 +16,7 @@ export class AcceptGroupRequest {
     private actorId: string
   ) {}
 
-  async do({ membershipId }: Request) {
+  async do({ membershipId }: Request): Promise<Response> {
     const targetMembership = await this.membershipRepository.findById(
       membershipId
     );
@@ -45,6 +48,8 @@ export class AcceptGroupRequest {
       membershipId,
       MembershipRole.MEMBER
     );
-    return membership;
+    return {
+      membership,
+    };
   }
 }

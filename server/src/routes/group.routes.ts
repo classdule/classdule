@@ -4,6 +4,14 @@ import {
   handleCreateGroup,
   handleGetGroups,
 } from "../handlers/groupHandlers";
+import {
+  acceptMembershipRequestSchema,
+  createMembershipSchema,
+  denyMembershipRequestSchema,
+  handleAcceptMembershipRequest,
+  handleCreateMembership,
+  handleDenyMembershipRequest,
+} from "../handlers/membership-handlers";
 import { validateInput } from "../middlewares/validateInput";
 import { verifyToken } from "../middlewares/verifyToken";
 
@@ -14,6 +22,22 @@ groupRoutes.post(
   "/group",
   [verifyToken, validateInput(createGroupSchema)],
   handleCreateGroup
+);
+
+groupRoutes.post(
+  "/group/join",
+  [verifyToken, validateInput(createMembershipSchema)],
+  handleCreateMembership
+);
+groupRoutes.post(
+  "/group/request/accept",
+  [verifyToken, validateInput(acceptMembershipRequestSchema)],
+  handleAcceptMembershipRequest
+);
+groupRoutes.delete(
+  "/group/request",
+  [verifyToken, validateInput(denyMembershipRequestSchema)],
+  handleDenyMembershipRequest
 );
 
 export { groupRoutes };

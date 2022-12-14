@@ -46,6 +46,8 @@ describe("Accept join group request from user", () => {
     );
 
     await membershipRepository.updateRole("baba", MembershipRole.EDUCATOR);
+
+    // User with id 'dada' has educator role
   });
   it("Should be able to accept user request", async () => {
     const acceptGroupRequest = new AcceptGroupRequest(
@@ -63,7 +65,7 @@ describe("Accept join group request from user", () => {
     const acceptGroupRequest = new AcceptGroupRequest(
       membershipRepository,
       groupRepository,
-      "dada" // Same as responsible educator id shown above
+      "bbbb"
     );
     expect(
       acceptGroupRequest.do({

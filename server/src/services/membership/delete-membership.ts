@@ -6,45 +6,40 @@ interface Request {
   membershipId: string;
 }
 
-export class AcceptGroupRequest {
+export class DeleteMembership {
   constructor(
-    private membershipRepository: MembershipRepository,
-    private groupRepository: GroupRepository,
-    private actorId: string
+    public membershipRepository: MembershipRepository,
+    public groupRepository: GroupRepository,
+    public actorId: string
   ) {}
 
   async do({ membershipId }: Request) {
     const targetMembership = await this.membershipRepository.findById(
       membershipId
     );
+
     if (!targetMembership) {
       throw new Error(`Membership not found with id ${membershipId}`);
     }
     const targetGroup = await this.groupRepository.findGroupById(
       targetMembership.groupId
     );
+
     if (!targetGroup) {
       throw new Error(`Group not found with id ${targetMembership.groupId}`);
     }
 
-    const groupMemberships = await this.membershipRepository.findByGroup(
-      targetGroup.id
-    );
     const allowedActorsIds = [
-      ...groupMemberships
+      ...(await this.membershipRepository.findByGroup(targetMembership.groupId))
         .filter((membership) => membership.role === MembershipRole.EDUCATOR)
         .map((membership) => membership.userId),
-      targetGroup.responsibleEducatorId,
+      targetGroup?.responsibleEducatorId,
     ];
 
     if (!allowedActorsIds.includes(this.actorId)) {
-      throw new Error("Actor is not allowed to accept a request");
+      throw new Error(`Actor is not allowed to do so`);
     }
 
-    const membership = await this.membershipRepository.updateRole(
-      membershipId,
-      MembershipRole.MEMBER
-    );
-    return membership;
+    await this.membershipRepository.delete(membershipId);
   }
 }

@@ -33,13 +33,6 @@ export class InMemoryGroupRepository implements GroupRepository {
   async findAll() {
     return this.groups;
   }
-  async findEducatorsIds(groupId: string) {
-    const targetAcademy = this.groups.find((group) => groupId === group.id);
-    if (!targetAcademy) {
-      return [];
-    }
-    return targetAcademy.educatorsIds;
-  }
 
   async findGroupById(groupId: string) {
     const foundGroup =

@@ -10,6 +10,5 @@ export interface GroupRepository {
   findGroupByName: (groupName: string) => Promise<Group | null>;
   queryGroupsByName: (subName: string) => Promise<Group[]>;
   findAll: () => Promise<Group[]>;
-  findEducatorsIds: (groupId: string) => Promise<string[]>;
   findGroupById: (groupId: string) => Promise<Group | null>;
 }

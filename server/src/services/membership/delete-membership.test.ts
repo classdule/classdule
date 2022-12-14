@@ -58,9 +58,11 @@ describe("Delete membership tests", () => {
       "aaaa"
     );
 
-    await deleteMembership.do({
-      membershipId: "iiii",
-    });
+    await expect(
+      deleteMembership.do({
+        membershipId: "iiii",
+      })
+    ).resolves.not.toThrow();
 
     expect(membershipRepository.memberships.length).toBe(2);
   });
@@ -71,7 +73,7 @@ describe("Delete membership tests", () => {
       "alal"
     );
 
-    expect(
+    await expect(
       deleteMembership.do({
         membershipId: "iiii",
       })

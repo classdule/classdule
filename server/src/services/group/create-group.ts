@@ -18,8 +18,7 @@ export class CreateGroup {
         location: request.location,
         name: request.name,
         responsibleEducatorId: request.responsibleEducatorId,
-        educatorsIds: [],
-        membersIds: [],
+        membershipsIds: [],
       })
     );
     return createdGroup;

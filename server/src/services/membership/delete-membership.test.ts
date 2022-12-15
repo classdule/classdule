@@ -1,8 +1,8 @@
 import { describe, it, beforeEach, expect } from "vitest";
 import { Group } from "../../entities/group";
 import { Membership, MembershipRole } from "../../entities/membership";
-import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
-import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
+import { InMemoryGroupRepository } from "../../../test/repositories/in-memory-group-repository";
+import { InMemoryMembershipRepository } from "../../../test/repositories/in-memory-membership.repository";
 import { DeleteMembership } from "./delete-membership";
 
 describe("Delete membership tests", () => {

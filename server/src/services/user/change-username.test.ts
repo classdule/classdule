@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { InMemoryUserRepository } from "../../repositories/in-memory/in-memory-user-repository";
-import { getRandomUser } from "../../tests/utils/get-random-user";
+import { InMemoryUserRepository } from "../../../test/repositories/in-memory-user-repository";
+import { getRandomUser } from "../../../test/utils/get-random-user";
 import { ChangeUserName } from "./change-username";
 
 describe("Change username tests", () => {

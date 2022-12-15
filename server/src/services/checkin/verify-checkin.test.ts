@@ -3,9 +3,9 @@ import { describe, it, expect } from "vitest";
 import { v4 as uuid } from "uuid";
 
 import { Checkin } from "../../entities/checkin";
-import { InMemoryCheckinRepository } from "../../repositories/in-memory/in-memory-checkin-repository";
+import { InMemoryCheckinRepository } from "../../../test/repositories/in-memory-checkin-repository";
 import { VerifyCheckin } from "./verify-checkin";
-import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
+import { InMemoryClassroomRepository } from "../../../test/repositories/in-memory-classroom-repository";
 import { Classroom } from "../../entities/classroom";
 
 describe("Verify check-in tests", () => {
@@ -19,6 +19,7 @@ describe("Verify check-in tests", () => {
     endsAt: new Date("1970-01-01 14:30"),
     type: "basic",
     weekdays: [4, 5],
+    content: [],
   });
 
   classroomRepository.classrooms = [createdClassroom];

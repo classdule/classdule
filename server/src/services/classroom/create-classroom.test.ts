@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import { parseISO } from "date-fns";
 
 import { Classroom } from "../../entities/classroom";
-import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
+import { InMemoryClassroomRepository } from "../../../test/repositories/in-memory-classroom-repository";
 import { CreateClassroom } from "./create-classroom";
-import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
-import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
+import { InMemoryGroupRepository } from "../../../test/repositories/in-memory-group-repository";
+import { InMemoryMembershipRepository } from "../../../test/repositories/in-memory-membership.repository";
 import { Group } from "../../entities/group";
 import { Membership } from "../../entities/membership";
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { MembershipRole } from "../../entities/membership";
-import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
+import { InMemoryMembershipRepository } from "../../../test/repositories/in-memory-membership.repository";
 
 import { CreateMembership } from "./create-membership";
 

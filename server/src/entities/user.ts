@@ -1,4 +1,5 @@
 import { differenceInYears, isFuture } from "date-fns";
+import { Replace } from "../helpers/replace";
 
 import { Entity } from "./entity";
 
@@ -7,10 +8,11 @@ interface Props {
   birthDay: Date;
   password: string;
   email: string;
+  createdAt: Date;
 }
 
 export class User extends Entity<Props> {
-  constructor({ ...props }: Props, id?: string) {
+  constructor(props: Replace<Props, { createdAt?: Date }>, id?: string) {
     if (isFuture(props.birthDay)) {
       throw new Error("Cannot create a user that is not birth yet");
     }
@@ -18,7 +20,7 @@ export class User extends Entity<Props> {
     if (age < 4) {
       throw new Error("Cannot create a user that is younger than 4 years");
     }
-    super(props, id);
+    super({ ...props, createdAt: props.createdAt ?? new Date() }, id);
   }
 
   get id() {
@@ -45,5 +47,9 @@ export class User extends Entity<Props> {
   }
   get spreadProps() {
     return this.props;
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
   }
 }

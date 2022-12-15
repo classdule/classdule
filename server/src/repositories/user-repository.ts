@@ -1,9 +1,8 @@
 import { User } from "../entities/user";
 
 export interface UserRepository {
-  create: (user: User) => Promise<User | undefined>;
-  delete: (userId: string) => Promise<User | null>;
-  changeUserName: (userId: string, username: string) => Promise<User | null>;
+  create: (user: User) => Promise<void>;
+  delete: (userId: string) => Promise<void>;
   queryByName: (username: string) => Promise<User[]>;
   findByEmail: (email: string) => Promise<User | null>;
   findAll: () => Promise<User[]>;

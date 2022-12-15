@@ -8,7 +8,6 @@ export class DeleteUser {
   }
 
   async execute(userId: string) {
-    const deletedUser = await this.repository.delete(userId);
-    return deletedUser;
+    await this.repository.delete(userId);
   }
 }

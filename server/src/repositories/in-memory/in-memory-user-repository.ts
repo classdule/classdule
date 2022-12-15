@@ -5,12 +5,10 @@ export class InMemoryUserRepository implements UserRepository {
   users: User[] = [];
   async create(user: User) {
     this.users.push(user);
-    return user;
   }
   async delete(userId: string) {
     const deleteUser = this.users.find((user) => user.id === userId) || null;
     this.users = this.users.filter((user) => user.id !== userId);
-    return deleteUser;
   }
 
   async changeUserName(userId: string, username: string) {

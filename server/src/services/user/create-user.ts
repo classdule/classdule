@@ -29,7 +29,6 @@ export class CreateUser {
       password: encryptedPassword,
     });
 
-    const createdUser = await this.repository.create(createUser);
-    return createdUser;
+    await this.repository.create(createUser);
   }
 }

@@ -6,7 +6,7 @@ import { UserRepository } from "../user-repository";
 
 export class UserRepositoryPrisma implements UserRepository {
   async create(user: User) {
-    const createdUser = await prismaClient.user.create({
+    await prismaClient.user.create({
       data: {
         name: user.name,
         birthDay: user.birthDay,
@@ -14,15 +14,13 @@ export class UserRepositoryPrisma implements UserRepository {
         email: user.email,
       },
     });
-    return UserPrismaMapper.toDomain(createdUser);
   }
   async delete(userId: string) {
-    const deletedUser = await prismaClient.user.delete({
+    await prismaClient.user.delete({
       where: {
         id: userId,
       },
     });
-    return UserPrismaMapper.toDomain(deletedUser);
   }
   async findByEmail(email: string) {
     const user = await prismaClient.user.findUnique({

@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import { v4 as uuid } from "uuid";
 
-import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
+import { InMemoryGroupRepository } from "../../../test/repositories/in-memory-group-repository";
 import { CreateGroup } from "./create-group";
 
 describe("Create group tests", () => {

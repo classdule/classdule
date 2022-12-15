@@ -1,8 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { User } from "../../entities/user";
-import { InMemoryUserRepository } from "../../repositories/in-memory/in-memory-user-repository";
-import { getRandomUser } from "../../tests/utils/get-random-user";
+import { InMemoryUserRepository } from "../../../test/repositories/in-memory-user-repository";
+import { getRandomUser } from "../../../test/utils/get-random-user";
 import { CreateUser } from "./create-user";
 
 describe("Create user tests", () => {

@@ -4,13 +4,13 @@ import { parseISO } from "date-fns";
 
 import { Checkin } from "../../entities/checkin";
 import { Classroom } from "../../entities/classroom";
-import { InMemoryCheckinRepository } from "../../repositories/in-memory/in-memory-checkin-repository";
-import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
-import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
+import { InMemoryCheckinRepository } from "../../../test/repositories/in-memory-checkin-repository";
+import { InMemoryClassroomRepository } from "../../../test/repositories/in-memory-classroom-repository";
+import { InMemoryGroupRepository } from "../../../test/repositories/in-memory-group-repository";
 import { CreateCheckin } from "./create-checkin";
 
 import { Group } from "../../entities/group";
-import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
+import { InMemoryMembershipRepository } from "../../../test/repositories/in-memory-membership.repository";
 import { Membership, MembershipRole } from "../../entities/membership";
 
 describe("Create check-in tests", () => {

@@ -2,7 +2,7 @@ import { expect, describe, it } from "vitest";
 import { v4 as uuid } from "uuid";
 import { parseISO } from "date-fns";
 import { Classroom } from "../../entities/classroom";
-import { InMemoryClassroomRepository } from "../../repositories/in-memory/in-memory-classroom-repository";
+import { InMemoryClassroomRepository } from "../../../test/repositories/in-memory-classroom-repository";
 import { GetClassroomsByGroup } from "./get-classrooms-by-group";
 
 describe("Get classrooms by group tests", () => {

@@ -2,8 +2,8 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { Group } from "../../entities/group";
 import { Membership, MembershipRole } from "../../entities/membership";
 import { GroupRepository } from "../../repositories/group-repository";
-import { InMemoryGroupRepository } from "../../repositories/in-memory/in-memory-group-repository";
-import { InMemoryMembershipRepository } from "../../repositories/in-memory/in-memory-membership.repository";
+import { InMemoryGroupRepository } from "../../../test/repositories/in-memory-group-repository";
+import { InMemoryMembershipRepository } from "../../../test/repositories/in-memory-membership.repository";
 import { MembershipRepository } from "../../repositories/membership-repository";
 import { AcceptGroupRequest } from "./accept-group-request";
 

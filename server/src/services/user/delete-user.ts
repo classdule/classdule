@@ -1,14 +1,14 @@
-import { UserRepositoryBase } from "../../repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 export class DeleteUser {
-    repository: UserRepositoryBase;
+  repository: UserRepository;
 
-    constructor(repository: UserRepositoryBase) {
-        this.repository = repository;
-    }
+  constructor(repository: UserRepository) {
+    this.repository = repository;
+  }
 
-    async execute(userId: string){
-        const deletedUser = await this.repository.delete(userId);
-        return deletedUser;
-    }
+  async execute(userId: string) {
+    const deletedUser = await this.repository.delete(userId);
+    return deletedUser;
+  }
 }

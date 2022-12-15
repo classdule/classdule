@@ -1,7 +1,7 @@
 import { User } from "../../entities/user";
-import { UserRepositoryBase } from "../user-repository";
+import { UserRepository } from "../user-repository";
 
-export class InMemoryUserRepository implements UserRepositoryBase {
+export class InMemoryUserRepository implements UserRepository {
   users: User[] = [];
   async create(user: User) {
     this.users.push(user);
@@ -34,5 +34,13 @@ export class InMemoryUserRepository implements UserRepositoryBase {
   }
   async findById(userId: string) {
     return this.users.find((user) => user.id === userId) ?? null;
+  }
+
+  async save(user: User) {
+    const targetIndex = this.users.findIndex((item) => item.id === user.id);
+    if (targetIndex < 0) {
+      throw new Error(`User not found with id ${user.id}`);
+    }
+    this.users[targetIndex] = user;
   }
 }

@@ -1,5 +1,5 @@
 import { CheckinRepository } from "../../repositories/checkin-repository";
-import { UserRepositoryBase } from "../../repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 interface Request {
   userId: string;
@@ -16,7 +16,7 @@ interface Response {
 
 export class GetUserInfo {
   constructor(
-    public userRepository: UserRepositoryBase,
+    public userRepository: UserRepository,
     public checkinsRepository: CheckinRepository
   ) {}
   async do({ userId }: Request): Promise<Response | null> {

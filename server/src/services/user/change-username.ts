@@ -1,14 +1,14 @@
-import { UserRepositoryBase } from "../../repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 export class ChangeUserName {
-    repository: UserRepositoryBase;
+  repository: UserRepository;
 
-    constructor(repository: UserRepositoryBase){
-        this.repository = repository;
-    }
+  constructor(repository: UserRepository) {
+    this.repository = repository;
+  }
 
-    async execute(userId: string, username: string){
-        const updatedUser = await this.repository.changeUserName(userId, username);
-        return updatedUser;
-    }
+  async execute(userId: string, username: string) {
+    const updatedUser = await this.repository.changeUserName(userId, username);
+    return updatedUser;
+  }
 }

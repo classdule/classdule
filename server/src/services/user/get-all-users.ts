@@ -1,12 +1,10 @@
-import { UserRepositoryBase } from "../../repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 export class GetAllUsers {
-    constructor(
-        public usersRepository: UserRepositoryBase
-    ){}
+  constructor(public usersRepository: UserRepository) {}
 
-    async do(){
-        const queryResult = await this.usersRepository.findAll();
-        return queryResult;
-    }
+  async do() {
+    const queryResult = await this.usersRepository.findAll();
+    return queryResult;
+  }
 }

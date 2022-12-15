@@ -40,21 +40,14 @@ export async function handleCreateUser(
   const createUser = new CreateUser(new UserRepositoryPrisma());
 
   try {
-    const operationResult = await createUser.execute({
+    await createUser.execute({
       birthDay: parsedBirthday,
       email,
       name,
       password,
     });
-    if (!!operationResult) {
-      return res.status(201).json({
-        message: "User created successfully",
-        user: {
-          name: operationResult.name,
-          email: operationResult.email,
-        },
-      });
-    }
+
+    return res.sendStatus(204);
   } catch (err) {
     let errMessage = "Unknown error";
     if (err instanceof Error) errMessage = err.message;
@@ -80,16 +73,18 @@ export async function handleChangeUsername(
   const userRepository = new UserRepositoryPrisma();
   const changeUsername = new ChangeUserName(userRepository);
 
-  const newUser = await changeUsername.execute(user.id, name);
-  if (!newUser) {
-    return res.status(404).json({
-      error: "User not found",
+  try {
+    await changeUsername.execute(user.id, name);
+    return res.status(204).json({
+      message: "User name changed successfully",
+    });
+  } catch (err) {
+    let errMessage = "Unknown error";
+    if (err instanceof Error) errMessage = err.message;
+    return res.status(400).json({
+      error: errMessage,
     });
   }
-
-  return res.status(201).json({
-    message: "User name changed successfully",
-  });
 }
 export const deleteUserSchema = z.object({
   body: z.object({

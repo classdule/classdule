@@ -1,14 +1,15 @@
-import { UserRepositoryBase } from "../../repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 export class ChangeUserName {
-    repository: UserRepositoryBase;
+  constructor(private userRepository: UserRepository) {}
 
-    constructor(repository: UserRepositoryBase){
-        this.repository = repository;
-    }
+  async execute(userId: string, username: string) {
+    const targetUser = await this.userRepository.findById(userId);
 
-    async execute(userId: string, username: string){
-        const updatedUser = await this.repository.changeUserName(userId, username);
-        return updatedUser;
+    if (!targetUser) {
+      throw new Error("User not found");
     }
+    targetUser.name = username;
+    await this.userRepository.save(targetUser);
+  }
 }

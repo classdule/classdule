@@ -1,6 +1,6 @@
 import { hash } from "bcrypt";
 import { User } from "../../entities/user";
-import { UserRepositoryBase } from "../../repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 interface Request {
   name: string;
@@ -9,9 +9,9 @@ interface Request {
   email: string;
 }
 export class CreateUser {
-  repository: UserRepositoryBase;
+  repository: UserRepository;
 
-  constructor(repository: UserRepositoryBase) {
+  constructor(repository: UserRepository) {
     this.repository = repository;
   }
 
@@ -29,7 +29,6 @@ export class CreateUser {
       password: encryptedPassword,
     });
 
-    const createdUser = await this.repository.create(createUser);
-    return createdUser;
+    await this.repository.create(createUser);
   }
 }

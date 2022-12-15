@@ -1,11 +1,12 @@
 import { prismaClient } from "../../database/prisma";
 
 import { User } from "../../entities/user";
-import { UserRepositoryBase } from "../user-repository";
+import { UserPrismaMapper } from "../../mappers/prisma/user-prisma-mapper";
+import { UserRepository } from "../user-repository";
 
-export class UserRepositoryPrisma implements UserRepositoryBase {
+export class UserRepositoryPrisma implements UserRepository {
   async create(user: User) {
-    const createdUser = await prismaClient.user.create({
+    await prismaClient.user.create({
       data: {
         name: user.name,
         birthDay: user.birthDay,
@@ -13,31 +14,13 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         email: user.email,
       },
     });
-    return new User(
-      {
-        birthDay: createdUser.birthDay,
-        name: createdUser.name,
-        password: createdUser.password,
-        email: createdUser.email,
-      },
-      createdUser.id
-    );
   }
   async delete(userId: string) {
-    const deletedUser = await prismaClient.user.delete({
+    await prismaClient.user.delete({
       where: {
         id: userId,
       },
     });
-    return new User(
-      {
-        birthDay: deletedUser.birthDay,
-        name: deletedUser.name,
-        password: deletedUser.password,
-        email: deletedUser.email,
-      },
-      deletedUser.id
-    );
   }
   async findByEmail(email: string) {
     const user = await prismaClient.user.findUnique({
@@ -46,15 +29,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
       },
     });
     if (!!user) {
-      return new User(
-        {
-          birthDay: user.birthDay,
-          name: user.name,
-          password: user.password,
-          email: user.email,
-        },
-        user.id
-      );
+      return UserPrismaMapper.toDomain(user);
     }
     return null;
   }
@@ -67,30 +42,12 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         id: userId,
       },
     });
-    return new User(
-      {
-        birthDay: updatedUser.birthDay,
-        name: updatedUser.name,
-        password: updatedUser.password,
-        email: updatedUser.email,
-      },
-      updatedUser.id
-    );
+    return UserPrismaMapper.toDomain(updatedUser);
   }
 
   async findAll() {
     const queryUsers = await prismaClient.user.findMany();
-    return queryUsers.map((user) => {
-      return new User(
-        {
-          birthDay: user.birthDay,
-          name: user.name,
-          password: user.password,
-          email: user.email,
-        },
-        user.id
-      );
-    });
+    return queryUsers.map(UserPrismaMapper.toDomain);
   }
 
   async findById(userId: string) {
@@ -103,15 +60,7 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
     if (!foundUser) {
       return null;
     }
-    return new User(
-      {
-        birthDay: foundUser.birthDay,
-        name: foundUser.name,
-        password: foundUser.password,
-        email: foundUser.email,
-      },
-      foundUser.id
-    );
+    return UserPrismaMapper.toDomain(foundUser);
   }
 
   async queryByName(name: string) {
@@ -122,16 +71,15 @@ export class UserRepositoryPrisma implements UserRepositoryBase {
         },
       },
     });
-    return foundUsers.map((user) => {
-      return new User(
-        {
-          birthDay: user.birthDay,
-          email: user.email,
-          name: user.name,
-          password: user.password,
-        },
-        user.id
-      );
+    return foundUsers.map(UserPrismaMapper.toDomain);
+  }
+
+  async save(user: User) {
+    await prismaClient.user.update({
+      where: {
+        id: user.id,
+      },
+      data: UserPrismaMapper.toPrisma(user),
     });
   }
 }

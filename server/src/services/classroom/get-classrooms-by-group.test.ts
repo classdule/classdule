@@ -40,11 +40,15 @@ describe("Get classrooms by group tests", () => {
     classroomRepository.classrooms = [classroom1, classroom2, classroom3];
     expect(classroomRepository.classrooms.length).toBe(3);
 
-    expect(getClassroomsByGroup.do({ groupId: "aaaa" })).resolves.toHaveLength(
-      2
-    );
-    expect(getClassroomsByGroup.do({ groupId: "bbbb" })).resolves.toHaveLength(
-      1
-    );
+    const { classrooms: c1 } = await getClassroomsByGroup.do({
+      groupId: "aaaa",
+    });
+
+    expect(c1).toHaveLength(2);
+
+    const { classrooms: c2 } = await getClassroomsByGroup.do({
+      groupId: "bbbb",
+    });
+    expect(c2).toHaveLength(1);
   });
 });

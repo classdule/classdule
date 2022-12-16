@@ -14,7 +14,7 @@ describe("Sign-in tests", () => {
   it("Should successfully sign-in", async () => {
     const exampleUser = getRandomUser();
     const createUser = new CreateUser(repository);
-    await createUser.execute(exampleUser);
+    await createUser.do(exampleUser);
     const signIn = new Signin(repository);
     const { user, validPassword } = await signIn.execute(
       exampleUser.email,

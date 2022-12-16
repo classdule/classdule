@@ -20,11 +20,10 @@ describe("Get user info tests", () => {
       })
     ).resolves.toBeDefined();
   });
-  it("Should not get a single user's info", () => {
-    expect(
-      getUserInfo.do({
-        userId: "aaaa",
-      })
-    ).resolves.toBeNull();
+  it("Should not get a single user's info", async () => {
+    const { user } = await getUserInfo.do({
+      userId: "aaaa",
+    });
+    expect(user).toBeNull();
   });
 });

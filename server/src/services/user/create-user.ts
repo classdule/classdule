@@ -8,6 +8,10 @@ interface Request {
   password: string;
   email: string;
 }
+
+interface Response {
+  user: User;
+}
 export class CreateUser {
   repository: UserRepository;
 
@@ -15,7 +19,7 @@ export class CreateUser {
     this.repository = repository;
   }
 
-  async execute({ birthDay, email, name, password }: Request) {
+  async do({ birthDay, email, name, password }: Request): Promise<Response> {
     const alreadyTakenEmail =
       (await this.repository.findByEmail(email)) !== null;
     if (alreadyTakenEmail) {
@@ -30,5 +34,8 @@ export class CreateUser {
     });
 
     await this.repository.create(createUser);
+    return {
+      user: createUser,
+    };
   }
 }

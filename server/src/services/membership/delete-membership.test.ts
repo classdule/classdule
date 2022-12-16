@@ -17,7 +17,6 @@ describe("Delete membership tests", () => {
       new Group(
         {
           location: "Somewhere",
-          membershipsIds: ["iiii", "bbbb", "cccc"],
           name: "Some group",
           responsibleEducatorId: "aaaa",
         },

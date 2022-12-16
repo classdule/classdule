@@ -9,7 +9,7 @@ interface Props {
   weekdays: Day[];
   startsAt: Date;
   endsAt: Date;
-  content: string[];
+  content: string;
 }
 
 export class Classroom extends Entity<Props> {

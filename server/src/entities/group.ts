@@ -4,7 +4,6 @@ interface Props {
   name: string;
   location: string;
   responsibleEducatorId: string;
-  membershipsIds: string[];
 }
 
 export class Group extends Entity<Props> {
@@ -23,8 +22,5 @@ export class Group extends Entity<Props> {
   }
   get responsibleEducatorId() {
     return this.props.responsibleEducatorId;
-  }
-  get membershipsIds() {
-    return this.props.membershipsIds;
   }
 }

@@ -7,9 +7,15 @@ import { ClassroomRepository } from "../../repositories/classroom-repository";
 import { GroupRepository } from "../../repositories/group-repository";
 import { MembershipRepository } from "../../repositories/membership-repository";
 
-type Request = {
+interface Request {
+  classroomId: string;
+  userId: string;
+  createdAt?: Date;
+}
+
+interface Response {
   checkin: Checkin;
-};
+}
 
 export class CreateCheckin {
   constructor(
@@ -19,14 +25,16 @@ export class CreateCheckin {
     private membershipRepository: MembershipRepository
   ) {}
 
-  async do(request: Request) {
+  async do(request: Request): Promise<Response> {
+    const checkin = new Checkin({
+      classroomId: request.classroomId,
+      userId: request.userId,
+      createdAt: request.createdAt,
+    });
     const targetClassroom =
-      (await this.classroomRepository.findById(request.checkin.classroomId)) ||
-      null;
+      (await this.classroomRepository.findById(request.classroomId)) || null;
     if (!targetClassroom) {
-      throw new Error(
-        `Classroom not found with id ${request.checkin.classroomId}`
-      );
+      throw new Error(`Classroom not found with id ${request.classroomId}`);
     }
     const classroomGroup = await this.groupRepository.findGroupById(
       targetClassroom.groupId
@@ -41,12 +49,10 @@ export class CreateCheckin {
       .filter((membership) => membership.role === MembershipRole.MEMBER)
       .map((membership) => membership.userId);
 
-    if (!classroomGroupMembersIds.includes(request.checkin.userId)) {
-      throw new Error(
-        `Group member with id ${request.checkin.userId} not found`
-      );
+    if (!classroomGroupMembersIds.includes(request.userId)) {
+      throw new Error(`Group member with id ${request.userId} not found`);
     }
-    const weekDay = getDay(request.checkin.createdAt);
+    const weekDay = getDay(checkin.createdAt);
     const isClassroomOpen = targetClassroom.weekdays.includes(weekDay);
 
     if (!isClassroomOpen) {
@@ -55,18 +61,20 @@ export class CreateCheckin {
       );
     }
     const sameDayCheckins = await this.checkinRepository.findByDate(
-      request.checkin.createdAt,
-      request.checkin.userId
+      checkin.createdAt,
+      checkin.userId
     );
     const conflictingCheckins = sameDayCheckins.filter(
-      (checkin) => checkin.classroomId === request.checkin.classroomId
+      (checkin) => checkin.classroomId === request.classroomId
     );
     if (conflictingCheckins.length > 0) {
       throw new Error(
         "Cannot create two checkins for the same classroom in a same day"
       );
     }
-    const createdCheckin = await this.checkinRepository.create(request.checkin);
-    return createdCheckin;
+    await this.checkinRepository.create(checkin);
+    return {
+      checkin: checkin,
+    };
   }
 }

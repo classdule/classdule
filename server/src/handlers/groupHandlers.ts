@@ -4,6 +4,7 @@ import { z } from "zod";
 import { CreateGroup } from "../services/group/create-group";
 import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
 import { GetAllGroups } from "../services/group/get-all-groups";
+import { GroupHttpMapper } from "../mappers/http/group-http-mapper";
 
 export async function handleGetGroups(req: Request, res: Response) {
   const groupsRepository = new PrismaGroupRepository();
@@ -32,12 +33,12 @@ export async function handleCreateGroup(
   const createGroup = new CreateGroup(repository);
 
   try {
-    const queryResult = await createGroup.execute({
+    const { group } = await createGroup.do({
       location: location,
       name: name,
       responsibleEducatorId: user.id,
     });
-    res.status(201).json(queryResult);
+    res.status(201).json(GroupHttpMapper.toHttp(group));
   } catch (err) {
     let errMessage = "Unknown error";
     if (err instanceof Error) errMessage = err.message;

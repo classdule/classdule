@@ -10,6 +10,7 @@ import { DeleteClassroom } from "../services/classroom/delete-classroom";
 import { GetClassroomsByGroup } from "../services/classroom/get-classrooms-by-group";
 import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
 import { PrismaMembershipRepository } from "../repositories/prisma/prisma-membership-repository";
+import { ClassroomHttpMapper } from "../mappers/http/classroom-http-mapper";
 
 export const getClassroomsByGroupSchema = z.object({
   query: z.object({
@@ -26,11 +27,11 @@ export async function handleGetClassroomsByGroup(
   const classroomsRepository = new PrismaClassroomRepository();
   const getClassroomsByGroup = new GetClassroomsByGroup(classroomsRepository);
 
-  const queryResult = await getClassroomsByGroup.do({
+  const { classrooms } = await getClassroomsByGroup.do({
     groupId: groupId,
   });
 
-  return res.json(queryResult);
+  return res.json(classrooms.map(ClassroomHttpMapper.toHttp));
 }
 
 export const createClassroomSchema = z.object({
@@ -39,7 +40,7 @@ export const createClassroomSchema = z.object({
     groupId: z.string(),
     endsAt: z.string(),
     startsAt: z.string(),
-    content: z.array(z.string()),
+    content: z.string(),
     weekdays: z.array(z.number().min(0).max(6)),
     user: z.object({
       id: z.string(),
@@ -68,19 +69,17 @@ export async function handleCreateClassroom(
   );
 
   try {
-    const queryResult = await createClassroom.do(
-      new Classroom({
-        groupId: groupId,
-        type,
-        educatorId: user.id,
-        endsAt: parsedEndsAt,
-        startsAt: parsedStartsAt,
-        weekdays: weekdays as Day[],
-        content: content,
-      })
-    );
+    const { classroom } = await createClassroom.do({
+      groupId: groupId,
+      type,
+      educatorId: user.id,
+      endsAt: parsedEndsAt,
+      startsAt: parsedStartsAt,
+      weekdays: weekdays as Day[],
+      content: content,
+    });
 
-    return res.json(queryResult);
+    return res.json(ClassroomHttpMapper.toHttp(classroom));
   } catch (err) {
     let errMessage = "Unknown error";
     if (err instanceof Error) errMessage = err.message;
@@ -105,8 +104,8 @@ export async function handleDeleteClassroom(
   const classroomsRepository = new PrismaClassroomRepository();
   const deleteClassroom = new DeleteClassroom(classroomsRepository);
 
-  const queryResult = await deleteClassroom.do({
+  await deleteClassroom.do({
     classroomId,
   });
-  return res.json(queryResult);
+  return res.sendStatus(200);
 }

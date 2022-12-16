@@ -17,7 +17,7 @@ describe("Get classrooms by group tests", () => {
       endsAt: parseISO("1970-01-01 22:00"),
       type: "basic",
       weekdays: [1, 4],
-      content: ["Trigonometria"],
+      content: "Trigonometria",
     });
     const classroom2 = new Classroom({
       groupId: "aaaa",
@@ -26,7 +26,7 @@ describe("Get classrooms by group tests", () => {
       endsAt: parseISO("1970-01-01 22:00"),
       type: "basic",
       weekdays: [1, 4],
-      content: ["Trigonometria"],
+      content: "Trigonometria",
     });
     const classroom3 = new Classroom({
       groupId: "bbbb",
@@ -35,7 +35,7 @@ describe("Get classrooms by group tests", () => {
       endsAt: parseISO("1970-01-01 22:00"),
       type: "basic",
       weekdays: [1, 4],
-      content: ["Trigonometria"],
+      content: "Trigonometria",
     });
     classroomRepository.classrooms = [classroom1, classroom2, classroom3];
     expect(classroomRepository.classrooms.length).toBe(3);

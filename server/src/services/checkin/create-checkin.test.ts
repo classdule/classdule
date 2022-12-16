@@ -75,17 +75,13 @@ describe("Create check-in tests", () => {
 
     await classroomRepository.create(existingClassroom);
 
-    const exampleCheckin = new Checkin({
-      classroomId: existingClassroom.id,
-      userId: "aaaa",
-      createdAt: parseISO("1970-01-01 20:30"),
-    });
-
     expect(
       createCheckin.do({
-        checkin: exampleCheckin,
+        classroomId: existingClassroom.id,
+        userId: "aaaa",
+        createdAt: parseISO("1970-01-01 20:30"),
       })
-    ).resolves;
+    ).resolves.not.toThrow();
   });
   it("Should not be able to create a check-in since checkin cannot be created a day before the classroom", async () => {
     const existingClassroom = new Classroom({
@@ -100,15 +96,11 @@ describe("Create check-in tests", () => {
 
     await classroomRepository.create(existingClassroom);
 
-    const exampleCheckin = new Checkin({
-      classroomId: existingClassroom.id,
-      userId: "bbbb",
-      createdAt: parseISO("2022-09-26 20:30"),
-    });
-
     expect(
       createCheckin.do({
-        checkin: exampleCheckin,
+        classroomId: existingClassroom.id,
+        userId: "bbbb",
+        createdAt: parseISO("2022-09-26 20:30"),
       })
     ).rejects.toThrow();
   });
@@ -126,34 +118,25 @@ describe("Create check-in tests", () => {
 
     await classroomRepository.create(existingClassroom);
 
-    const exampleCheckin1 = new Checkin({
-      classroomId: existingClassroom.id,
-      userId: "bbbb",
-      createdAt: parseISO("2022-09-26 20:30"),
-    });
-    const exampleCheckin2 = new Checkin({
-      classroomId: existingClassroom.id,
-      userId: "bbbb",
-      createdAt: parseISO("2022-09-26 20:30"),
-    });
-    const exampleCheckin3 = new Checkin({
-      classroomId: existingClassroom.id,
-      userId: "aaaa",
-      createdAt: parseISO("2022-09-26 20:30"),
-    });
     await createCheckin.do({
-      checkin: exampleCheckin1,
+      classroomId: existingClassroom.id,
+      userId: "bbbb",
+      createdAt: parseISO("2022-09-26 20:30"),
     });
 
     expect(
       createCheckin.do({
-        checkin: exampleCheckin3,
+        classroomId: existingClassroom.id,
+        userId: "aaaa",
+        createdAt: parseISO("2022-09-26 20:30"),
       })
-    ).resolves;
+    ).resolves.not.toThrow();
 
     expect(
       createCheckin.do({
-        checkin: exampleCheckin2,
+        classroomId: existingClassroom.id,
+        userId: "bbbb",
+        createdAt: parseISO("2022-09-26 20:30"),
       })
     ).rejects.toThrow();
   });
@@ -170,14 +153,11 @@ describe("Create check-in tests", () => {
 
     await classroomRepository.create(existingClassroom);
 
-    const invalidCheckin = new Checkin({
-      classroomId: existingClassroom.id,
-      userId: "abab",
-      createdAt: parseISO("2022-09-26 20:30"),
-    });
     expect(
       createCheckin.do({
-        checkin: invalidCheckin,
+        classroomId: existingClassroom.id,
+        userId: "abab",
+        createdAt: parseISO("2022-09-26 20:30"),
       })
     ).rejects.toThrow();
   });

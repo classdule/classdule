@@ -10,7 +10,7 @@ describe("Create group tests", () => {
     const repository = new InMemoryGroupRepository();
     const createGroup = new CreateGroup(repository);
 
-    await createGroup.execute({
+    await createGroup.do({
       location: "Somewhere",
       name: "Math group",
       responsibleEducatorId: uuid(),

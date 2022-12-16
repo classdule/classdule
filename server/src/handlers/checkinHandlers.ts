@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import { Checkin } from "../entities/checkin";
+import { CheckinHttpMapper } from "../mappers/http/checkin-http-mapper";
 import { PrismaCheckinRepository } from "../repositories/prisma/prisma-checkin-repository";
 import { PrismaClassroomRepository } from "../repositories/prisma/prisma-classroom-repository";
 import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
@@ -35,13 +36,11 @@ export async function handleCreateCheckin(
   );
 
   try {
-    const queryResult = await createCheckin.do({
-      checkin: new Checkin({
-        classroomId,
-        userId: user.id,
-      }),
+    const { checkin } = await createCheckin.do({
+      classroomId,
+      userId: user.id,
     });
-    return res.json(queryResult);
+    return res.json(CheckinHttpMapper.toHttp(checkin));
   } catch (err) {
     let errMessage = "Unknown error";
     if (err instanceof Error) errMessage = err.message;
@@ -74,11 +73,11 @@ export async function handleVerifyCheckin(
     user.id
   );
   try {
-    const queryResult = await verifyCheckin.do({
+    await verifyCheckin.do({
       checkinId,
       verify,
     });
-    return res.json(queryResult);
+    return res.sendStatus(200);
   } catch (err) {
     let errMessage = "Unknown error";
     if (err instanceof Error) errMessage = err.message;

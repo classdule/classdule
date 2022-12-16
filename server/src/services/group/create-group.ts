@@ -6,21 +6,25 @@ interface Request {
   name: string;
   location: string;
 }
+interface Response {
+  group: Group;
+}
 export class CreateGroup {
   private repository: GroupRepository;
 
   constructor(repository: GroupRepository) {
     this.repository = repository;
   }
-  async execute(request: Request) {
-    const createdGroup = await this.repository.create(
-      new Group({
-        location: request.location,
-        name: request.name,
-        responsibleEducatorId: request.responsibleEducatorId,
-        membershipsIds: [],
-      })
-    );
-    return createdGroup;
+  async do(request: Request): Promise<Response> {
+    const group = new Group({
+      location: request.location,
+      name: request.name,
+      responsibleEducatorId: request.responsibleEducatorId,
+    });
+
+    await this.repository.create(group);
+    return {
+      group: group,
+    };
   }
 }

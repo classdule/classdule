@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { z } from "zod";
+import { MembershipHttpMapper } from "../mappers/http/membership-http-mapper";
 import { PrismaGroupRepository } from "../repositories/prisma/prisma-group-repository";
 import { PrismaMembershipRepository } from "../repositories/prisma/prisma-membership-repository";
 import { AcceptGroupRequest } from "../services/membership/accept-group-request";
@@ -27,10 +28,7 @@ export async function handleCreateMembership(
     userId: user.id,
   });
 
-  return res.status(201).json({
-    userId: membership.userId,
-    groupId: membership.groupId,
-  });
+  return res.status(201).json(MembershipHttpMapper.toHttp(membership));
 }
 
 export const acceptMembershipRequestSchema = z.object({
@@ -68,11 +66,7 @@ export async function handleAcceptMembershipRequest(
       return res.sendStatus(404);
     }
 
-    return res.json({
-      groupId: membership.groupId,
-      userId: membership.userId,
-      role: membership.role,
-    });
+    return res.json(MembershipHttpMapper.toHttp(membership));
   } catch (err) {
     if (err instanceof Error) {
       res.status(403).json({
@@ -108,12 +102,17 @@ export async function handleDenyMembershipRequest(
     user.id
   );
 
-  await deleteMembership.do({
-    membershipId: membershipId,
-  });
+  try {
+    await deleteMembership.do({
+      membershipId: membershipId,
+    });
 
-  return res.status(200).json({
-    membershipId,
-    message: "Membership deleted successfully",
-  });
+    return res.sendStatus(200);
+  } catch (err) {
+    let errMessage = "Unknown error";
+    if (err instanceof Error) errMessage = err.message;
+    return res.status(400).json({
+      error: errMessage,
+    });
+  }
 }

@@ -1,3 +1,4 @@
+import { User } from "../../entities/user";
 import { CheckinRepository } from "../../repositories/checkin-repository";
 import { UserRepository } from "../../repositories/user-repository";
 
@@ -5,13 +6,7 @@ interface Request {
   userId: string;
 }
 interface Response {
-  user: {
-    name: string;
-    id: string;
-    birthday: Date;
-    email: string;
-  };
-  checkinsCount: number;
+  user: User | null;
 }
 
 export class GetUserInfo {
@@ -19,20 +14,10 @@ export class GetUserInfo {
     public userRepository: UserRepository,
     public checkinsRepository: CheckinRepository
   ) {}
-  async do({ userId }: Request): Promise<Response | null> {
-    const foundUser = await this.userRepository.findById(userId);
-    const foundCheckins = await this.checkinsRepository.findByUserId(userId);
-    if (foundUser) {
-      return {
-        checkinsCount: foundCheckins.length,
-        user: {
-          name: foundUser.name,
-          birthday: foundUser.birthDay,
-          id: foundUser.id,
-          email: foundUser.email,
-        },
-      };
-    }
-    return null;
+  async do({ userId }: Request): Promise<Response> {
+    const foundUser = (await this.userRepository.findById(userId)) ?? null;
+    return {
+      user: foundUser,
+    };
   }
 }

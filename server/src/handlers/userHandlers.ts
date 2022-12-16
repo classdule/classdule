@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
+import { UserHttpMapper } from "../mappers/http/user.http-mapper";
 import { PrismaCheckinRepository } from "../repositories/prisma/prisma-checkin-repository";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password, username } from "../schemas";
@@ -17,7 +18,7 @@ export async function handleGetUsers(
   const usersRepository = new UserRepositoryPrisma();
   const findUsers = new GetAllUsers(usersRepository);
   const queryResult = await findUsers.do();
-  return res.status(200).json(queryResult);
+  return res.status(200).json(queryResult.map(UserHttpMapper.toHttp));
 }
 
 export const createUserSchema = z.object({
@@ -100,7 +101,7 @@ export async function handleDeleteUser(
 ) {
   const { user } = req.body;
   const deleteUser = new DeleteUser(new UserRepositoryPrisma());
-  const deletedUser = await deleteUser.execute(user.id);
+  await deleteUser.execute(user.id);
   return res.json({
     message: `Deleted user with id ${user.id}`,
   });
@@ -121,16 +122,13 @@ export async function handleGetUserInfo(
   const userRepository = new UserRepositoryPrisma();
   const checkinsRepository = new PrismaCheckinRepository();
   const getUserInfo = new GetUserInfo(userRepository, checkinsRepository);
-  const userInfo = await getUserInfo.do({
+  const { user } = await getUserInfo.do({
     userId: id,
   });
-  if (!userInfo) {
+  if (!user) {
     return res.sendStatus(404);
   }
-  return res.json({
-    name: userInfo.user.name,
-    email: userInfo.user.email,
-  });
+  return res.json(UserHttpMapper.toHttp(user));
 }
 export const getAccountInfoSchema = z.object({
   body: z.object({
@@ -149,14 +147,11 @@ export async function handleGetAccountInfo(
   const userRepository = new UserRepositoryPrisma();
   const checkinsRepository = new PrismaCheckinRepository();
   const getUserInfo = new GetUserInfo(userRepository, checkinsRepository);
-  const userInfo = await getUserInfo.do({
+  const { user: userInfo } = await getUserInfo.do({
     userId: user.id,
   });
   if (!userInfo) {
     return res.sendStatus(404);
   }
-  return res.json({
-    name: userInfo.user.name,
-    email: userInfo.user.email,
-  });
+  return res.json(UserHttpMapper.toHttp(userInfo));
 }

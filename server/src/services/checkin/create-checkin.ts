@@ -10,6 +10,7 @@ import { MembershipRepository } from "../../repositories/membership-repository";
 interface Request {
   classroomId: string;
   userId: string;
+  createdAt?: Date;
 }
 
 interface Response {
@@ -28,6 +29,7 @@ export class CreateCheckin {
     const checkin = new Checkin({
       classroomId: request.classroomId,
       userId: request.userId,
+      createdAt: request.createdAt,
     });
     const targetClassroom =
       (await this.classroomRepository.findById(request.classroomId)) || null;

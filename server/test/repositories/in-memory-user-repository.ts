@@ -1,5 +1,5 @@
-import { User } from "../../entities/user";
-import { UserRepository } from "../user-repository";
+import { User } from "../../src/entities/user";
+import { UserRepository } from "../../src/repositories/user-repository";
 
 export class InMemoryUserRepository implements UserRepository {
   users: User[] = [];
@@ -7,7 +7,6 @@ export class InMemoryUserRepository implements UserRepository {
     this.users.push(user);
   }
   async delete(userId: string) {
-    const deleteUser = this.users.find((user) => user.id === userId) || null;
     this.users = this.users.filter((user) => user.id !== userId);
   }
 

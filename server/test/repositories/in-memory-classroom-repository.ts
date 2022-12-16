@@ -1,8 +1,8 @@
-import { areIntervalsOverlapping, Day, parseISO } from "date-fns";
+import { areIntervalsOverlapping, Day } from "date-fns";
 import { intersection } from "lodash";
 
-import { Classroom } from "../../entities/classroom";
-import { ClassroomRepository } from "../classroom-repository";
+import { Classroom } from "../../src/entities/classroom";
+import { ClassroomRepository } from "../../src/repositories/classroom-repository";
 
 export class InMemoryClassroomRepository implements ClassroomRepository {
   classrooms: Classroom[] = [];
@@ -15,16 +15,11 @@ export class InMemoryClassroomRepository implements ClassroomRepository {
     classroom.endsAt.setDate(0);
 
     this.classrooms.push(classroom);
-    return classroom;
   }
   async delete(classroomId: string) {
-    const targetClassroom = this.classrooms.find(
-      (classroom) => classroom.id === classroomId
-    );
     this.classrooms = this.classrooms.filter(
       (classroom) => classroom.id !== classroomId
     );
-    return targetClassroom ?? null;
   }
   async findOverlappingDateClassroom(
     start: Date,

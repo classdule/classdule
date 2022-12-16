@@ -3,8 +3,21 @@ import { GroupRepository } from "../../repositories/group-repository";
 import { ClassroomRepository } from "../../repositories/classroom-repository";
 import { MembershipRepository } from "../../repositories/membership-repository";
 import { MembershipRole } from "../../entities/membership";
+import { Day } from "date-fns";
 
-type Request = Classroom;
+interface Request {
+  groupId: string;
+  educatorId: string;
+  type: string;
+  endsAt: Date;
+  startsAt: Date;
+  weekdays: Day[];
+  content: string;
+}
+
+interface Response {
+  classroom: Classroom;
+}
 
 export class CreateClassroom {
   constructor(
@@ -14,7 +27,7 @@ export class CreateClassroom {
     public actorId: string
   ) {}
 
-  async do(request: Request) {
+  async do(request: Request): Promise<Response> {
     const targetGroup = await this.groupRepository.findGroupById(
       request.groupId
     );
@@ -41,17 +54,19 @@ export class CreateClassroom {
     ) {
       throw new Error("Cannot create a classroom if educator does not exists");
     }
-    const createdClassroom = await this.classroomRepository.create(
-      new Classroom({
-        educatorId: request.educatorId,
-        groupId: request.groupId,
-        type: request.type,
-        endsAt: request.endsAt,
-        startsAt: request.startsAt,
-        weekdays: request.weekdays,
-        content: request.content,
-      })
-    );
-    return createdClassroom;
+
+    const classroom = new Classroom({
+      educatorId: request.educatorId,
+      groupId: request.groupId,
+      type: request.type,
+      endsAt: request.endsAt,
+      startsAt: request.startsAt,
+      weekdays: request.weekdays,
+      content: request.content,
+    });
+    await this.classroomRepository.create(classroom);
+    return {
+      classroom,
+    };
   }
 }

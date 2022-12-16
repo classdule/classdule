@@ -1,22 +1,13 @@
-import { v4 as uuid } from "uuid";
-
-import { Group } from "../../entities/group";
-import { GroupRepository } from "../group-repository";
+import { Group } from "../../src/entities/group";
+import { GroupRepository } from "../../src/repositories/group-repository";
 
 export class InMemoryGroupRepository implements GroupRepository {
   groups: Group[] = [];
   async create(group: Group) {
     this.groups.push(group);
-
-    return group;
   }
   async delete(groupId: string) {
-    const deleteAcademy =
-      this.groups.find((academy) => academy.id === groupId) || null;
-    this.groups = this.groups.filter(
-      (academy) => academy.id !== deleteAcademy?.id
-    );
-    return deleteAcademy;
+    this.groups = this.groups.filter((academy) => academy.id !== groupId);
   }
   async findGroupByName(groupName: string) {
     const foundAcademy =

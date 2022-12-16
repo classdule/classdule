@@ -28,7 +28,6 @@ describe("Create classroom tests", () => {
   groupRepository.groups = [
     new Group(
       {
-        membershipsIds: ["efef"],
         location: "Any location",
         name: "Any name",
         responsibleEducatorId: "aaaa",
@@ -44,20 +43,19 @@ describe("Create classroom tests", () => {
       "aaaa"
     );
 
-    const classroomToCreate = new Classroom({
-      groupId: "aaaa",
-      educatorId: "aaaa",
-      weekdays: [2, 4],
-      type: "basic",
-      endsAt: parseISO("1970-01-01 21:00"),
-      startsAt: parseISO("1970-01-01 19:00"),
-      content: ["Fração"],
-    });
+    await expect(
+      createClassroom.do({
+        groupId: "aaaa",
+        educatorId: "aaaa",
+        weekdays: [2, 4],
+        type: "basic",
+        endsAt: parseISO("1970-01-01 21:00"),
+        startsAt: parseISO("1970-01-01 19:00"),
+        content: "Fração",
+      })
+    ).resolves.not.toThrow();
 
-    expect(await createClassroom.do(classroomToCreate)).toBeInstanceOf(
-      Classroom
-    );
-    expect(classroomRepository.classrooms.length).toBeGreaterThan(0);
+    expect(classroomRepository.classrooms).toHaveLength(1);
   });
   it("Should not be able to create a classroom since educator is not associated with group", async () => {
     const createClassroom = new CreateClassroom(
@@ -74,7 +72,7 @@ describe("Create classroom tests", () => {
       type: "basic",
       endsAt: parseISO("1970-01-01 21:00"),
       startsAt: parseISO("1970-01-01 19:00"),
-      content: ["Fração"],
+      content: "Fração",
     });
     expect(createClassroom.do(classroomToCreate)).rejects;
   });
@@ -93,7 +91,7 @@ describe("Create classroom tests", () => {
       type: "basic",
       endsAt: parseISO("1970-01-01 21:00"),
       startsAt: parseISO("1970-01-01 19:00"),
-      content: ["Fração"],
+      content: "Fração",
     });
     expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
   });

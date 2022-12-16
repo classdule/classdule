@@ -51,7 +51,6 @@ describe("Create check-in tests", () => {
           name: "Example group",
           location: "The campus",
           responsibleEducatorId: "aabb",
-          membershipsIds: ["cccc", "dddd"],
         },
         "aaaa"
       )
@@ -64,17 +63,17 @@ describe("Create check-in tests", () => {
     );
   });
   it("Should be able to create a check-in", async () => {
-    const existingClassroom = await classroomRepository.create(
-      new Classroom({
-        groupId: "aaaa",
-        educatorId: "aaaa",
-        type: "basic",
-        startsAt: parseISO("1970-01-01 20:30"),
-        endsAt: parseISO("1970-01-01 22:00"),
-        weekdays: [1, 4], // Monday and Thursday
-        content: [],
-      })
-    );
+    const existingClassroom = new Classroom({
+      groupId: "aaaa",
+      educatorId: "aaaa",
+      type: "basic",
+      startsAt: parseISO("1970-01-01 20:30"),
+      endsAt: parseISO("1970-01-01 22:00"),
+      weekdays: [1, 4], // Monday and Thursday
+      content: "",
+    });
+
+    await classroomRepository.create(existingClassroom);
 
     const exampleCheckin = new Checkin({
       classroomId: existingClassroom.id,
@@ -89,17 +88,17 @@ describe("Create check-in tests", () => {
     ).resolves;
   });
   it("Should not be able to create a check-in since checkin cannot be created a day before the classroom", async () => {
-    const existingClassroom = await classroomRepository.create(
-      new Classroom({
-        groupId: "aaaa",
-        educatorId: "bbbb",
-        type: "basic",
-        startsAt: parseISO("1970-01-01 20:30"),
-        endsAt: parseISO("1970-01-01 22:00"),
-        weekdays: [2, 4], // Tuesday and Thursday
-        content: [],
-      })
-    );
+    const existingClassroom = new Classroom({
+      groupId: "aaaa",
+      educatorId: "bbbb",
+      type: "basic",
+      startsAt: parseISO("1970-01-01 20:30"),
+      endsAt: parseISO("1970-01-01 22:00"),
+      weekdays: [2, 4], // Tuesday and Thursday
+      content: "",
+    });
+
+    await classroomRepository.create(existingClassroom);
 
     const exampleCheckin = new Checkin({
       classroomId: existingClassroom.id,
@@ -115,17 +114,17 @@ describe("Create check-in tests", () => {
   });
 
   it("Should not be able to create two check-ins in the same classroom and the same day", async () => {
-    const existingClassroom = await classroomRepository.create(
-      new Classroom({
-        groupId: "aaaa",
-        educatorId: "bbbb",
-        type: "basic",
-        startsAt: parseISO("1970-01-02 20:30"),
-        endsAt: parseISO("1970-01-02 22:00"),
-        weekdays: [1, 3], // Monday and Wednesday
-        content: [],
-      })
-    );
+    const existingClassroom = new Classroom({
+      groupId: "aaaa",
+      educatorId: "bbbb",
+      type: "basic",
+      startsAt: parseISO("1970-01-02 20:30"),
+      endsAt: parseISO("1970-01-02 22:00"),
+      weekdays: [1, 3], // Monday and Wednesday
+      content: "",
+    });
+
+    await classroomRepository.create(existingClassroom);
 
     const exampleCheckin1 = new Checkin({
       classroomId: existingClassroom.id,
@@ -159,17 +158,17 @@ describe("Create check-in tests", () => {
     ).rejects.toThrow();
   });
   it("Should fail to create a a check-in since user is not a group member", async () => {
-    const existingClassroom = await classroomRepository.create(
-      new Classroom({
-        groupId: "aaaa",
-        educatorId: "bbbb",
-        type: "basic",
-        startsAt: parseISO("1970-01-02 20:30"),
-        endsAt: parseISO("1970-01-02 22:00"),
-        weekdays: [1, 3], // Monday and Wednesday
-        content: [],
-      })
-    );
+    const existingClassroom = new Classroom({
+      groupId: "aaaa",
+      educatorId: "bbbb",
+      type: "basic",
+      startsAt: parseISO("1970-01-02 20:30"),
+      endsAt: parseISO("1970-01-02 22:00"),
+      weekdays: [1, 3], // Monday and Wednesday
+      content: "",
+    });
+
+    await classroomRepository.create(existingClassroom);
 
     const invalidCheckin = new Checkin({
       classroomId: existingClassroom.id,

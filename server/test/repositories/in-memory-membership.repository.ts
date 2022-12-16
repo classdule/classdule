@@ -1,5 +1,5 @@
-import { Membership, MembershipRole } from "../../entities/membership";
-import { MembershipRepository } from "../membership-repository";
+import { Membership, MembershipRole } from "../../src/entities/membership";
+import { MembershipRepository } from "../../src/repositories/membership-repository";
 
 export class InMemoryMembershipRepository implements MembershipRepository {
   memberships: Membership[] = [];
@@ -25,14 +25,11 @@ export class InMemoryMembershipRepository implements MembershipRepository {
 
   async create(membership: Membership) {
     this.memberships.push(membership);
-    return membership;
   }
   async delete(membershipId: string) {
-    const target = await this.findById(membershipId);
     this.memberships = this.memberships.filter(
       (membership) => membership.id !== membershipId
     );
-    return target;
   }
 
   async updateRole(membershipId: string, role: MembershipRole) {
@@ -40,6 +37,5 @@ export class InMemoryMembershipRepository implements MembershipRepository {
       (membership) => membership.id === membershipId
     );
     this.memberships[targetIndex].role = role;
-    return this.memberships[targetIndex];
   }
 }

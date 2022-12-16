@@ -2,22 +2,15 @@ import { UserGroupRole } from "@prisma/client";
 
 import { prismaClient } from "../../database/prisma";
 import { Membership, MembershipRole } from "../../entities/membership";
+import { MembershipPrismaMapper } from "../../mappers/prisma/membership-prisma-mapper";
 import { MembershipRepository } from "../membership-repository";
 
-const prismaRoleToEntity = new Map<UserGroupRole, MembershipRole>([
-  [UserGroupRole.PENDING, MembershipRole.PENDING],
-  [UserGroupRole.MEMBER, MembershipRole.EDUCATOR],
-  [UserGroupRole.EDUCATOR, MembershipRole.EDUCATOR],
-]);
 const entityRoleToPrisma = new Map<MembershipRole, UserGroupRole>([
   [MembershipRole.PENDING, UserGroupRole.PENDING],
   [MembershipRole.MEMBER, UserGroupRole.MEMBER],
   [MembershipRole.EDUCATOR, UserGroupRole.EDUCATOR],
 ]);
 
-function getEntityRoleByPrisma(prismaRole: UserGroupRole) {
-  return prismaRoleToEntity.get(prismaRole) ?? MembershipRole.PENDING;
-}
 function getPrismaRoleByEntity(entityRole: MembershipRole) {
   return entityRoleToPrisma.get(entityRole) ?? UserGroupRole.PENDING;
 }
@@ -39,16 +32,7 @@ export class PrismaMembershipRepository implements MembershipRepository {
       },
     });
 
-    return queryResult.map((row) => {
-      return new Membership(
-        {
-          groupId: row.groupId,
-          userId: row.userId,
-          role: getEntityRoleByPrisma(row.role),
-        },
-        row.id
-      );
-    });
+    return queryResult.map(MembershipPrismaMapper.toDomain);
   }
   async findByGroup(groupId: string) {
     const queryResult = await prismaClient.membership.findMany({
@@ -69,16 +53,7 @@ export class PrismaMembershipRepository implements MembershipRepository {
       },
     });
 
-    return queryResult.map((row) => {
-      return new Membership(
-        {
-          groupId: row.groupId,
-          userId: row.userId,
-          role: getEntityRoleByPrisma(row.role),
-        },
-        row.id
-      );
-    });
+    return queryResult.map(MembershipPrismaMapper.toDomain);
   }
   async findById(membershipId: string) {
     const queryResult = await prismaClient.membership.findUnique({
@@ -90,14 +65,7 @@ export class PrismaMembershipRepository implements MembershipRepository {
       return null;
     }
 
-    return new Membership(
-      {
-        groupId: queryResult.groupId,
-        userId: queryResult.userId,
-        role: getEntityRoleByPrisma(queryResult.role),
-      },
-      queryResult.id
-    );
+    return MembershipPrismaMapper.toDomain(queryResult);
   }
   async findByUser(userId: string) {
     const queryResult = await prismaClient.membership.findMany({
@@ -118,56 +86,26 @@ export class PrismaMembershipRepository implements MembershipRepository {
       },
     });
 
-    return queryResult.map((row) => {
-      return new Membership(
-        {
-          groupId: row.groupId,
-          userId: row.userId,
-          role: getEntityRoleByPrisma(row.role),
-        },
-        row.id
-      );
-    });
+    return queryResult.map(MembershipPrismaMapper.toDomain);
   }
   async create(membership: Membership) {
-    const queryResult = await prismaClient.membership.create({
+    await prismaClient.membership.create({
       data: {
         role: membership.role,
         groupId: membership.groupId,
         userId: membership.userId,
       },
     });
-
-    return new Membership(
-      {
-        groupId: queryResult.groupId,
-        userId: queryResult.userId,
-        role: getEntityRoleByPrisma(queryResult.role),
-      },
-      queryResult.id
-    );
   }
   async delete(membershipId: string) {
-    const queryResult = await prismaClient.membership.delete({
+    await prismaClient.membership.delete({
       where: {
         id: membershipId,
       },
     });
-    if (!queryResult) {
-      return null;
-    }
-
-    return new Membership(
-      {
-        groupId: queryResult.groupId,
-        userId: queryResult.userId,
-        role: getEntityRoleByPrisma(queryResult.role),
-      },
-      queryResult.id
-    );
   }
   async updateRole(membershipId: string, role: MembershipRole) {
-    const queryResult = await prismaClient.membership.update({
+    await prismaClient.membership.update({
       where: {
         id: membershipId,
       },
@@ -175,13 +113,5 @@ export class PrismaMembershipRepository implements MembershipRepository {
         role: getPrismaRoleByEntity(role),
       },
     });
-    return new Membership(
-      {
-        groupId: queryResult.groupId,
-        userId: queryResult.userId,
-        role: getEntityRoleByPrisma(queryResult.role),
-      },
-      queryResult.id
-    );
   }
 }

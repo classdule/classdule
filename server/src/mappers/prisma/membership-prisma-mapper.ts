@@ -20,7 +20,7 @@ function getPrismaRoleByEntity(entityRole: MembershipRole) {
   return entityRoleToPrisma.get(entityRole) ?? UserGroupRole.PENDING;
 }
 
-export class MembershipPrismaGroup {
+export class MembershipPrismaMapper {
   static toPrisma(membership: Membership): PrismaMembership {
     return {
       groupId: membership.groupId,

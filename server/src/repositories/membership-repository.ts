@@ -5,10 +5,7 @@ export interface MembershipRepository {
   findByGroup: (groupId: string) => Promise<Membership[]>;
   findById: (membershipId: string) => Promise<Membership | null>;
   findByUser: (userId: string) => Promise<Membership[]>;
-  create: (membership: Membership) => Promise<Membership | null>;
-  delete: (membershipId: string) => Promise<Membership | null>;
-  updateRole: (
-    membershipId: string,
-    role: MembershipRole
-  ) => Promise<Membership | null>;
+  create: (membership: Membership) => Promise<void>;
+  delete: (membershipId: string) => Promise<void>;
+  updateRole: (membershipId: string, role: MembershipRole) => Promise<void>;
 }

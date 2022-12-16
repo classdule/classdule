@@ -5,8 +5,8 @@ export interface OperationError {
   error: string;
 }
 export interface GroupRepository {
-  create: (group: Group) => Promise<Group | OperationError | null>;
-  delete: (groupId: string) => Promise<Group | null>;
+  create: (group: Group) => Promise<void>;
+  delete: (groupId: string) => Promise<void>;
   findGroupByName: (groupName: string) => Promise<Group | null>;
   queryGroupsByName: (subName: string) => Promise<Group[]>;
   findAll: () => Promise<Group[]>;

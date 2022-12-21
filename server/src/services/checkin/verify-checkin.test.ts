@@ -35,12 +35,12 @@ describe("Verify check-in tests", () => {
     const verifyCheckin = new VerifyCheckin(
       checkinRepository,
       classroomRepository,
-      "aaaa"
     );
 
     await verifyCheckin.do({
       checkinId: createdCheckin.id,
       verify: true,
+      actorId: "aaaa",
     });
 
     const modifiedCheckin = checkinRepository.checkins.find(

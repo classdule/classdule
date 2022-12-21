@@ -4,16 +4,16 @@ import { ClassroomRepository } from "../../repositories/classroom-repository";
 interface Request {
   checkinId: string;
   verify: boolean;
+  actorId: string;
 }
 
 export class VerifyCheckin {
   constructor(
     public checkinsRepository: CheckinRepository,
     public classroomRepository: ClassroomRepository,
-    public actorId: string
   ) {}
 
-  async do({ checkinId, verify }: Request) {
+  async do({ checkinId, verify, actorId }: Request) {
     const targetCheckin = await this.checkinsRepository.findById(checkinId);
     if (!targetCheckin) {
       throw new Error(`Check-in not found with id ${checkinId}`);
@@ -26,7 +26,7 @@ export class VerifyCheckin {
         `Classroom not found with id ${targetCheckin.classroomId}`
       );
     }
-    if (targetClassroom.educatorId !== this.actorId) {
+    if (targetClassroom.educatorId !== actorId) {
       throw new Error("Only the educator should be able to verify a checkin");
     }
     await this.checkinsRepository.verify(checkinId, verify);

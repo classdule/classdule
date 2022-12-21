@@ -40,7 +40,6 @@ describe("Create classroom tests", () => {
       classroomRepository,
       groupRepository,
       membershipRepository,
-      "aaaa"
     );
 
     await expect(
@@ -52,6 +51,7 @@ describe("Create classroom tests", () => {
         endsAt: parseISO("1970-01-01 21:00"),
         startsAt: parseISO("1970-01-01 19:00"),
         content: "Fração",
+        actorId: "aaaa",
       })
     ).resolves.not.toThrow();
 
@@ -62,7 +62,6 @@ describe("Create classroom tests", () => {
       classroomRepository,
       groupRepository,
       membershipRepository,
-      "aaaa"
     );
 
     const classroomToCreate = new Classroom({
@@ -74,7 +73,16 @@ describe("Create classroom tests", () => {
       startsAt: parseISO("1970-01-01 19:00"),
       content: "Fração",
     });
-    expect(createClassroom.do(classroomToCreate)).rejects;
+    expect(createClassroom.do({
+      actorId: "aaaa",
+      groupId: "aaaa",
+      educatorId: "bbbb",
+      type: "basic",
+      startsAt: parseISO("1970-01-01 19:00"),
+      endsAt: parseISO("1970-01-01 21:00"),
+      content: "Fração",
+      weekdays: [2, 4],
+    })).rejects;
   });
   it("Should not be able to create a classroom since actor is not associated with group", async () => {
     const createClassroom = new CreateClassroom(

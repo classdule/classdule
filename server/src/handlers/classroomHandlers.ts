@@ -60,8 +60,7 @@ export async function handleCreateClassroom(
   const createClassroom = new CreateClassroom(
     classroomRepository,
     groupRepository,
-    membershipRepository,
-    user.id
+    membershipRepository, 
   );
 
   const [parsedStartsAt, parsedEndsAt] = [startsAt, endsAt].map((str) =>
@@ -77,6 +76,7 @@ export async function handleCreateClassroom(
       startsAt: parsedStartsAt,
       weekdays: weekdays as Day[],
       content: content,
+      actorId: user.id,
     });
 
     return res.json(ClassroomHttpMapper.toHttp(classroom));

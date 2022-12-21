@@ -13,6 +13,7 @@ interface Request {
   startsAt: Date;
   weekdays: Day[];
   content: string;
+  actorId: string;
 }
 
 interface Response {
@@ -24,7 +25,6 @@ export class CreateClassroom {
     public classroomRepository: ClassroomRepository,
     public groupRepository: GroupRepository,
     public membershipRepository: MembershipRepository,
-    public actorId: string
   ) {}
 
   async do(request: Request): Promise<Response> {
@@ -41,8 +41,8 @@ export class CreateClassroom {
       .filter((membership) => membership.role === MembershipRole.EDUCATOR)
       .map((membership) => membership.userId);
     if (
-      !groupEducatorsIds.includes(this.actorId) &&
-      targetGroup.responsibleEducatorId !== this.actorId
+      !groupEducatorsIds.includes(request.actorId) &&
+      targetGroup.responsibleEducatorId !== request.actorId
     ) {
       throw new Error(
         "Cannot create a classroom since you are not authorized to do so"
@@ -50,7 +50,7 @@ export class CreateClassroom {
     }
     if (
       !groupEducatorsIds.includes(request.educatorId) &&
-      targetGroup.responsibleEducatorId !== this.actorId
+      targetGroup.responsibleEducatorId !== request.actorId
     ) {
       throw new Error("Cannot create a classroom if educator does not exists");
     }

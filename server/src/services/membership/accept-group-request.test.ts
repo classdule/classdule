@@ -52,12 +52,12 @@ describe("Accept join group request from user", () => {
   it("Should be able to accept user request", async () => {
     const acceptGroupRequest = new AcceptGroupRequest(
       membershipRepository,
-      groupRepository,
-      "dddd" // Same as responsible educator id shown above
+      groupRepository,      
     );
     expect(
       acceptGroupRequest.do({
         membershipId: "abab",
+        actorId: "dddd" 
       })
     ).resolves;
   });

@@ -54,12 +54,12 @@ export async function handleAcceptMembershipRequest(
   const acceptMembershipRequest = new AcceptGroupRequest(
     membershipRepository,
     groupRepository,
-    user.id
   );
 
   try {
     const { membership } = await acceptMembershipRequest.do({
       membershipId,
+      actorId: user.id
     });
 
     if (!membership) {
@@ -99,12 +99,12 @@ export async function handleDenyMembershipRequest(
   const deleteMembership = new DeleteMembership(
     membershipRepository,
     groupRepository,
-    user.id
   );
 
   try {
     await deleteMembership.do({
       membershipId: membershipId,
+      actorId: user.id
     });
 
     return res.sendStatus(200);

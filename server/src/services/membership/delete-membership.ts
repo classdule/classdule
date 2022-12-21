@@ -4,16 +4,16 @@ import { MembershipRepository } from "../../repositories/membership-repository";
 
 interface Request {
   membershipId: string;
+  actorId: string;
 }
 
 export class DeleteMembership {
   constructor(
     public membershipRepository: MembershipRepository,
     public groupRepository: GroupRepository,
-    public actorId: string
   ) {}
 
-  async do({ membershipId }: Request) {
+  async do({ membershipId, actorId }: Request) {
     const targetMembership = await this.membershipRepository.findById(
       membershipId
     );
@@ -36,7 +36,7 @@ export class DeleteMembership {
       targetGroup?.responsibleEducatorId,
     ];
 
-    if (!allowedActorsIds.includes(this.actorId)) {
+    if (!allowedActorsIds.includes(actorId)) {
       throw new Error(`Actor is not allowed to do so`);
     }
 

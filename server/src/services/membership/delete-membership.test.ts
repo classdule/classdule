@@ -54,12 +54,12 @@ describe("Delete membership tests", () => {
     const deleteMembership = new DeleteMembership(
       membershipRepository,
       groupRepository,
-      "aaaa"
     );
 
     await expect(
       deleteMembership.do({
         membershipId: "iiii",
+        actorId: 'aaaa'
       })
     ).resolves.not.toThrow();
 

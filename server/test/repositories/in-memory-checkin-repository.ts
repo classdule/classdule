@@ -1,7 +1,7 @@
 import { isSameDay } from "date-fns";
 
-import { Checkin } from "../../src/entities/checkin";
-import { CheckinRepository } from "../../src/repositories/checkin-repository";
+import { Checkin } from "../../src/app/entities/checkin";
+import { CheckinRepository } from "../../src/app/repositories/checkin-repository";
 
 export class InMemoryCheckinRepository implements CheckinRepository {
   checkins: Checkin[] = [];

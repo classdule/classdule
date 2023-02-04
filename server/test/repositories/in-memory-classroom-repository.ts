@@ -1,8 +1,8 @@
 import { areIntervalsOverlapping, Day } from "date-fns";
 import { intersection } from "lodash";
 
-import { Classroom } from "../../src/entities/classroom";
-import { ClassroomRepository } from "../../src/repositories/classroom-repository";
+import { Classroom } from "../../src/app/entities/classroom";
+import { ClassroomRepository } from "../../src/app/repositories/classroom-repository";
 
 export class InMemoryClassroomRepository implements ClassroomRepository {
   classrooms: Classroom[] = [];

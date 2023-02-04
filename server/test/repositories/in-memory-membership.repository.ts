@@ -1,5 +1,5 @@
-import { Membership, MembershipRole } from "../../src/entities/membership";
-import { MembershipRepository } from "../../src/repositories/membership-repository";
+import { Membership, MembershipRole } from "../../src/app/entities/membership";
+import { MembershipRepository } from "../../src/app/repositories/membership-repository";
 
 export class InMemoryMembershipRepository implements MembershipRepository {
   memberships: Membership[] = [];

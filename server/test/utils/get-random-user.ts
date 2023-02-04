@@ -1,4 +1,4 @@
-import { User } from "../../src/entities/user";
+import { User } from "../../src/app/entities/user";
 import { getPastDate } from "./get-past-date";
 
 export function getRandomUser(): User {

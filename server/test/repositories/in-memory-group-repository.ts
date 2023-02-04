@@ -1,5 +1,5 @@
-import { Group } from "../../src/entities/group";
-import { GroupRepository } from "../../src/repositories/group-repository";
+import { Group } from "../../src/app/entities/group";
+import { GroupRepository } from "../../src/app/repositories/group-repository";
 
 export class InMemoryGroupRepository implements GroupRepository {
   groups: Group[] = [];

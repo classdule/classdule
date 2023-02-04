@@ -5,11 +5,11 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import { mainRoutes } from "./routes/main.routes";
-import { authRoutes } from "./routes/auth.routes";
-import { userRoutes } from "./routes/user.routes";
-import { groupRoutes } from "./routes/group.routes";
-import { classroomRoutes } from "./routes/classroom.routes";
+import { mainRoutes } from "./infra/api/routes/main.routes";
+import { authRoutes } from "./infra/api/routes/auth.routes";
+import { userRoutes } from "./infra/api/routes/user.routes";
+import { groupRoutes } from "./infra/api/routes/group.routes";
+import { classroomRoutes } from "./infra/api/routes/classroom.routes";
 
 export function createServer() {
   const App = express();

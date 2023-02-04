@@ -1,5 +1,7 @@
 import { Entity } from "./entity";
 
+import type { Replace } from "../../helpers/replace";
+
 export enum MembershipRole {
   PENDING = "PENDING",
   MEMBER = "MEMBER",
@@ -12,14 +14,11 @@ interface MembershipProps {
   role: MembershipRole;
 }
 
-interface MembershipConstructorParams {
-  userId: string;
-  groupId: string;
-  role?: MembershipRole;
-}
-
 export class Membership extends Entity<MembershipProps> {
-  constructor(props: MembershipConstructorParams, id?: string) {
+  constructor(
+    props: Replace<MembershipProps, { role?: MembershipRole }>,
+    id?: string
+  ) {
     const initialRole = props.role || MembershipRole.PENDING;
     super({ ...props, role: initialRole }, id);
   }

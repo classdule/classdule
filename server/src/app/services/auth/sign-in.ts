@@ -11,8 +11,7 @@ interface Response {
 }
 export class Signin {
 
-  constructor(private repository: UserRepository, private jwtProvider: JwtProvider) {
-  }
+  constructor(private repository: UserRepository, private jwtProvider: JwtProvider) {}
   async execute(email: string, password: string): Promise<Response> {
     const user = await this.repository.findByEmail(email);
     if (!user) {

@@ -10,5 +10,11 @@ describe("Membership entity tests", () => {
         userId: "bbbb",
       })
     ).toBeInstanceOf(Membership);
+    expect(
+      new Membership({
+        groupId: "aaaa",
+        userId: "bbbb",
+      })
+    ).toBeInstanceOf(Membership);
   });
 });

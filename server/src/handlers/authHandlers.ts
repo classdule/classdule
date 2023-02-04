@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { z } from "zod";
+import { JwtWebProvider } from "../providers/jwt-web-provider";
 import { UserRepositoryPrisma } from "../repositories/prisma/prisma-user-repository";
 import { password } from "../schemas";
 import { Signin } from "../services/auth/sign-in";
@@ -18,7 +19,8 @@ export async function handleSignin(
   res: Response
 ) {
   const { email, password } = req.body;
-  const signin = new Signin(new UserRepositoryPrisma());
+  const jwtProvider = new JwtWebProvider();
+  const signin = new Signin(new UserRepositoryPrisma(), jwtProvider);
   try {
     const { token } = await signin.execute(email, password);
 

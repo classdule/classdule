@@ -1,7 +1,7 @@
 import { compare } from "bcrypt";
 
 import { User } from "../../entities/user";
-import { GenerateTokenProvider } from "../../providers/token-provider/generate-token-provider";
+import { JwtProvider } from "../../app/providers/jwt-provider";
 import { UserRepository } from "../../repositories/user-repository";
 
 interface Response {
@@ -10,10 +10,8 @@ interface Response {
   token: string;
 }
 export class Signin {
-  repository: UserRepository;
 
-  constructor(repository: UserRepository) {
-    this.repository = repository;
+  constructor(private repository: UserRepository, private jwtProvider: JwtProvider) {
   }
   async execute(email: string, password: string): Promise<Response> {
     const user = await this.repository.findByEmail(email);
@@ -24,9 +22,8 @@ export class Signin {
     if (!isPasswordValid) {
       throw new Error("Invalid password");
     }
-    const generateTokenProvider = new GenerateTokenProvider();
-    const token = generateTokenProvider.do({
-      userId: user.id,
+    const token = await this.jwtProvider.sign({
+      id: user.id
     });
 
     return {

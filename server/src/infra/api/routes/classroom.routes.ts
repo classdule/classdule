@@ -14,7 +14,7 @@ import {
   handleGetClassroomsByGroup,
 } from "../handlers/classroomHandlers";
 import { validateInput } from "../middlewares/validateInput";
-import { verifyToken } from "../middlewares/verifyToken";
+import { jwtVerifyToken } from "../middlewares/jwt-verify-token";
 
 const classroomRoutes = Router();
 
@@ -25,7 +25,7 @@ classroomRoutes.get(
 );
 classroomRoutes.post(
   "/classroom",
-  [verifyToken, validateInput(createClassroomSchema)],
+  [jwtVerifyToken, validateInput(createClassroomSchema)],
   handleCreateClassroom
 );
 classroomRoutes.delete(
@@ -36,12 +36,12 @@ classroomRoutes.delete(
 
 classroomRoutes.post(
   "/classroom/checkin",
-  [verifyToken, validateInput(createCheckinSchema)],
+  [jwtVerifyToken, validateInput(createCheckinSchema)],
   handleCreateCheckin
 );
 classroomRoutes.post(
   "/classroom/checkin/status",
-  [verifyToken, validateInput(verifyCheckinSchema)],
+  [jwtVerifyToken, validateInput(verifyCheckinSchema)],
   handleVerifyCheckin
 );
 

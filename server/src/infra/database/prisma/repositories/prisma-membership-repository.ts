@@ -5,7 +5,7 @@ import {
   Membership,
   MembershipRole,
 } from "../../../../app/entities/membership";
-import { MembershipPrismaMapper } from "../../../api/mappers/prisma/membership-prisma-mapper";
+import { MembershipPrismaMapper } from "../mappers/membership-prisma-mapper";
 import { MembershipRepository } from "../../../../app/repositories/membership-repository";
 
 const entityRoleToPrisma = new Map<MembershipRole, UserGroupRole>([

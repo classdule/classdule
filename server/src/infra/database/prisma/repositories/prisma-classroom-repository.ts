@@ -4,7 +4,7 @@ import { intersection } from "lodash";
 import { prismaClient } from "../client";
 
 import { Classroom } from "../../../../app/entities/classroom";
-import { ClassroomPrismaMapper } from "../../../api/mappers/prisma/classroom-prisma-mapper";
+import { ClassroomPrismaMapper } from "../mappers/classroom-prisma-mapper";
 import { ClassroomRepository } from "../../../../app/repositories/classroom-repository";
 
 export class PrismaClassroomRepository implements ClassroomRepository {

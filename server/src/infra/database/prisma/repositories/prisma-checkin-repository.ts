@@ -1,7 +1,7 @@
 import { isSameDay } from "date-fns";
 import { prismaClient } from "../client";
 import { Checkin } from "../../../../app/entities/checkin";
-import { CheckinPrismaMapper } from "../../../api/mappers/prisma/checkin-prisma-mapper";
+import { CheckinPrismaMapper } from "../mappers/checkin-prisma-mapper";
 
 import { CheckinRepository } from "../../../../app/repositories/checkin-repository";
 

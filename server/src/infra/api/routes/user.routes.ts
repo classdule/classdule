@@ -1,5 +1,4 @@
 import { Router } from "express";
-import {} from "passport";
 import { passport } from "../../auth/passport";
 import {
   handleChangeUsername,
@@ -14,25 +13,21 @@ import {
   handleGetAccountInfo,
 } from "../handlers/userHandlers";
 import { validateInput } from "../middlewares/validateInput";
-import { verifyToken } from "../middlewares/verifyToken";
+import { jwtVerifyToken } from "../middlewares/jwt-verify-token";
 
 const userRoutes = Router();
 
 userRoutes.get("/user", handleGetUsers);
-userRoutes.get(
-  "/user/account",
-  [passport.authenticate("jwt")],
-  handleGetAccountInfo
-);
+userRoutes.get("/user/account", [jwtVerifyToken], handleGetAccountInfo);
 userRoutes.post("/user", [validateInput(createUserSchema)], handleCreateUser);
 userRoutes.post(
   "/user/changeUserName",
-  [verifyToken, validateInput(changeUsernameSchema)],
+  [jwtVerifyToken, validateInput(changeUsernameSchema)],
   handleChangeUsername
 );
 userRoutes.delete(
   "/user",
-  [verifyToken, validateInput(deleteUserSchema)],
+  [jwtVerifyToken, validateInput(deleteUserSchema)],
   handleDeleteUser
 );
 userRoutes.get(

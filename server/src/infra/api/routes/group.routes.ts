@@ -13,30 +13,30 @@ import {
   handleDenyMembershipRequest,
 } from "../handlers/membership-handlers";
 import { validateInput } from "../middlewares/validateInput";
-import { verifyToken } from "../middlewares/verifyToken";
+import { jwtVerifyToken } from "../middlewares/jwt-verify-token";
 
 const groupRoutes = Router();
 
 groupRoutes.get("/group", handleGetGroups);
 groupRoutes.post(
   "/group",
-  [verifyToken, validateInput(createGroupSchema)],
+  [jwtVerifyToken, validateInput(createGroupSchema)],
   handleCreateGroup
 );
 
 groupRoutes.post(
   "/group/join",
-  [verifyToken, validateInput(createMembershipSchema)],
+  [jwtVerifyToken, validateInput(createMembershipSchema)],
   handleCreateMembership
 );
 groupRoutes.post(
   "/group/request/accept",
-  [verifyToken, validateInput(acceptMembershipRequestSchema)],
+  [jwtVerifyToken, validateInput(acceptMembershipRequestSchema)],
   handleAcceptMembershipRequest
 );
 groupRoutes.delete(
   "/group/request",
-  [verifyToken, validateInput(denyMembershipRequestSchema)],
+  [jwtVerifyToken, validateInput(denyMembershipRequestSchema)],
   handleDenyMembershipRequest
 );
 

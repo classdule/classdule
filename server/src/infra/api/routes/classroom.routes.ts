@@ -13,8 +13,8 @@ import {
   handleDeleteClassroom,
   handleGetClassroomsByGroup,
 } from "../handlers/classroomHandlers";
-import { validateInput } from "../infra/middlewares/validateInput";
-import { verifyToken } from "../infra/middlewares/verifyToken";
+import { validateInput } from "../middlewares/validateInput";
+import { verifyToken } from "../middlewares/verifyToken";
 
 const classroomRoutes = Router();
 

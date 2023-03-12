@@ -1,9 +1,12 @@
 import { UserGroupRole } from "@prisma/client";
 
-import { prismaClient } from "../../infra/database/prisma/client";
-import { Membership, MembershipRole } from "../../app/entities/membership";
-import { MembershipPrismaMapper } from "../../infra/api/mappers/prisma/membership-prisma-mapper";
-import { MembershipRepository } from "../membership-repository";
+import { prismaClient } from "../client";
+import {
+  Membership,
+  MembershipRole,
+} from "../../../../app/entities/membership";
+import { MembershipPrismaMapper } from "../../../api/mappers/prisma/membership-prisma-mapper";
+import { MembershipRepository } from "../../../../app/repositories/membership-repository";
 
 const entityRoleToPrisma = new Map<MembershipRole, UserGroupRole>([
   [MembershipRole.PENDING, UserGroupRole.PENDING],

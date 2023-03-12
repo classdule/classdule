@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 import { UserHttpMapper } from "../mappers/http/user.http-mapper";
 import { PrismaCheckinRepository } from "../../database/prisma/repositories/prisma-checkin-repository";
-import { UserRepositoryPrisma } from "../../../app/repositories/prisma/prisma-user-repository";
+import { UserRepositoryPrisma } from "../../database/prisma/repositories/prisma-user-repository";
 import { password, username } from "../../../schemas";
 import { ChangeUserName } from "../../../app/services/user/change-username";
 import { CreateUser } from "../../../app/services/user/create-user";
@@ -41,7 +41,7 @@ export async function handleCreateUser(
   const createUser = new CreateUser(new UserRepositoryPrisma());
 
   try {
-    await createUser.execute({
+    await createUser.do({
       birthDay: parsedBirthday,
       email,
       name,

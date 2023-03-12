@@ -1,11 +1,11 @@
 import { areIntervalsOverlapping } from "date-fns";
 import { intersection } from "lodash";
 
-import { prismaClient } from "../../infra/database/prisma/client";
+import { prismaClient } from "../client";
 
-import { Classroom } from "../../app/entities/classroom";
-import { ClassroomPrismaMapper } from "../../infra/api/mappers/prisma/classroom-prisma-mapper";
-import { ClassroomRepository } from "../classroom-repository";
+import { Classroom } from "../../../../app/entities/classroom";
+import { ClassroomPrismaMapper } from "../../../api/mappers/prisma/classroom-prisma-mapper";
+import { ClassroomRepository } from "../../../../app/repositories/classroom-repository";
 
 export class PrismaClassroomRepository implements ClassroomRepository {
   async create(classroom: Classroom) {

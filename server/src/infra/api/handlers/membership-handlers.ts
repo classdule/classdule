@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import { MembershipHttpMapper } from "../mappers/http/membership-http-mapper";
-import { PrismaGroupRepository } from "../../../app/repositories/prisma/prisma-group-repository";
-import { PrismaMembershipRepository } from "../../../app/repositories/prisma/prisma-membership-repository";
+import { PrismaGroupRepository } from "../../database/prisma/repositories/prisma-group-repository";
+import { PrismaMembershipRepository } from "../../database/prisma/repositories/prisma-membership-repository";
 import { AcceptGroupRequest } from "../../../app/services/membership/accept-group-request";
 import { CreateMembership } from "../../../app/services/membership/create-membership";
 import { DeleteMembership } from "../../../app/services/membership/delete-membership";
@@ -53,20 +53,16 @@ export async function handleAcceptMembershipRequest(
   const groupRepository = new PrismaGroupRepository();
   const acceptMembershipRequest = new AcceptGroupRequest(
     membershipRepository,
-    groupRepository,
+    groupRepository
   );
 
   try {
-    const { membership } = await acceptMembershipRequest.do({
+    await acceptMembershipRequest.do({
       membershipId,
-      actorId: user.id
+      actorId: user.id,
     });
 
-    if (!membership) {
-      return res.sendStatus(404);
-    }
-
-    return res.json(MembershipHttpMapper.toHttp(membership));
+    return res.end();
   } catch (err) {
     if (err instanceof Error) {
       res.status(403).json({
@@ -98,13 +94,13 @@ export async function handleDenyMembershipRequest(
 
   const deleteMembership = new DeleteMembership(
     membershipRepository,
-    groupRepository,
+    groupRepository
   );
 
   try {
     await deleteMembership.do({
       membershipId: membershipId,
-      actorId: user.id
+      actorId: user.id,
     });
 
     return res.sendStatus(200);

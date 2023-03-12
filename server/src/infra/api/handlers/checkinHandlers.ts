@@ -3,9 +3,9 @@ import { z } from "zod";
 import { Checkin } from "../../../app/entities/checkin";
 import { CheckinHttpMapper } from "../mappers/http/checkin-http-mapper";
 import { PrismaCheckinRepository } from "../../database/prisma/repositories/prisma-checkin-repository";
-import { PrismaClassroomRepository } from "../../../app/repositories/prisma/prisma-classroom-repository";
-import { PrismaGroupRepository } from "../../../app/repositories/prisma/prisma-group-repository";
-import { PrismaMembershipRepository } from "../../../app/repositories/prisma/prisma-membership-repository";
+import { PrismaClassroomRepository } from "../../database/prisma/repositories/prisma-classroom-repository";
+import { PrismaGroupRepository } from "../../database/prisma/repositories/prisma-group-repository";
+import { PrismaMembershipRepository } from "../../database/prisma/repositories/prisma-membership-repository";
 import { CreateCheckin } from "../../../app/services/checkin/create-checkin";
 import { VerifyCheckin } from "../../../app/services/checkin/verify-checkin";
 
@@ -69,13 +69,13 @@ export async function handleVerifyCheckin(
   const classroomRepository = new PrismaClassroomRepository();
   const verifyCheckin = new VerifyCheckin(
     checkinsRepository,
-    classroomRepository,
-    user.id
+    classroomRepository
   );
   try {
     await verifyCheckin.do({
       checkinId,
       verify,
+      actorId: user.id,
     });
     return res.sendStatus(200);
   } catch (err) {

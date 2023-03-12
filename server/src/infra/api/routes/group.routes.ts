@@ -12,8 +12,8 @@ import {
   handleCreateMembership,
   handleDenyMembershipRequest,
 } from "../handlers/membership-handlers";
-import { validateInput } from "../infra/middlewares/validateInput";
-import { verifyToken } from "../infra/middlewares/verifyToken";
+import { validateInput } from "../middlewares/validateInput";
+import { verifyToken } from "../middlewares/verifyToken";
 
 const groupRoutes = Router();
 

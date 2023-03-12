@@ -6,17 +6,14 @@ interface Request {
   membershipId: string;
   actorId: string;
 }
-interface Response {
-  membership: Membership | null;
-}
 
 export class AcceptGroupRequest {
   constructor(
     private membershipRepository: MembershipRepository,
-    private groupRepository: GroupRepository,
+    private groupRepository: GroupRepository
   ) {}
 
-  async do({ membershipId, actorId }: Request): Promise<Response> {
+  async do({ membershipId, actorId }: Request): Promise<void> {
     const targetMembership = await this.membershipRepository.findById(
       membershipId
     );
@@ -44,12 +41,9 @@ export class AcceptGroupRequest {
       throw new Error("Actor is not allowed to accept a request");
     }
 
-    const membership = await this.membershipRepository.updateRole(
+    await this.membershipRepository.updateRole(
       membershipId,
       MembershipRole.MEMBER
     );
-    return {
-      membership,
-    };
   }
 }

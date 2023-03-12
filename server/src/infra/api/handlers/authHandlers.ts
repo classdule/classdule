@@ -15,6 +15,7 @@ export const signinSchema = z.object({
 });
 
 type handleSigninRequest = z.TypeOf<typeof signinSchema>;
+// Sign-in generates and send a refresh token
 export async function handleSignin(
   req: Request<{}, {}, handleSigninRequest["body"]>,
   res: Response
@@ -44,6 +45,7 @@ export const refreshSchema = z.object({
   }),
 });
 type handleRefreshRequest = z.TypeOf<typeof refreshSchema>;
+// Refresh request a refresh token and send a access token
 export async function handleRefresh(
   req: Request<{}, {}, handleRefreshRequest["body"]>,
   res: Response

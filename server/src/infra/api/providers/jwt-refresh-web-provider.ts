@@ -6,7 +6,8 @@ export class JwtRefreshWebProvider implements JwtProvider {
   async sign(payload: UserJWT) {
     const token = Jwt.sign(
       payload,
-      process.env.JWT_REFRESH_SECRET as Jwt.Secret
+      process.env.JWT_REFRESH_SECRET as Jwt.Secret,
+      { expiresIn: "12h" }
     );
     return token;
   }

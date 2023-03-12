@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { z } from "zod";
 import { CreateGroup } from "../../../app/services/group/create-group";
-import { PrismaGroupRepository } from "../../../app/repositories/prisma/prisma-group-repository";
+import { PrismaGroupRepository } from "../../database/prisma/repositories/prisma-group-repository";
 import { GetAllGroups } from "../../../app/services/group/get-all-groups";
 import { GroupHttpMapper } from "../mappers/http/group-http-mapper";
 

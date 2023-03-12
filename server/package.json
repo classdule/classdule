@@ -20,6 +20,8 @@
     "@types/jsonwebtoken": "^8.5.9",
     "@types/lodash": "^4.14.185",
     "@types/node": "^18.7.13",
+    "@types/passport": "^1.0.12",
+    "@types/passport-jwt": "^3.0.8",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
     "nodemon": "^2.0.19",
@@ -42,6 +44,8 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
     "uuid": "^9.0.0",
     "zod": "^3.18.0"
   }

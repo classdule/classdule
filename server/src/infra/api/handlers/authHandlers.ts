@@ -24,9 +24,8 @@ export async function handleSignin(
   try {
     const { token } = await signin.execute(email, password);
 
-    res.cookie("access_token", token);
     return res.status(200).json({
-      error: "Sucessfully authenticated",
+      access_token: token,
     });
   } catch (err) {
     let errMessage = "Unknown error";

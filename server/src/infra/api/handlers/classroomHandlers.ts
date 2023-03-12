@@ -3,13 +3,12 @@ import { parseISO } from "date-fns";
 import { Request, Response } from "express";
 import { z } from "zod";
 
-import { Classroom } from "../../../app/entities/classroom";
-import { PrismaClassroomRepository } from "../../../app/repositories/prisma/prisma-classroom-repository";
+import { PrismaClassroomRepository } from "../../database/prisma/repositories/prisma-classroom-repository";
 import { CreateClassroom } from "../../../app/services/classroom/create-classroom";
 import { DeleteClassroom } from "../../../app/services/classroom/delete-classroom";
 import { GetClassroomsByGroup } from "../../../app/services/classroom/get-classrooms-by-group";
-import { PrismaGroupRepository } from "../../../app/repositories/prisma/prisma-group-repository";
-import { PrismaMembershipRepository } from "../../../app/repositories/prisma/prisma-membership-repository";
+import { PrismaGroupRepository } from "../../database/prisma/repositories/prisma-group-repository";
+import { PrismaMembershipRepository } from "../../database/prisma/repositories/prisma-membership-repository";
 import { ClassroomHttpMapper } from "../mappers/http/classroom-http-mapper";
 
 export const getClassroomsByGroupSchema = z.object({
@@ -60,7 +59,7 @@ export async function handleCreateClassroom(
   const createClassroom = new CreateClassroom(
     classroomRepository,
     groupRepository,
-    membershipRepository, 
+    membershipRepository
   );
 
   const [parsedStartsAt, parsedEndsAt] = [startsAt, endsAt].map((str) =>

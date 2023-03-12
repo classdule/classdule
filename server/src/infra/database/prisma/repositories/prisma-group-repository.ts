@@ -1,9 +1,9 @@
-import { Group } from "../../app/entities/group";
-import { GroupRepository } from "../group-repository";
+import { Group } from "../../../../app/entities/group";
+import { GroupRepository } from "../../../../app/repositories/group-repository";
 
-import { prismaClient } from "../../infra/database/prisma/client";
+import { prismaClient } from "../../prisma/client";
 import { UserGroupRole } from "@prisma/client";
-import { GroupPrismaMapper } from "../../infra/api/mappers/prisma/group-prisma-mapper";
+import { GroupPrismaMapper } from "../../../api/mappers/prisma/group-prisma-mapper";
 
 export class PrismaGroupRepository implements GroupRepository {
   async create(group: Group) {

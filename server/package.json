@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev index.ts",
-    "build": "npx tsc",
+    "build": "tsc --build",
     "start": "node ./dist/index.js",
     "prisma:push": "npx prisma db push",
     "prisma:reset": "npx prisma migrate reset",
@@ -29,8 +29,7 @@
     "supertest": "^6.2.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "tsc": "^2.0.4",
-    "typescript": "^4.8.2",
+    "typescript": "^4.9.5",
     "vitest": "^0.23.2"
   },
   "dependencies": {

@@ -10,7 +10,7 @@ interface Request {
 export class DeleteMembership {
   constructor(
     public membershipRepository: MembershipRepository,
-    public groupRepository: GroupRepository,
+    public groupRepository: GroupRepository
   ) {}
 
   async do({ membershipId, actorId }: Request) {

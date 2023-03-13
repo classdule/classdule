@@ -39,7 +39,7 @@ describe("Create classroom tests", () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
       groupRepository,
-      membershipRepository,
+      membershipRepository
     );
 
     await expect(
@@ -61,7 +61,7 @@ describe("Create classroom tests", () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
       groupRepository,
-      membershipRepository,
+      membershipRepository
     );
 
     const classroomToCreate = new Classroom({
@@ -73,34 +73,37 @@ describe("Create classroom tests", () => {
       startsAt: parseISO("1970-01-01 19:00"),
       content: "Fração",
     });
-    expect(createClassroom.do({
-      actorId: "aaaa",
-      groupId: "aaaa",
-      educatorId: "bbbb",
-      type: "basic",
-      startsAt: parseISO("1970-01-01 19:00"),
-      endsAt: parseISO("1970-01-01 21:00"),
-      content: "Fração",
-      weekdays: [2, 4],
-    })).rejects;
+    expect(
+      createClassroom.do({
+        actorId: "aaaa",
+        groupId: "aaaa",
+        educatorId: "bbbb",
+        type: "basic",
+        startsAt: parseISO("1970-01-01 19:00"),
+        endsAt: parseISO("1970-01-01 21:00"),
+        content: "Fração",
+        weekdays: [2, 4],
+      })
+    ).rejects;
   });
   it("Should not be able to create a classroom since actor is not associated with group", async () => {
     const createClassroom = new CreateClassroom(
       classroomRepository,
       groupRepository,
-      membershipRepository,
-      "abab"
+      membershipRepository
     );
 
-    const classroomToCreate = new Classroom({
-      groupId: "aaaa",
-      educatorId: "aaaa",
-      weekdays: [2, 4],
-      type: "basic",
-      endsAt: parseISO("1970-01-01 21:00"),
-      startsAt: parseISO("1970-01-01 19:00"),
-      content: "Fração",
-    });
-    expect(createClassroom.do(classroomToCreate)).rejects.toThrow();
+    expect(
+      createClassroom.do({
+        groupId: "aaaa",
+        educatorId: "aaaa",
+        weekdays: [2, 4],
+        type: "basic",
+        endsAt: parseISO("1970-01-01 21:00"),
+        startsAt: parseISO("1970-01-01 19:00"),
+        content: "Fração",
+        actorId: "abab",
+      })
+    ).rejects.toThrow();
   });
 });

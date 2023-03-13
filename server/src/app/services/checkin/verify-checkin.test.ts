@@ -19,7 +19,7 @@ describe("Verify check-in tests", () => {
     endsAt: new Date("1970-01-01 14:30"),
     type: "basic",
     weekdays: [4, 5],
-    content: [],
+    content: "Introduction",
   });
 
   classroomRepository.classrooms = [createdClassroom];
@@ -34,7 +34,7 @@ describe("Verify check-in tests", () => {
   it("Should be able to verify an check-in", async () => {
     const verifyCheckin = new VerifyCheckin(
       checkinRepository,
-      classroomRepository,
+      classroomRepository
     );
 
     await verifyCheckin.do({
@@ -51,14 +51,14 @@ describe("Verify check-in tests", () => {
   it("Should not be able to verify an check-in since actor does not have authorization to do so", async () => {
     const verifyCheckin = new VerifyCheckin(
       checkinRepository,
-      classroomRepository,
-      "bbbb"
+      classroomRepository
     );
 
     expect(
       verifyCheckin.do({
         checkinId: createdCheckin.id,
         verify: true,
+        actorId: "bbbb",
       })
     ).rejects.toThrow();
   });

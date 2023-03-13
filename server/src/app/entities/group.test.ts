@@ -5,11 +5,9 @@ describe("Group entity tests", () => {
   it("Should be able to instantiate a group", () => {
     expect(
       new Group({
-        educatorsIds: [],
         location: "Everywhere",
         name: "Academy 1",
         responsibleEducatorId: "aaaa",
-        membersIds: [],
       })
     ).toBeInstanceOf(Group);
   });
@@ -17,11 +15,9 @@ describe("Group entity tests", () => {
     expect(
       new Group(
         {
-          educatorsIds: [],
           location: "Everywhere",
           name: "Academy 1",
           responsibleEducatorId: "aaaa",
-          membersIds: [],
         },
         "aaaa"
       ).id

@@ -20,7 +20,6 @@ describe("Accept join group request from user", () => {
           location: "everywhere",
           name: "A group",
           responsibleEducatorId: "dddd",
-          membershipsIds: ["abab"],
         },
         "aaaa"
       )
@@ -52,24 +51,24 @@ describe("Accept join group request from user", () => {
   it("Should be able to accept user request", async () => {
     const acceptGroupRequest = new AcceptGroupRequest(
       membershipRepository,
-      groupRepository,      
+      groupRepository
     );
     expect(
       acceptGroupRequest.do({
         membershipId: "abab",
-        actorId: "dddd" 
+        actorId: "dddd",
       })
     ).resolves;
   });
   it("Should fail to accept user request since actor is not allowed to do so", async () => {
     const acceptGroupRequest = new AcceptGroupRequest(
       membershipRepository,
-      groupRepository,
-      "bbbb"
+      groupRepository
     );
     expect(
       acceptGroupRequest.do({
         membershipId: "abab",
+        actorId: "bbbb",
       })
     ).rejects.toThrow();
   });

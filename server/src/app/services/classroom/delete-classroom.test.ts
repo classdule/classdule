@@ -17,7 +17,7 @@ describe("Delete classroom tests", () => {
       weekdays: [2, 4],
       startsAt: parseISO("1970-01-01 20:30"),
       endsAt: parseISO("1970-01-01 22:00"),
-      content: ["3 Ashi waza"],
+      content: "Introduction",
     });
     classroomRepository.classrooms = [createdClassroom];
     expect(classroomRepository.classrooms.length).toBe(1);

@@ -11,6 +11,7 @@ RUN pnpm install
 COPY . .
 
 RUN pnpm build
+RUN pnpm prisma:generate
 
 EXPOSE 3000
 

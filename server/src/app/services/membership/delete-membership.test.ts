@@ -53,13 +53,13 @@ describe("Delete membership tests", () => {
   it("Should be able to delete a membership", async () => {
     const deleteMembership = new DeleteMembership(
       membershipRepository,
-      groupRepository,
+      groupRepository
     );
 
     await expect(
       deleteMembership.do({
         membershipId: "iiii",
-        actorId: 'aaaa'
+        actorId: "aaaa",
       })
     ).resolves.not.toThrow();
 
@@ -68,13 +68,13 @@ describe("Delete membership tests", () => {
   it("Should fail to delete a membership since actor does not have permission to do so", async () => {
     const deleteMembership = new DeleteMembership(
       membershipRepository,
-      groupRepository,
-      "alal"
+      groupRepository
     );
 
     await expect(
       deleteMembership.do({
         membershipId: "iiii",
+        actorId: "alal",
       })
     ).rejects.toThrow();
   });

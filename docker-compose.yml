@@ -1,0 +1,9 @@
+services:
+  server:
+    build: ./server
+    container_name: classdule-server
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    mem_limit: 512mb

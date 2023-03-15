@@ -14,7 +14,7 @@ describe("Classroom tests", () => {
       endsAt: parseISO("1970-01-01 12:00"),
       weekdays: [1],
       groupId: uuid(),
-      content: [],
+      content: "Introduction",
     });
     expect(classroom).toBeInstanceOf(Classroom);
   });

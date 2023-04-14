@@ -28,9 +28,9 @@ const RootText = styled(BaseText, {
   },
 });
 
-export function Text({ css, size = "md", children }: TextProps) {
+export function Text({ css, size = "md", children, ...props }: TextProps) {
   return (
-    <RootText css={css} size={size}>
+    <RootText css={css} size={size} {...props}>
       {children}
     </RootText>
   );

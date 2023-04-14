@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { ThemeProvider } from "./src/styles/stitches";
 import { LoginPage } from "./src/screens/Login";
+import { SignUpPage } from "./src/screens/SignUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +18,8 @@ export default function App() {
       <NavigationContainer>
         <StatusBar />
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="home" component={LoginPage} />
+          <Stack.Screen name="login" component={LoginPage} />
+          <Stack.Screen name="sign-up" component={SignUpPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

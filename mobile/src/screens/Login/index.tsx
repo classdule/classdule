@@ -27,7 +27,7 @@ const PageBottom = styled(View, {
   marginTop: 18,
 });
 
-export function LoginPage() {
+export function LoginPage({ navigation }) {
   return (
     <LoginPageContainer>
       <Heading size="lg" css={{ fontWeight: "bold" }}>
@@ -42,7 +42,10 @@ export function LoginPage() {
       </LoginForm>
       <PageBottom>
         <Text>Não possui uma conta?</Text>
-        <Text css={{ color: "$blue700", fontWeight: "bold" }}>
+        <Text
+          css={{ color: "$blue700", fontWeight: "bold" }}
+          onPress={() => navigation.replace("sign-up")}
+        >
           Comece agora!
         </Text>
       </PageBottom>

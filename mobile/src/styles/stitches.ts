@@ -26,6 +26,8 @@ export const {
       orange700: "#FF512B",
       yellow700: "#F2DD19",
       blue700: "#1784E9",
+      purple700: "#4117E9",
+      purple400: "#7251F3",
     },
   },
 });

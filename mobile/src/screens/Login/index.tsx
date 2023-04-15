@@ -9,6 +9,7 @@ import { TextInput } from "../../components/TextInput";
 import { Text } from "../../components/Text";
 import { Button } from "../../components/Button";
 import { RootStackScreensParams } from "../../../App";
+import { useCallback } from "react";
 
 const LoginPageContainer = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -33,6 +34,9 @@ const PageBottom = styled(View, {
 type ScreenProps = NativeStackScreenProps<RootStackScreensParams, "login">;
 
 export function LoginPage({ navigation }: ScreenProps) {
+  const handleLogin = useCallback(() => {
+    navigation.replace("auth", { screen: "home" });
+  }, [navigation]);
   return (
     <LoginPageContainer>
       <Heading size="lg" css={{ fontWeight: "bold" }}>
@@ -43,7 +47,9 @@ export function LoginPage({ navigation }: ScreenProps) {
         <TextInput placeholder="email@email.com" />
         <Text css={{ fontWeight: "bold" }}>Senha</Text>
         <TextInput placeholder="Insira sua senha" secureTextEntry />
-        <Button variant="primary">Login</Button>
+        <Button variant="primary" onPress={handleLogin}>
+          Login
+        </Button>
       </LoginForm>
       <PageBottom>
         <Text>Não possui uma conta?</Text>

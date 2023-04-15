@@ -1,3 +1,5 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { Heading } from "../../components/Heading";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -6,6 +8,7 @@ import { View } from "react-native";
 import { TextInput } from "../../components/TextInput";
 import { Text } from "../../components/Text";
 import { Button } from "../../components/Button";
+import { RootStackScreensParams } from "../../../App";
 
 const LoginPageContainer = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -27,7 +30,9 @@ const PageBottom = styled(View, {
   marginTop: 18,
 });
 
-export function LoginPage({ navigation }) {
+type ScreenProps = NativeStackScreenProps<RootStackScreensParams, "login">;
+
+export function LoginPage({ navigation }: ScreenProps) {
   return (
     <LoginPageContainer>
       <Heading size="lg" css={{ fontWeight: "bold" }}>

@@ -5,6 +5,8 @@ import { Heading } from "../../components/Heading";
 import { View } from "react-native";
 import { TextInput } from "../../components/TextInput";
 import { Button } from "../../components/Button";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackScreensParams } from "../../../App";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -26,7 +28,9 @@ const Bottom = styled(View, {
   gap: 4,
 });
 
-export function SignUpPage({ navigation }) {
+type ScreenProps = NativeStackScreenProps<RootStackScreensParams, "sign-up">;
+
+export function SignUpPage({ navigation }: ScreenProps) {
   return (
     <Container>
       <Heading size="lg">Vamos começar</Heading>

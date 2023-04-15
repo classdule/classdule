@@ -26,6 +26,10 @@ const ViewMoreContainer = styled(View, {
   alignItems: "center",
 });
 
+export const HomeTabBarIcon = ({ isFocused }: { isFocused: boolean }) => (
+  <Ionicons name="home" color={isFocused ? "#ffffff" : "#919191"} size={32} />
+);
+
 export function HomePage() {
   return (
     <Container>

@@ -5,9 +5,9 @@ import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity, View } from "react-native";
 import { styled } from "../../styles/stitches";
 import { HomeTabBarIcon } from "../../screens/Auth/Home";
+import { GroupsTabBarIcon } from "../../screens/Auth/Groups";
 import { AuthBottomTabScreen } from "../../screens/Auth";
-import { FC, useCallback, useEffect, useMemo } from "react";
-import { Text } from "../Text";
+import { FC, useCallback, useMemo } from "react";
 
 const Container = styled(View, {
   width: "100%",
@@ -19,19 +19,16 @@ const Container = styled(View, {
   borderTopColor: "$gray800",
   borderWidth: 1,
 });
-const IconWrapper = styled(TouchableOpacity, {});
 
 const iconsByRouteName = new Map<
   AuthBottomTabScreen,
   FC<{ isFocused: boolean }>
->([["home", HomeTabBarIcon]]);
+>([
+  ["home", HomeTabBarIcon],
+  ["groups", GroupsTabBarIcon],
+]);
 
-export function BottomTabBar({
-  descriptors,
-  insets,
-  navigation,
-  state,
-}: BottomTabBarProps) {
+export function BottomTabBar({ navigation, state }: BottomTabBarProps) {
   return (
     <Container>
       {state.routes.map((route, index) => {

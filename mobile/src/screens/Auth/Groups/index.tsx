@@ -6,6 +6,8 @@ import { Heading } from "../../../components/Heading";
 import { GroupCard } from "../../../components/GroupCard";
 import { View } from "react-native";
 import { useMemo } from "react";
+import { TabBarIconProps } from "../../../types/tabBarIconProps";
+import { getIsFocusedIconColor } from "../../../lib/utils/getIsFocusedIconColor";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -21,10 +23,10 @@ const GroupCardsContainer = styled(View, {
   gap: 8,
 });
 
-export const GroupsTabBarIcon = ({ isFocused }: { isFocused: boolean }) => (
+export const GroupsTabBarIcon = ({ isFocused }: TabBarIconProps) => (
   <Ionicons
     name="people-sharp"
-    color={isFocused ? "#ffffff" : "#919191"}
+    color={getIsFocusedIconColor(isFocused)}
     size={32}
   />
 );

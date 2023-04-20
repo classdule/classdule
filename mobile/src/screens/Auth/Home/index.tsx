@@ -7,6 +7,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ClassroomCard } from "../../../components/ClassroomCard";
 import { View } from "react-native";
 import { Logo } from "../../../components/Logo";
+import { TabBarIconProps } from "../../../types/tabBarIconProps";
+import { getIsFocusedIconColor } from "../../../lib/utils/getIsFocusedIconColor";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -18,6 +20,7 @@ const Container = styled(SafeAreaView, {
 
 const TodayClassesContainer = styled(SafeAreaView, {
   width: "100%",
+  gap: 16,
 });
 
 const ViewMoreContainer = styled(View, {
@@ -27,8 +30,8 @@ const ViewMoreContainer = styled(View, {
   alignItems: "center",
 });
 
-export const HomeTabBarIcon = ({ isFocused }: { isFocused: boolean }) => (
-  <Ionicons name="home" color={isFocused ? "#ffffff" : "#919191"} size={32} />
+export const HomeTabBarIcon = ({ isFocused }: TabBarIconProps) => (
+  <Ionicons name="home" color={getIsFocusedIconColor(isFocused)} size={32} />
 );
 
 export function HomePage() {

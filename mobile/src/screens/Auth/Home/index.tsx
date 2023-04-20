@@ -6,6 +6,7 @@ import { styled } from "../../../styles/stitches";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ClassroomCard } from "../../../components/ClassroomCard";
 import { View } from "react-native";
+import { Logo } from "../../../components/Logo";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",

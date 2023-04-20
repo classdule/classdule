@@ -1,9 +1,11 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { styled } from "../../../styles/stitches";
+import { FloatingAction, IActionProps } from "react-native-floating-action";
+import { styled, useTheme } from "../../../styles/stitches";
 import { Heading } from "../../../components/Heading";
 import { GroupCard } from "../../../components/GroupCard";
 import { View } from "react-native";
+import { useMemo } from "react";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -27,6 +29,32 @@ export const GroupsTabBarIcon = ({ isFocused }: { isFocused: boolean }) => (
   />
 );
 
+function ActionButton() {
+  const { colors } = useTheme();
+
+  const actions: IActionProps[] = useMemo<IActionProps[]>(() => {
+    return [
+      {
+        name: "create",
+        icon: <Ionicons name="add" size={28} color="#ffffff" />,
+        color: colors.blue700,
+      },
+      {
+        name: "search",
+        color: colors.orange700,
+        icon: <Ionicons name="search" color="#ffffff" size={28} />,
+      },
+    ] as IActionProps[];
+  }, [colors]);
+  return (
+    <FloatingAction
+      actions={actions}
+      shadow={{ shadowColor: "transparent" }}
+      color={colors.blue700}
+    />
+  );
+}
+
 export function GroupsPage() {
   return (
     <Container>
@@ -43,6 +71,7 @@ export function GroupsPage() {
           membershipStatus="pendind"
         />
       </GroupCardsContainer>
+      <ActionButton />
     </Container>
   );
 }

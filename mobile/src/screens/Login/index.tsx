@@ -44,9 +44,13 @@ export function LoginPage({ navigation }: ScreenProps) {
       </Heading>
       <LoginForm>
         <Text css={{ fontWeight: "bold" }}>Email</Text>
-        <TextInput placeholder="email@email.com" />
+        <TextInput.Root>
+          <TextInput.Input placeholder="email@email.com" />
+        </TextInput.Root>
         <Text css={{ fontWeight: "bold" }}>Senha</Text>
-        <TextInput placeholder="Insira sua senha" secureTextEntry />
+        <TextInput.Root>
+          <TextInput.Input placeholder="Insira sua senha" secureTextEntry />
+        </TextInput.Root>
         <Button variant="primary" onPress={handleLogin}>
           Login
         </Button>

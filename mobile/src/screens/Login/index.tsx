@@ -10,12 +10,13 @@ import { Text } from "../../components/Text";
 import { Button } from "../../components/Button";
 import { RootStackScreensParams } from "../../../App";
 import { useCallback } from "react";
+import { Logo } from "../../components/Logo";
 
 const LoginPageContainer = styled(SafeAreaView, {
   backgroundColor: "$gray900",
   flex: 1,
   alignItems: "center",
-  paddingTop: 96,
+  paddingTop: 48,
   paddingHorizontal: 32,
 });
 
@@ -39,6 +40,7 @@ export function LoginPage({ navigation }: ScreenProps) {
   }, [navigation]);
   return (
     <LoginPageContainer>
+      <Logo size={64} variant="mono-white" />
       <Heading size="lg" css={{ fontWeight: "bold" }}>
         Login
       </Heading>

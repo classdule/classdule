@@ -54,17 +54,17 @@ function ActionButton({ onPressItem }: ActionButtonProps) {
   );
 }
 
-type PageProps = NativeStackScreenProps<GroupsScreensParams, "list-groups">;
-export function ListGroupsPage({ navigation }: PageProps) {
+type ScreenProps = NativeStackScreenProps<GroupsScreensParams, "list">;
+export function ListGroupsScreen({ navigation }: ScreenProps) {
   const floatingButtonActions = useMemo(() => {
     return new Map<ActionButtonItemName, () => void>([
       [
         "create",
         () => {
-          navigation.replace("create-group");
+          navigation.navigate("create");
         },
       ],
-      ["search", () => console.log("TODO: open group search screen")],
+      ["search", () => navigation.navigate("search")],
     ]);
   }, [navigation]);
   return (

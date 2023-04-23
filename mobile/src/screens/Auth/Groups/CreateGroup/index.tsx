@@ -20,7 +20,7 @@ const CreateGroupForm = styled(View, {
   marginTop: 44,
 });
 
-export function CreateGroupPage() {
+export function CreateGroupScreen() {
   return (
     <Container>
       <Heading css={{ fontWeight: "bold" }} size="lg">

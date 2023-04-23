@@ -31,7 +31,7 @@ const WeekDaysContainer = styled(View, {
   gap: 8,
 });
 
-export function CalendarPage() {
+export function CalendarScreen() {
   return (
     <Container>
       <Heading>Aulas</Heading>

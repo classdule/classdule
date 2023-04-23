@@ -10,8 +10,8 @@ import {
 } from "@react-navigation/native-stack";
 
 import { ThemeProvider } from "./src/styles/stitches";
-import { LoginPage } from "./src/screens/Login";
-import { SignUpPage } from "./src/screens/SignUp";
+import { LoginScreen } from "./src/screens/Login";
+import { SignUpScreen } from "./src/screens/SignUp";
 import { AuthBottomScreensProps, AuthRouter } from "./src/screens/Auth";
 
 const RootStack = createNativeStackNavigator<RootStackScreensParams>();
@@ -28,8 +28,8 @@ export default function App() {
       <NavigationContainer>
         <StatusBar />
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
-          <RootStack.Screen name="login" component={LoginPage} />
-          <RootStack.Screen name="sign-up" component={SignUpPage} />
+          <RootStack.Screen name="login" component={LoginScreen} />
+          <RootStack.Screen name="sign-up" component={SignUpScreen} />
           <RootStack.Screen name="auth" component={AuthRouter} />
         </RootStack.Navigator>
       </NavigationContainer>

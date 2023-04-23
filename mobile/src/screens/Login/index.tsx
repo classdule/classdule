@@ -34,7 +34,7 @@ const PageBottom = styled(View, {
 
 type ScreenProps = NativeStackScreenProps<RootStackScreensParams, "login">;
 
-export function LoginPage({ navigation }: ScreenProps) {
+export function LoginScreen({ navigation }: ScreenProps) {
   const handleLogin = useCallback(() => {
     navigation.replace("auth", { screen: "home" });
   }, [navigation]);

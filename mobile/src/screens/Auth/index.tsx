@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomePage } from "./Home";
+import { HomeScreen } from "./Home";
 import { BottomTabBar } from "../../components/BottomTabBar";
 import { GroupsRouter } from "./Groups";
-import { CalendarPage } from "./Calendar";
+import { CalendarScreen } from "./Calendar";
 
 const AuthBottomTabRouter = createBottomTabNavigator<AuthBottomScreensProps>();
 
@@ -20,9 +20,9 @@ export function AuthRouter() {
       screenOptions={{ headerShown: false }}
       tabBar={(props) => <BottomTabBar {...props} />}
     >
-      <AuthBottomTabRouter.Screen name="home" component={HomePage} />
+      <AuthBottomTabRouter.Screen name="home" component={HomeScreen} />
       <AuthBottomTabRouter.Screen name="groups" component={GroupsRouter} />
-      <AuthBottomTabRouter.Screen name="calendar" component={CalendarPage} />
+      <AuthBottomTabRouter.Screen name="calendar" component={CalendarScreen} />
     </AuthBottomTabRouter.Navigator>
   );
 }

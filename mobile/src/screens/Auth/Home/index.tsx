@@ -34,7 +34,7 @@ export const HomeTabBarIcon = ({ isFocused }: TabBarIconProps) => (
   <Ionicons name="home" color={getIsFocusedIconColor(isFocused)} size={32} />
 );
 
-export function HomePage() {
+export function HomeScreen() {
   return (
     <Container>
       <Heading size="lg">Aulas de hoje</Heading>

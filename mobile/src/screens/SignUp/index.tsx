@@ -31,7 +31,7 @@ const Bottom = styled(View, {
 
 type ScreenProps = NativeStackScreenProps<RootStackScreensParams, "sign-up">;
 
-export function SignUpPage({ navigation }: ScreenProps) {
+export function SignUpScreen({ navigation }: ScreenProps) {
   return (
     <Container>
       <Logo size={64} variant="mono-white" />

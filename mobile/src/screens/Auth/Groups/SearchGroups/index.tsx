@@ -22,10 +22,12 @@ export function SearchGroupsScreen() {
   return (
     <Container>
       <TextInput.Root>
-        <TextInput.Icon>
-          <Ionicons name="search" size={32} />
-        </TextInput.Icon>
-        <TextInput.Input placeholder="Pesquise aqui" />
+        <TextInput.Inner>
+          <TextInput.Icon>
+            <Ionicons name="search" size={32} />
+          </TextInput.Icon>
+          <TextInput.Input placeholder="Pesquise aqui" />
+        </TextInput.Inner>
       </TextInput.Root>
       <Heading>Resultados da busca</Heading>
       <SearchResultSection>

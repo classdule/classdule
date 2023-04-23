@@ -9,6 +9,7 @@ import { GroupsTabBarIcon } from "../../screens/Auth/Groups";
 import { AuthBottomTabScreen } from "../../screens/Auth";
 import { FC, useCallback, useMemo } from "react";
 import { CalendarTabBarIcon } from "../../screens/Auth/Calendar";
+import { SettingsTabBarIcon } from "../../screens/Auth/Settings";
 
 const Container = styled(View, {
   width: "100%",
@@ -28,6 +29,7 @@ const iconsByRouteName = new Map<
   ["home", HomeTabBarIcon],
   ["groups", GroupsTabBarIcon],
   ["calendar", CalendarTabBarIcon],
+  ["settings", SettingsTabBarIcon],
 ]);
 
 export function BottomTabBar({ navigation, state }: BottomTabBarProps) {

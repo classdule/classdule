@@ -11,7 +11,7 @@ type TextInputProps = BaseTextInputProps & {
 };
 
 const TextInputInputRoot = styled(BaseTextInput, {
-  color: "$gray200",
+  color: "$gray100",
   fontSize: 16,
   flex: 1,
   paddingHorizontal: 8,

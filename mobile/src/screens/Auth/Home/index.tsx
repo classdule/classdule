@@ -13,7 +13,7 @@ import { getIsFocusedIconColor } from "../../../lib/utils/getIsFocusedIconColor"
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
   flex: 1,
-  paddingHorizontal: 32,
+  paddingHorizontal: 24,
   paddingVertical: 16,
   alignItems: "center",
 });

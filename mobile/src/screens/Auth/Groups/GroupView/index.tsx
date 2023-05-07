@@ -6,6 +6,10 @@ import { GroupsScreensParams } from "..";
 import { Heading } from "../../../../components/Heading";
 import { MembersSection } from "./sections/MembersSection";
 
+import { Button } from "../../../../components/Button";
+import { useState } from "react";
+import { SectionSelectionBar } from "./SectionSelectionBar";
+
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
   flex: 1,
@@ -13,9 +17,11 @@ const Container = styled(SafeAreaView, {
   paddingVertical: 16,
 });
 
-type ScreenProps = NativeStackScreenProps<GroupsScreensParams, "view">;
+export type Section = "classrooms" | "members" | "educators";
 
+type ScreenProps = NativeStackScreenProps<GroupsScreensParams, "view">;
 export function GroupViewScreen({ route }: ScreenProps) {
+  const [currentSection, setCurrentSection] = useState<Section>("classrooms");
   return (
     <Container>
       <Heading size="lg" css={{ fontWeight: "bold" }}>
@@ -29,6 +35,12 @@ export function GroupViewScreen({ route }: ScreenProps) {
       >
         Criador: Manuel Teixeira
       </Text>
+
+      <SectionSelectionBar
+        currentSection={currentSection}
+        setSection={setCurrentSection}
+      />
+
       <MembersSection
         members={[
           {

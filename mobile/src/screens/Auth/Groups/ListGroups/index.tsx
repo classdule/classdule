@@ -76,10 +76,12 @@ export function ListGroupsScreen({ navigation }: ScreenProps) {
         <GroupCard
           groupName="Estudantes de matemática"
           membershipStatus="member"
+          onPress={() => navigation.navigate("view", { groupId: "bbbb" })}
         />
         <GroupCard
           groupName="Estudantes de física"
-          membershipStatus="pendind"
+          membershipStatus="pending"
+          onPress={() => navigation.navigate("view", { groupId: "aaaa" })}
         />
       </GroupCardsContainer>
       <ActionButton

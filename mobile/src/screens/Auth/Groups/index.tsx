@@ -5,6 +5,7 @@ import { getIsFocusedIconColor } from "../../../lib/utils/getIsFocusedIconColor"
 import { ListGroupsScreen } from "./ListGroups";
 import { CreateGroupScreen } from "./CreateGroup";
 import { SearchGroupsScreen } from "./SearchGroups";
+import { GroupViewScreen } from "./GroupView";
 
 export const GroupsTabBarIcon = ({ isFocused }: TabBarIconProps) => (
   <Ionicons
@@ -18,6 +19,9 @@ export type GroupsScreensParams = {
   list: undefined;
   create: undefined;
   search: undefined;
+  view: {
+    groupId: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<GroupsScreensParams>();
@@ -28,6 +32,7 @@ export function GroupsRouter() {
       <Stack.Screen name="list" component={ListGroupsScreen} />
       <Stack.Screen name="create" component={CreateGroupScreen} />
       <Stack.Screen name="search" component={SearchGroupsScreen} />
+      <Stack.Screen name="view" component={GroupViewScreen} />
     </Stack.Navigator>
   );
 }

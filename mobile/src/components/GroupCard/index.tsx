@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { styled } from "../../styles/stitches";
 import { Heading } from "../Heading";
 import { Text } from "../Text";
@@ -7,9 +7,10 @@ import { MembershipStatus } from "../../types/membershipStatus";
 interface GroupCardProps {
   groupName: string;
   membershipStatus: MembershipStatus;
+  onPress?: () => void;
 }
 
-const Container = styled(View, {
+const Container = styled(TouchableOpacity, {
   backgroundColor: "$gray800",
   padding: 8,
   borderRadius: 8,
@@ -25,7 +26,7 @@ const MembershipStatusText = styled(Text, {
   marginTop: 4,
   variants: {
     status: {
-      pendind: {
+      pending: {
         backgroundColor: "$orange700",
       },
       member: {
@@ -35,9 +36,13 @@ const MembershipStatusText = styled(Text, {
   },
 });
 
-export function GroupCard({ groupName, membershipStatus }: GroupCardProps) {
+export function GroupCard({
+  groupName,
+  membershipStatus,
+  onPress,
+}: GroupCardProps) {
   return (
-    <Container>
+    <Container onPress={onPress}>
       <Heading>{groupName}</Heading>
       <MembershipStatusText status={membershipStatus}>
         {membershipStatus}

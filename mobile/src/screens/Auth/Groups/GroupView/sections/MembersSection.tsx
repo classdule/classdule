@@ -1,11 +1,7 @@
 import { View, FlatList } from "react-native";
+import type { Member } from "../../../../../types/entities/member";
 import { styled } from "../../../../../styles/stitches";
 import { Text } from "../../../../../components/Text";
-
-interface Member {
-  name: string;
-  email: string;
-}
 
 interface MembersSectionProps {
   members: Member[];

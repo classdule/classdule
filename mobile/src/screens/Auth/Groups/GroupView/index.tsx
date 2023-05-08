@@ -6,7 +6,6 @@ import { GroupsScreensParams } from "..";
 import { Heading } from "../../../../components/Heading";
 import { MembersSection } from "./sections/MembersSection";
 
-import { Button } from "../../../../components/Button";
 import { useState } from "react";
 import { SectionSelectionBar } from "./SectionSelectionBar";
 import { EducatorsSection } from "./sections/EducatorsSection";

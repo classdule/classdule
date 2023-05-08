@@ -1,12 +1,7 @@
 import { View } from "react-native";
+import type { Classroom } from "../../../../../types/entities/classroom";
 import { styled } from "../../../../../styles/stitches";
 import { ClassroomCard } from "../../../../../components/ClassroomCard";
-
-interface Classroom {
-  name: string;
-  startsAt: Date;
-  endsAt: Date;
-}
 
 const Container = styled(View, {
   marginTop: 24,

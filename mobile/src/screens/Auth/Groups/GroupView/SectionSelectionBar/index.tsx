@@ -6,7 +6,7 @@ import {
 } from "@expo/vector-icons";
 import { Section } from "..";
 import { styled } from "../../../../../styles/stitches";
-import { Text } from "../../../../../components/Text";
+
 import {
   TouchableIcon,
   TouchableIconProps,

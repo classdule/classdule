@@ -2,13 +2,13 @@ import { View, FlatList } from "react-native";
 import { styled } from "../../../../../styles/stitches";
 import { Text } from "../../../../../components/Text";
 
-interface Member {
+interface Educator {
   name: string;
   email: string;
 }
 
-interface MembersSectionProps {
-  members: Member[];
+interface EducatorsSectionProps {
+  educators: Educator[];
 }
 
 const StyledList = styled(FlatList, {
@@ -21,16 +21,16 @@ const ItemContainer = styled(View, {
   margin: 4,
 });
 
-export function MembersSection({ members }: MembersSectionProps) {
+export function EducatorsSection({ educators }: EducatorsSectionProps) {
   return (
     <StyledList
-      data={members}
+      data={educators}
       renderItem={({ item }) => {
         return (
           <ItemContainer>
-            <Text>{(item as Member).name}</Text>
+            <Text>{(item as Educator).name}</Text>
             <Text size="sm" css={{ color: "$gray300", fontWeight: "300" }}>
-              {(item as Member).email}
+              {(item as Educator).email}
             </Text>
           </ItemContainer>
         );

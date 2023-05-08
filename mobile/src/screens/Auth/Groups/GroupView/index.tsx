@@ -9,6 +9,8 @@ import { MembersSection } from "./sections/MembersSection";
 import { Button } from "../../../../components/Button";
 import { useState } from "react";
 import { SectionSelectionBar } from "./SectionSelectionBar";
+import { EducatorsSection } from "./sections/EducatorsSection";
+import { ClassroomsSection } from "./sections/ClassroomsSection";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
@@ -41,18 +43,39 @@ export function GroupViewScreen({ route }: ScreenProps) {
         setSection={setCurrentSection}
       />
 
-      <MembersSection
-        members={[
-          {
-            email: "email@email.com",
-            name: "name",
-          },
-          {
-            email: "email@email.com",
-            name: "name2",
-          },
-        ]}
-      />
+      {currentSection === "members" ? (
+        <MembersSection
+          members={[
+            {
+              email: "email@email.com",
+              name: "name",
+            },
+            {
+              email: "email@email.com",
+              name: "name2",
+            },
+          ]}
+        />
+      ) : currentSection === "educators" ? (
+        <EducatorsSection
+          educators={[
+            {
+              email: "admin@gmail.com",
+              name: "ADM",
+            },
+          ]}
+        />
+      ) : (
+        <ClassroomsSection
+          classrooms={[
+            {
+              endsAt: new Date(),
+              name: "Aula de matemática",
+              startsAt: new Date(),
+            },
+          ]}
+        />
+      )}
     </Container>
   );
 }

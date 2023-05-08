@@ -16,6 +16,7 @@ const Container = styled(SafeAreaView, {
 const SearchResultSection = styled(View, {
   width: "100%",
   gap: 8,
+  marginTop: 16,
 });
 
 export function SearchGroupsScreen() {
@@ -24,12 +25,19 @@ export function SearchGroupsScreen() {
       <TextInput.Root>
         <TextInput.Inner>
           <TextInput.Icon>
-            <Ionicons name="search" size={32} />
+            <Ionicons name="search" size={24} />
           </TextInput.Icon>
-          <TextInput.Input placeholder="Pesquise aqui" />
+          <TextInput.Input placeholder="Nome ou o id do grupo" />
         </TextInput.Inner>
+        <TextInput.Button>Buscar</TextInput.Button>
       </TextInput.Root>
-      <Heading>Resultados da busca</Heading>
+      <Heading
+        css={{
+          marginTop: 16,
+        }}
+      >
+        Resultados da busca
+      </Heading>
       <SearchResultSection>
         <GroupSearchResult
           groupDescription="Grupo dos alunos"

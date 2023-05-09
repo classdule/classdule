@@ -1,1 +1,1 @@
-export type MembershipStatus = "pending" | "member";
+export type MembershipStatus = "pending" | "member" | "educator" | "none";

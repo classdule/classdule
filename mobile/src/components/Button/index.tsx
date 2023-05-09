@@ -6,8 +6,9 @@ import { styled, config } from "../../styles/stitches";
 import { Text } from "../Text";
 
 type ButtonProps = TouchableOpacityProps & {
-  variant?: ComponentProps<typeof RootButton>["variant"];
+  mode?: ComponentProps<typeof RootButton>["mode"];
   css?: CSS<typeof config>;
+  textCss?: CSS<typeof config>;
   children: string;
 };
 
@@ -18,19 +19,41 @@ const RootButton = styled(TouchableOpacity, {
   fontWeight: "bold",
   alignItems: "center",
   borderRadius: 8,
+  backgroundColor: "$rose700",
+  borderColor: "$rose700",
   variants: {
-    variant: {
-      primary: {
-        backgroundColor: "$rose700",
+    mode: {
+      full: {},
+      outline: {
+        borderWidth: 1,
+
+        backgroundColor: "transparent",
       },
     },
   },
 });
 
-export function Button({ variant = "primary", css, ...props }: ButtonProps) {
+const ButtonText = styled(Text, {
+  fontWeight: "bold",
+  fontSize: 16,
+  variants: {
+    mode: {
+      full: {
+        color: "$gray100",
+      },
+      outline: {
+        color: "$rose700",
+      },
+    },
+  },
+});
+
+export function Button({ mode = "full", css, textCss, ...props }: ButtonProps) {
   return (
-    <RootButton variant="primary" css={css} {...props}>
-      <Text css={{ fontWeight: "bold", fontSize: 16 }}>{props.children}</Text>
+    <RootButton mode={mode} css={css} {...props}>
+      <ButtonText mode={mode} css={textCss}>
+        {props.children}
+      </ButtonText>
     </RootButton>
   );
 }

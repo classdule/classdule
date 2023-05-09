@@ -3,9 +3,7 @@ import type { Classroom } from "../../../../../types/entities/classroom";
 import { styled } from "../../../../../styles/stitches";
 import { ClassroomCard } from "../../../../../components/ClassroomCard";
 
-const Container = styled(View, {
-  marginTop: 24,
-});
+const Container = styled(View, {});
 
 interface ClassroomsSectionProps {
   classrooms: Classroom[];

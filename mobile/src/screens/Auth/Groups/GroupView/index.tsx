@@ -6,16 +6,19 @@ import { GroupsScreensParams } from "..";
 import { Heading } from "../../../../components/Heading";
 import { MembersSection } from "./sections/MembersSection";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SectionSelectionBar } from "./SectionSelectionBar";
 import { EducatorsSection } from "./sections/EducatorsSection";
 import { ClassroomsSection } from "./sections/ClassroomsSection";
+import { MembershipStatus } from "../../../../types/membershipStatus";
+import { Button } from "../../../../components/Button";
 
 const Container = styled(SafeAreaView, {
   backgroundColor: "$gray900",
   flex: 1,
   paddingHorizontal: 24,
   paddingVertical: 16,
+  gap: 16,
 });
 
 export type Section = "classrooms" | "members" | "educators";
@@ -23,12 +26,15 @@ export type Section = "classrooms" | "members" | "educators";
 type ScreenProps = NativeStackScreenProps<GroupsScreensParams, "view">;
 export function GroupViewScreen({ route }: ScreenProps) {
   const [currentSection, setCurrentSection] = useState<Section>("classrooms");
+  const currentMembershipStatus = useMemo<MembershipStatus>(() => {
+    return "pending";
+  }, []);
   return (
     <Container>
       <Heading size="lg" css={{ fontWeight: "bold" }}>
         Estudantes de exatas
       </Heading>
-      <Text css={{ fontWeight: "300", color: "$gray300", marginTop: 16 }}>
+      <Text css={{ fontWeight: "300", color: "$gray300" }}>
         Grupo dedicado a nos aprofundar nesta incrível matéria.
       </Text>
       <Text
@@ -36,6 +42,23 @@ export function GroupViewScreen({ route }: ScreenProps) {
       >
         Criador: Manuel Teixeira
       </Text>
+
+      {currentMembershipStatus === "pending" ? (
+        <Button
+          mode="outline"
+          textCss={{ color: "$orange700" }}
+          css={{ borderColor: "$orange700" }}
+        >
+          Pendente...
+        </Button>
+      ) : currentMembershipStatus === "none" ? (
+        <Button>Entrar</Button>
+      ) : (
+        <Button>Opções</Button>
+      )}
+      {currentMembershipStatus === "educator" && (
+        <Button css={{ backgroundColor: "$blue700" }}>Gerenciar aulas</Button>
+      )}
 
       <SectionSelectionBar
         currentSection={currentSection}

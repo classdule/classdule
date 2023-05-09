@@ -7,9 +7,7 @@ interface MembersSectionProps {
   members: Member[];
 }
 
-const StyledList = styled(FlatList, {
-  marginTop: 24,
-});
+const StyledList = styled(FlatList, {});
 
 const ItemContainer = styled(View, {
   borderBottomWidth: 1,

@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
 import { styled } from "../../styles/stitches";
 import { Heading } from "../Heading";
@@ -9,9 +9,10 @@ interface ClassroomCardProps {
   groupName?: string;
   startsAt: Date;
   endsAt: Date;
+  onPress?: () => void;
 }
 
-const Container = styled(View, {
+const Container = styled(TouchableOpacity, {
   paddingHorizontal: 8,
   backgroundColor: "$gray800",
   borderRadius: 8,
@@ -34,9 +35,10 @@ export function ClassroomCard({
   name,
   startsAt,
   groupName,
+  onPress,
 }: ClassroomCardProps) {
   return (
-    <Container>
+    <Container onPress={onPress}>
       <DateFlag>
         {format(startsAt, "HH':'mm")} - {format(endsAt, "HH':'mm")}
       </DateFlag>

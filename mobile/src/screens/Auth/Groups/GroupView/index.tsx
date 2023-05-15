@@ -94,6 +94,7 @@ export function GroupViewScreen({ route }: ScreenProps) {
               endsAt: new Date(),
               name: "Aula de matemática",
               startsAt: new Date(),
+              id: "aaaa",
             },
           ]}
         />

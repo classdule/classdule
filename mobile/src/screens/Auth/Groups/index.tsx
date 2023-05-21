@@ -7,6 +7,7 @@ import { CreateGroupScreen } from "./CreateGroup";
 import { SearchGroupsScreen } from "./SearchGroups";
 import { GroupViewScreen } from "./GroupView";
 import { GroupClassroomScreen } from "./GroupClassroom";
+import { GroupClassroomEditScreen } from "./GroupClassroomEdit";
 
 export const GroupsTabBarIcon = ({ isFocused }: TabBarIconProps) => (
   <Ionicons
@@ -26,6 +27,9 @@ export type GroupsScreensParams = {
   viewClassroom: {
     classroomId: string;
   };
+  editClassroom: {
+    classroomId: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<GroupsScreensParams>();
@@ -38,6 +42,7 @@ export function GroupsRouter() {
       <Stack.Screen name="search" component={SearchGroupsScreen} />
       <Stack.Screen name="view" component={GroupViewScreen} />
       <Stack.Screen name="viewClassroom" component={GroupClassroomScreen} />
+      <Stack.Screen name="editClassroom" component={GroupClassroomEditScreen} />
     </Stack.Navigator>
   );
 }

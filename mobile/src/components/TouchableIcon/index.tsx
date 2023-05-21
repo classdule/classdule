@@ -1,28 +1,36 @@
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
+import { type CSS } from "stitches-native";
+import { config, styled } from "../../styles/stitches";
 
 export interface TouchableIconProps {
   isFocused?: boolean;
   onPress?: () => void;
-  Icon?: React.FC<{ color: string }>;
+  Icon?: React.FC<{ color: string; size: number }>;
+  size?: number;
+  css?: CSS<typeof config>;
 }
+
+const Root = styled(TouchableOpacity, {});
 
 export function TouchableIcon({
   Icon,
   isFocused,
   onPress,
+  size = 40,
+  css,
 }: TouchableIconProps) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Root onPress={onPress} css={css}>
       {Icon ? (
-        <Icon color={isFocused ? "#ffffff" : "#a0a0a0"} />
+        <Icon color={isFocused ? "#ffffff" : "#a0a0a0"} size={size} />
       ) : (
         <AntDesign
           color={isFocused ? "#ffffff" : "#a0a0a0"}
-          size={32}
+          size={size}
           name="question"
         />
       )}
-    </TouchableOpacity>
+    </Root>
   );
 }

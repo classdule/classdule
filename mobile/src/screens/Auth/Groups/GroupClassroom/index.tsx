@@ -7,6 +7,9 @@ import { Heading } from "../../../../components/Heading";
 import { WeekdayToggleButton } from "./WeekdayToggleButton";
 import { View } from "react-native";
 import { Button } from "../../../../components/Button";
+import { MembershipStatus } from "../../../../types/membershipStatus";
+import { useMemo } from "react";
+import { ClassroomEditButton } from "./ClassroomEditButton";
 
 const Container = styled(SafeAreaView, {
   flex: 1,
@@ -26,7 +29,10 @@ const EducatorLabel = styled(Text, {
 });
 
 type ScreenProps = NativeStackScreenProps<GroupsScreensParams, "viewClassroom">;
-export function GroupClassroomScreen({ route }: ScreenProps) {
+export function GroupClassroomScreen({ navigation }: ScreenProps) {
+  const currentRole = useMemo<MembershipStatus>(() => {
+    return "educator";
+  }, []);
   return (
     <Container>
       <Heading size="lg" css={{ fontWeight: "bold" }}>
@@ -42,6 +48,12 @@ export function GroupClassroomScreen({ route }: ScreenProps) {
         <WeekdayToggleButton weekday="Sab" isOn />
       </WeekDaysContainer>
       <EducatorLabel>Professor: Gustavo Martins</EducatorLabel>
+      {currentRole === "educator" && (
+        <ClassroomEditButton
+          css={{ alignSelf: "flex-end" }}
+          onPress={() => navigation.navigate("editClassroom")}
+        />
+      )}
       <Button
         mode="outline"
         textCss={{ color: "$white", fontWeight: "bold" }}

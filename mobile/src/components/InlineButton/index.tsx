@@ -1,6 +1,6 @@
 import { TouchableOpacity } from "react-native";
-import { styled } from "../../../../styles/stitches";
-import { Text } from "../../../../components/Text";
+import { styled } from "../../styles/stitches";
+import { Text } from "../Text";
 
 const Root = styled(TouchableOpacity, {
   borderRadius: 4,
@@ -17,26 +17,26 @@ const Root = styled(TouchableOpacity, {
   },
 });
 
-interface WeekdayToggleButtonProps {
+interface InlineButtonProps {
   onPress?: () => void;
   enable?: boolean;
   isOn?: boolean;
-  weekday: string;
+  text: string;
 }
 
-export function WeekdayToggleButton({
+export function InlineButton({
   onPress,
-  weekday,
+  text,
   enable = false,
   isOn = false,
-}: WeekdayToggleButtonProps) {
+}: InlineButtonProps) {
   return (
     <Root
       on={isOn ? "true" : "false"}
       onPress={enable ? onPress : null}
       activeOpacity={enable ? 0.5 : 1}
     >
-      <Text css={{ fontWeight: "bold" }}>{weekday}</Text>
+      <Text css={{ fontWeight: "bold" }}>{text}</Text>
     </Root>
   );
 }

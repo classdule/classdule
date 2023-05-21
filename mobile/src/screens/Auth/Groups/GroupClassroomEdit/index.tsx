@@ -2,11 +2,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { styled } from "../../../../styles/stitches";
 import { Heading } from "../../../../components/Heading";
 import { View } from "react-native";
-import { WeekdayToggleButton } from "../GroupClassroom/WeekdayToggleButton";
 import { TextArea } from "../../../../components/TextArea";
 import { Button } from "../../../../components/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GroupsScreensParams } from "..";
+import { InlineButton } from "../../../../components/InlineButton";
 
 const Container = styled(SafeAreaView, {
   flex: 1,
@@ -29,13 +29,13 @@ export function GroupClassroomEditScreen({ navigation }: ScreenProps) {
         Aula de matemática
       </Heading>
       <WeekDaysContainer>
-        <WeekdayToggleButton weekday="Dom" isOn enable />
-        <WeekdayToggleButton weekday="Seg" enable />
-        <WeekdayToggleButton weekday="Ter" enable />
-        <WeekdayToggleButton weekday="Qua" enable />
-        <WeekdayToggleButton weekday="Qui" enable />
-        <WeekdayToggleButton weekday="Sex" isOn enable />
-        <WeekdayToggleButton weekday="Sab" isOn enable />
+        <InlineButton text="Dom" isOn enable />
+        <InlineButton text="Seg" enable />
+        <InlineButton text="Ter" enable />
+        <InlineButton text="Qua" enable />
+        <InlineButton text="Qui" enable />
+        <InlineButton text="Sex" isOn enable />
+        <InlineButton text="Sab" isOn enable />
       </WeekDaysContainer>
       <TextArea value="Aula dedicada a revisão" />
       <Button onPress={() => navigation.goBack()}>Salvar</Button>

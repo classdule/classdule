@@ -4,12 +4,12 @@ import { Text } from "../../../../components/Text";
 import { type NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GroupsScreensParams } from "..";
 import { Heading } from "../../../../components/Heading";
-import { WeekdayToggleButton } from "./WeekdayToggleButton";
 import { View } from "react-native";
 import { Button } from "../../../../components/Button";
 import { MembershipStatus } from "../../../../types/membershipStatus";
 import { useMemo } from "react";
 import { ClassroomEditButton } from "./ClassroomEditButton";
+import { InlineButton } from "../../../../components/InlineButton";
 
 const Container = styled(SafeAreaView, {
   flex: 1,
@@ -39,13 +39,13 @@ export function GroupClassroomScreen({ navigation }: ScreenProps) {
         Aula de matemática
       </Heading>
       <WeekDaysContainer>
-        <WeekdayToggleButton weekday="Dom" isOn />
-        <WeekdayToggleButton weekday="Seg" />
-        <WeekdayToggleButton weekday="Ter" />
-        <WeekdayToggleButton weekday="Qua" />
-        <WeekdayToggleButton weekday="Qui" />
-        <WeekdayToggleButton weekday="Sex" isOn />
-        <WeekdayToggleButton weekday="Sab" isOn />
+        <InlineButton text="Dom" isOn />
+        <InlineButton text="Seg" />
+        <InlineButton text="Ter" />
+        <InlineButton text="Qua" />
+        <InlineButton text="Qui" />
+        <InlineButton text="Sex" isOn />
+        <InlineButton text="Sab" isOn />
       </WeekDaysContainer>
       <EducatorLabel>Professor: Gustavo Martins</EducatorLabel>
       {currentRole === "educator" && (

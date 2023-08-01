@@ -1,39 +1,38 @@
 import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import { Text } from "react-native";
-import { styled } from "stitches-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from "@react-navigation/native";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 
-const Stack = createNativeStackNavigator();
+import { ThemeProvider } from "./src/styles/stitches";
+import { LoginScreen } from "./src/screens/Login";
+import { SignUpScreen } from "./src/screens/SignUp";
+import { AuthBottomScreensProps, AuthRouter } from "./src/screens/Auth";
 
-const HomeContainer = styled(SafeAreaView, {
-  backgroundColor: "#1E1E21",
-  flex: 1,
-});
-const HomeTitle = styled(Text, {
-  color: "#4117E9",
-  fontSize: 24,
-  fontWeight: "bold",
-  alignSelf: "center",
-});
+const RootStack = createNativeStackNavigator<RootStackScreensParams>();
 
-const Home = () => {
-  return (
-    <HomeContainer>
-      <HomeTitle>This is Classdule</HomeTitle>
-    </HomeContainer>
-  );
+export type RootStackScreensParams = {
+  login: undefined;
+  "sign-up": undefined;
+  auth: NavigatorScreenParams<AuthBottomScreensProps>;
 };
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar />
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="home" component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer>
+        <StatusBar />
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          <RootStack.Screen name="login" component={LoginScreen} />
+          <RootStack.Screen name="sign-up" component={SignUpScreen} />
+          <RootStack.Screen name="auth" component={AuthRouter} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
